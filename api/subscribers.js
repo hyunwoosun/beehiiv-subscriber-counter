@@ -42,44 +42,44 @@ export default async function handler(req, res) {
         ? activeSubs.toLocaleString()
         : "—";
 
-    const html = `
-      <html>
-        <head>
-          <meta charset="utf-8" />
-          <style>
-            body {
-              margin: 0;
-              padding: 6px 10px;
-              font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-              font-size: 15px;
-              line-height: 1.4;
-              background: transparent;
-            }
-            .pill {
-              display: inline-flex;
-              align-items: center;
-              gap: 6px;
-              padding: 4px 10px;
-              border-radius: 999px;
-              border: 1px solid #e2e2e2;
-              background: #ffffff;
-              box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
-              white-space: nowrap;
-            }
-            .count {
-              font-weight: 600;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="pill">
-            <span>현재 구독자 수: </span>
-            <span class="count">${count}</span>
-            <span>명</span>
-          </div>
-        </body>
-      </html>
-    `;
+const html = `
+  <html>
+    <head>
+      <meta charset="utf-8" />
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          background: transparent;
+          font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        .pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 4px;
+          padding: 4px 12px;
+          border-radius: 999px;
+          font-size: 13px;
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1px solid rgba(255, 255, 255, 0.24);
+          white-space: nowrap;
+        }
+        .count {
+          font-weight: 700;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="pill">
+        <span>현재 구독자 수:</span>
+        <span class="count">${count}</span>
+        <span>명</span>
+      </div>
+    </body>
+  </html>
+`;
+
 
     res.setHeader("Content-Type", "text/html");
     res.status(200).send(html);
