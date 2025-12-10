@@ -59,7 +59,7 @@ const html = `
           gap: 4px;
           padding: 4px 12px;
           border-radius: 999px;
-          font-size: 13px;
+          font-size: 15px;
           color: #ffffff;
           background: rgba(255, 255, 255, 0.06);
           border: 1px solid rgba(255, 255, 255, 0.24);
