@@ -74,7 +74,6 @@ const html = `
       <div class="pill">
         <span>현재 구독자 수:</span>
         <span class="count">${count}</span>
-        <span>명</span>
       </div>
     </body>
   </html>
