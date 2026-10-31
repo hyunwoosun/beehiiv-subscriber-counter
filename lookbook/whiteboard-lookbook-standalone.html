@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Whiteboard Sketch Lookbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gamja+Flower&family=Hi+Melody&family=Nanum+Pen+Script&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@800&display=swap">
+<style>
+/* Layout: a sticky surface switcher over a contact sheet of hand-drawn 9:16 scenes, one visual device per card. */
+:root{
+  --bg:#F3F3EF; --surface:#FFFFFF; --fg:#1D1F2B; --muted:#5F6274; --line:#DCDCD4; --accent:#2F45F5; --accent-soft:#E3E6FF; --marker:#E5484D;
+  --f-display:"Unbounded","Arial Black",sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --f-hand:"Gaegu","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111218; --surface:#1A1C26; --fg:#EDEEF4; --muted:#9EA1B5; --line:#2B2E3C; --accent:#8D9BFF; --accent-soft:#252B57; --marker:#FF7A7E; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111218; --surface:#1A1C26; --fg:#EDEEF4; --muted:#9EA1B5; --line:#2B2E3C; --accent:#8D9BFF; --accent-soft:#252B57; --marker:#FF7A7E; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header .wrap{padding-block:46px 24px;display:grid;gap:12px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(32px,5.6vw,58px)/1.04 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 span{font:700 1.18em/1 var(--f-hand);color:var(--marker);letter-spacing:0}
+.lede{max-width:66ch;margin:0;font-size:17px;color:var(--muted)}
+.lede b{color:var(--fg);font-weight:600}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.ctrl-l{font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);gap:2px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{font:600 13px/1 var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.seg label i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+.seg input:checked+label{background:var(--fg);color:var(--bg)}
+.seg input:focus-visible+label{outline:2px solid var(--accent)}
+.chk{display:inline-flex;align-items:center;gap:7px;font:600 13px var(--f-body);cursor:pointer}
+.chk input{accent-color:var(--accent);width:16px;height:16px}
+.ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+main{padding-block:28px 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,236px),1fr));gap:30px 20px}
+.card{display:grid;gap:10px;align-content:start;min-width:0}
+.stage{position:relative;aspect-ratio:9/16;width:100%;max-width:100%;border-radius:12px;overflow:hidden;background:#FAFAF7;box-shadow:0 1px 0 var(--line),0 12px 28px -16px rgba(20,20,40,.45);cursor:pointer}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ctl{display:flex;align-items:center;gap:8px}
+.ctl button{font:600 12.5px/1 var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 10px;cursor:pointer;min-width:56px}
+.ctl button:hover{border-color:var(--accent)}
+.ctl input{flex:1;min-width:0;accent-color:var(--accent)}
+.meta{display:grid;gap:4px;min-width:0}
+.kind{justify-self:start;font:500 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
+.meta h3{margin:2px 0 0;font:700 16px/1.25 var(--f-body)}
+.meta p{margin:0;font-size:13.5px;line-height:1.45;color:var(--muted)}
+
+.notes{padding-block:40px 64px}
+.notes h2{font:800 clamp(22px,3.2vw,30px)/1.1 var(--f-display);margin:0 0 8px;letter-spacing:-.01em}
+.notes>.wrap>p{margin:0 0 22px;color:var(--muted);max-width:66ch}
+.ncols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}
+.ncols div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:6px;align-content:start;min-width:0}
+.ncols h3{margin:0;font:700 16px var(--f-body)}
+.ncols p,.ncols li{margin:0;font-size:14.5px;color:var(--muted)}
+.ncols ul{margin:0;padding-left:18px;display:grid;gap:4px}
+footer .wrap{padding-block:22px 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+
+<header><div class="wrap">
+  <div class="eyebrow">Lookbook vol. 3 · hand-drawn · 9:16</div>
+  <h1>Whiteboard Sketch <span>Lookbook</span></h1>
+  <p class="lede"><b>17 ways to explain a concept with hand-drawn visuals,</b> all in one sketch style. Each card uses a different visual device: tables, Venn diagrams, decision trees, maps, comics, graphs and more. Switch the surface to see the same scenes on a chalkboard, a notebook, kraft paper or a lightboard. Tap a frame to pause it, or drag its scrubber.</p>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <div class="ctrl" role="radiogroup" aria-label="Drawing surface">
+    <span class="ctrl-l">Surface</span>
+    <span class="seg">
+      <input type="radio" name="surf" id="s-white" value="white" checked><label for="s-white"><i style="background:#FAFAF7"></i>Whiteboard</label>
+      <input type="radio" name="surf" id="s-chalk" value="chalk"><label for="s-chalk"><i style="background:#23332B"></i>Chalkboard</label>
+      <input type="radio" name="surf" id="s-note" value="note"><label for="s-note"><i style="background:#FCFCF7;border-color:#9DB4E6"></i>Notebook</label>
+      <input type="radio" name="surf" id="s-kraft" value="kraft"><label for="s-kraft"><i style="background:#CDAA7D"></i>Kraft paper</label>
+      <input type="radio" name="surf" id="s-light" value="light"><label for="s-light"><i style="background:#0B1020"></i>Lightboard</label>
+    </span>
+  </div>
+  <label class="chk"><input type="checkbox" id="pen" checked> Show the marker</label>
+</div></div>
+
+<main class="wrap"><div class="grid" id="grid"></div></main>
+
+<section class="notes"><div class="wrap">
+  <h2>Picking one for a video</h2>
+  <p>Any of these devices can carry any topic. Tell Claude the point of the segment and which device fits, and it draws the scene to the timing of your voiceover.</p>
+  <div class="ncols">
+    <div><h3>Mix and match</h3><ul><li>Any device on any surface</li><li>Your own handwriting-style font, or a Korean hand font like Gaegu or Nanum Pen</li><li>Your brand colors as the marker colors</li></ul></div>
+    <div><h3>Timed to your voice</h3><ul><li>Each stroke and word can start on the exact word you say</li><li>Slower drawing for teaching, faster for hooks</li><li>The eraser wipe can be a transition between ideas</li></ul></div>
+    <div><h3>Export</h3><ul><li>1080×1920 MP4, rendered frame by frame in Claude Code</li><li>Transparent version for a lightboard look over your footage</li><li>Still PNG of the finished board, for thumbnails or carousels</li></ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Vol. 1 covers captions and charts; vol. 2 covers full-screen explainer scenes. Korean examples are everyday usage; the Busan line is a common Gyeongsang dialect example.</div></footer>
+
+<script>
+(() => {
+const NS = 'http://www.w3.org/2000/svg';
+const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+const f1 = v => v.toFixed(1);
+function el(tag, attrs, parent, text) { const e = document.createElementNS(NS, tag); if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; }
+const A = (e, a) => { for (const k in a) e.setAttribute(k, a[k]); };
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function smooth(P) {
+  let d = `M${f1(P[0][0])} ${f1(P[0][1])}`;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
+    d += ` C${f1(p1[0] + (p2[0] - p0[0]) / 6)} ${f1(p1[1] + (p2[1] - p0[1]) / 6)} ${f1(p2[0] - (p3[0] - p1[0]) / 6)} ${f1(p2[1] - (p3[1] - p1[1]) / 6)} ${f1(p2[0])} ${f1(p2[1])}`;
+  }
+  return d;
+}
+let UID = 0;
+
+const THEMES = {
+  white: { bg: '#FAFAF7', ink: '#1D1F2B', c1: '#2F45F5', c2: '#E5484D', c3: '#16A06B', hl: '#FFE27A', mu: '#7D8294', font: 'Gaegu', fw: 700, fs: 1, pen: 'marker', penBody: '#2B2E3A', eraser: '#3B3F52' },
+  chalk: { bg: '#23332B', ink: '#F1EFE6', c1: '#9BD7FF', c2: '#FFA3A3', c3: '#BDF2A2', hl: '#F5E27A', hlop: .42, mu: '#A9B8AE', font: 'Gamja Flower', fw: 400, fs: 1.04, pen: 'chalk', eraser: '#6B4A2F' },
+  note: { bg: '#FCFCF7', ink: '#1F2A44', c1: '#2549D6', c2: '#D93A3F', c3: '#1E8F5A', hl: '#FFE97A', mu: '#7A8299', font: 'Nanum Pen Script', fw: 400, fs: 1.3, pen: 'pen', penBody: '#33406A', eraser: '#F2A1B0' },
+  kraft: { bg: '#CDAA7D', ink: '#2B2118', c1: '#1F4FA8', c2: '#A8261E', c3: '#2E6B3F', hl: '#FFF2A0', hlop: .9, mu: '#6B5236', font: 'Hi Melody', fw: 400, fs: 1.18, pen: 'pencil', penBody: '#E9A93B', eraser: '#F2A1B0' },
+  light: { bg: '#0B1020', ink: '#F4F6FF', c1: '#5CE1E6', c2: '#FF6FAE', c3: '#C4F25E', hl: '#FFE27A', hlop: .4, mu: '#8E97B8', font: 'Gaegu', fw: 700, fs: 1, pen: 'marker', penBody: '#D9DCE6', eraser: '#2A3048', glow: true }
+};
+
+function board(svg, th, defs, id) {
+  el('rect', { width: 360, height: 640, fill: th.bg }, svg);
+  if (th === THEMES.white) {
+    el('ellipse', { cx: 250, cy: 470, rx: 120, ry: 40, fill: '#1D1F2B', opacity: .025 }, svg);
+    el('ellipse', { cx: 90, cy: 170, rx: 90, ry: 26, fill: '#1D1F2B', opacity: .02 }, svg);
+    el('rect', { x: 3, y: 3, width: 354, height: 634, rx: 10, fill: 'none', stroke: '#C9CCD6', 'stroke-width': 6 }, svg);
+  } else if (th === THEMES.chalk) {
+    [[90, 200, 110], [260, 420, 140], [150, 560, 90]].forEach(c => el('ellipse', { cx: c[0], cy: c[1], rx: c[2], ry: c[2] * .45, fill: '#fff', opacity: .035 }, svg));
+    el('rect', { x: 4, y: 4, width: 352, height: 632, rx: 6, fill: 'none', stroke: '#7A5434', 'stroke-width': 8 }, svg);
+  } else if (th === THEMES.note) {
+    for (let y = 124; y < 640; y += 30) el('line', { x1: 0, x2: 360, y1: y, y2: y, stroke: '#CFDCF2', 'stroke-width': 1 }, svg);
+    el('line', { x1: 18, x2: 18, y1: 0, y2: 640, stroke: '#F2A7A7', 'stroke-width': 1.2 }, svg);
+  } else if (th === THEMES.kraft) {
+    const fn = el('filter', { id: id + 'fib', x: 0, y: 0, width: '100%', height: '100%' }, defs);
+    el('feTurbulence', { type: 'fractalNoise', baseFrequency: '.9 .05', numOctaves: 2, stitchTiles: 'stitch' }, fn);
+    el('feColorMatrix', { values: '0 0 0 0 .35  0 0 0 0 .24  0 0 0 0 .12  0 0 0 .28 0' }, fn);
+    el('rect', { width: 360, height: 640, filter: `url(#${id}fib)` }, svg);
+    el('rect', { x: -14, y: 14, width: 80, height: 22, fill: '#FFF8E6', opacity: .55, transform: 'rotate(-28 26 25)' }, svg);
+    el('rect', { x: 294, y: 14, width: 80, height: 22, fill: '#FFF8E6', opacity: .55, transform: 'rotate(28 334 25)' }, svg);
+  } else if (th === THEMES.light) {
+    const g = el('radialGradient', { id: id + 'lg', cx: .3, cy: .2, r: .9 }, defs);
+    el('stop', { offset: 0, 'stop-color': '#18213F' }, g); el('stop', { offset: 1, 'stop-color': '#080B16' }, g);
+    el('rect', { width: 360, height: 640, fill: `url(#${id}lg)` }, svg);
+    el('line', { x1: 0, y1: 120, x2: 360, y2: 60, stroke: '#fff', 'stroke-width': 40, opacity: .025 }, svg);
+  }
+}
+
+function makeKit(stage, th, seed, dur) {
+  const svg = el('svg', { viewBox: '0 0 360 640', preserveAspectRatio: 'xMidYMid slice' }, stage);
+  const defs = el('defs', {}, svg);
+  const id = 'k' + (UID++) + '-';
+  board(svg, th, defs, id);
+  const eraseClip = el('clipPath', { id: id + 'er' }, defs);
+  const eraseR = el('rect', { x: -10, y: -10, width: 400, height: 680 }, eraseClip);
+  const content = el('g', { 'clip-path': `url(#${id}er)` }, svg);
+  const inner = el('g', {}, content);
+  if (th.pen === 'chalk') {
+    const f = el('filter', { id: id + 'ch', x: '-5%', y: '-5%', width: '110%', height: '110%' }, defs);
+    el('feTurbulence', { type: 'fractalNoise', baseFrequency: 1.1, numOctaves: 1, result: 'n' }, f);
+    el('feColorMatrix', { in: 'n', values: '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.45', result: 'm' }, f);
+    el('feComposite', { in: 'SourceGraphic', in2: 'm', operator: 'in' }, f);
+    A(inner, { filter: `url(#${id}ch)` });
+  }
+  if (th.glow) {
+    const f = el('filter', { id: id + 'gl', x: '-10%', y: '-10%', width: '120%', height: '120%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 2.4, result: 'b' }, f);
+    const m = el('feMerge', {}, f); el('feMergeNode', { in: 'b' }, m); el('feMergeNode', { in: 'SourceGraphic' }, m);
+    A(inner, { filter: `url(#${id}gl)` });
+  }
+  const back = el('g', {}, inner), front = el('g', {}, inner);
+  // pen + eraser
+  const pen = el('g', { opacity: 0 }, svg);
+  const penI = el('g', { transform: 'rotate(32)' }, pen);
+  let penTip;
+  if (th.pen === 'chalk') { el('rect', { x: -6, y: -34, width: 12, height: 34, rx: 5, fill: '#F4F1E6' }, penI); penTip = el('rect', { x: -6, y: -6, width: 12, height: 6, rx: 3, fill: '#fff' }, penI); }
+  else if (th.pen === 'pencil') { el('rect', { x: -6, y: -74, width: 12, height: 58, fill: th.penBody }, penI); el('polygon', { points: '-6,-16 6,-16 0,0', fill: '#F3D7A8' }, penI); penTip = el('polygon', { points: '-2,-5 2,-5 0,0', fill: th.ink }, penI); el('rect', { x: -6, y: -84, width: 12, height: 10, fill: '#F2A1B0' }, penI); }
+  else if (th.pen === 'pen') { el('rect', { x: -4.5, y: -78, width: 9, height: 66, rx: 4, fill: th.penBody }, penI); el('polygon', { points: '-4.5,-12 4.5,-12 0,0', fill: '#C9CCD6' }, penI); penTip = el('rect', { x: -1.5, y: -86, width: 3, height: 14, rx: 1.5, fill: '#C9CCD6' }, penI); }
+  else { el('rect', { x: -8, y: -70, width: 16, height: 54, rx: 4, fill: th.penBody }, penI); el('rect', { x: -8, y: -36, width: 16, height: 6, fill: '#fff', opacity: .25 }, penI); el('polygon', { points: '-6,-16 6,-16 3,-3 -3,-3', fill: th.penBody }, penI); penTip = el('rect', { x: -9, y: -82, width: 18, height: 14, rx: 4, fill: th.c1 }, penI); }
+  const eraser = el('g', { opacity: 0 }, svg);
+  el('rect', { x: -22, y: -40, width: 44, height: 80, rx: 9, fill: th.eraser }, eraser);
+  el('rect', { x: -22, y: 26, width: 44, height: 14, rx: 5, fill: '#E6E6E0', opacity: .9 }, eraser);
+  const r = rng(seed), J = a => (r() - .5) * 2 * a;
+  const col = c => th[c] || c;
+  const marks = [], hooks = [];
+  const k = { th, svg, defs, back, front };
+  const pathMark = (d, o) => {
+    const e = el('path', { d, fill: 'none', stroke: col(o.c || 'ink'), 'stroke-width': (o.w || 3), 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: o.op ?? 1 }, o.g || front);
+    const len = e.getTotalLength();
+    A(e, { 'stroke-dasharray': `${f1(len + 1)} ${f1(len + 20)}`, 'stroke-dashoffset': f1(len + 1) });
+    marks.push({ type: 'path', el: e, len, t0: o.t[0], t1: o.t[1], c: col(o.c || 'ink') });
+    return e;
+  };
+  k.stroke = (pts, o = {}) => { const j = o.j ?? 1.3; const P = pts.map(p => [p[0] + J(j), p[1] + J(j)]); return pathMark(o.sharp ? 'M' + P.map(p => f1(p[0]) + ' ' + f1(p[1])).join(' L') : smooth(P), o); };
+  const sampleLine = (x1, y1, x2, y2) => { const n = Math.max(2, Math.round(Math.hypot(x2 - x1, y2 - y1) / 55)); return Array.from({ length: n + 1 }, (_, i) => [lerp(x1, x2, i / n), lerp(y1, y2, i / n)]); };
+  k.line = (x1, y1, x2, y2, o = {}) => k.stroke(sampleLine(x1, y1, x2, y2), Object.assign({ j: 1.5 }, o));
+  k.rect = (x, y, w, h, o = {}) => k.stroke([[x, y], [x + w / 2, y], [x + w, y], [x + w, y + h / 2], [x + w, y + h], [x + w / 2, y + h], [x, y + h], [x, y + h / 2], [x + 2, y - 1]], Object.assign({ sharp: true, j: 1.3 }, o));
+  k.ellipse = (cx, cy, rx, ry, o = {}) => { const n = 26, a0 = -1.9; const P = []; for (let i = 0; i <= n + 2; i++) { const a = a0 + i / n * Math.PI * 2, q = 1 + J(.035); P.push([cx + rx * Math.cos(a) * q, cy + ry * Math.sin(a) * q]); } return k.stroke(P, Object.assign({ j: .5 }, o)); };
+  k.arc = (cx, cy, rr, a0, a1, o = {}) => { const n = Math.max(5, Math.round(Math.abs(a1 - a0) / 14)); const P = Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)]; }); return k.stroke(P, Object.assign({ j: .5 }, o)); };
+  const head = (P, o) => {
+    const [x2, y2] = P[P.length - 1], [x1, y1] = P[P.length - 2], a = Math.atan2(y2 - y1, x2 - x1), L = o.head || 12, t1 = o.t[1];
+    k.stroke([[x2 - L * Math.cos(a - .5), y2 - L * Math.sin(a - .5)], [x2, y2], [x2 - L * Math.cos(a + .5), y2 - L * Math.sin(a + .5)]], Object.assign({}, o, { sharp: true, j: .5, t: [t1, t1 + .14] }));
+  };
+  k.arrow = (x1, y1, x2, y2, o = {}) => {
+    let P;
+    if (o.bend) { const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), cx = (x1 + x2) / 2 - dy / L * o.bend, cy = (y1 + y2) / 2 + dx / L * o.bend; P = Array.from({ length: 9 }, (_, i) => { const u = i / 8; return [(1 - u) * (1 - u) * x1 + 2 * (1 - u) * u * cx + u * u * x2, (1 - u) * (1 - u) * y1 + 2 * (1 - u) * u * cy + u * u * y2]; }); }
+    else P = sampleLine(x1, y1, x2, y2);
+    const e = k.stroke(P, Object.assign({ j: 1 }, o)); head(P, o); return e;
+  };
+  k.arcArrow = (cx, cy, rr, a0, a1, o = {}) => { const n = 8; const P = Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)]; }); k.stroke(P, Object.assign({ j: .6 }, o)); head(P, o); };
+  k.text = (x, y, str, o = {}) => {
+    const size = (o.s || 24) * th.fs, an = o.a === 'm' ? 'middle' : o.a === 'e' ? 'end' : 'start';
+    const e = el('text', { x, y, 'font-size': f1(size), fill: col(o.c || 'ink'), 'text-anchor': an, style: `font-family:"${th.font}","Gaegu",cursive;font-weight:${th.fw}` }, o.g || front, str);
+    let bb = e.getBBox();
+    const maxW = o.max || (an === 'middle' ? 2 * Math.min(x - 16, 344 - x) : an === 'end' ? x - 16 : 344 - x);
+    if (bb.width > maxW) { A(e, { 'font-size': f1(size * maxW / bb.width) }); bb = e.getBBox(); }
+    const cp = el('clipPath', { id: id + 'c' + marks.length }, defs);
+    const cr = el('rect', { x: f1(bb.x - 4), y: f1(bb.y - 8), height: f1(bb.height + 16), width: 0 }, cp);
+    A(e, { 'clip-path': `url(#${id}c${marks.length})` });
+    marks.push({ type: 'text', el: e, clip: cr, bb, t0: o.t[0], t1: o.t[1], c: col(o.c || 'ink') });
+    return e;
+  };
+  k.hatch = (x, y, w, h, o = {}) => { const st = o.step || 8, P = []; for (let xx = x, i = 0; xx <= x + w + .1; xx += st, i++) P.push([xx, i % 2 ? y + h : y]); return k.stroke(P, Object.assign({ c: 'hl', w: 6.5, sharp: true, j: 1.4, op: th.hlop ?? .85, g: back }, o)); };
+  k.fade = (e, t0, t1, op = 1) => { A(e, { opacity: 0 }); marks.push({ type: 'fade', el: e, t0, t1, op }); return e; };
+  k.dot = (x, y, rr, o = {}) => k.fade(el('circle', { cx: x, cy: y, r: rr, fill: col(o.c || 'ink') }, o.g || front), o.t[0], o.t[1]);
+  k.poly = (pts, o = {}) => k.fade(el('polygon', { points: pts.map(p => p.join(',')).join(' '), fill: col(o.c || 'hl') }, o.g || back), o.t[0], o.t[1], o.op ?? (th.hlop ?? .8));
+  k.wave = (x1, x2, y, o = {}) => { const P = []; for (let x = x1, i = 0; x <= x2 + .1; x += 12, i++) P.push([x, y + Math.sin(i * 1.4) * 2.6]); return k.stroke(P, Object.assign({ c: 'c1', w: 3.2, j: .6 }, o)); };
+  k.check = (x, y, o = {}) => k.stroke([[x - 10, y], [x - 3, y + 9], [x + 12, y - 11]], Object.assign({ sharp: true, j: .6, w: 4 }, o));
+  k.heart = (x, y, s, o = {}) => { const P = []; for (let i = 0; i <= 30; i++) { const a = i / 30 * Math.PI * 2; P.push([x + s / 16 * 16 * Math.pow(Math.sin(a), 3), y - s / 16 * (13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a))]); } return k.stroke(P, Object.assign({ c: 'c2', j: .4 }, o)); };
+  k.figure = (x, hy, o = {}) => {
+    const s = o.sc || 1, [t0, t1] = o.t, d = t1 - t0, c = o.c || 'ink', T = (a, b) => [t0 + d * a, t0 + d * b];
+    k.ellipse(x, hy, 16 * s, 17 * s, { c, t: T(0, .3) });
+    k.line(x, hy + 17 * s, x, hy + 64 * s, { c, t: T(.3, .45) });
+    k.line(x, hy + 32 * s, x - 22 * s, hy + 54 * s, { c, t: T(.45, .58) });
+    k.line(x, hy + 32 * s, x + 22 * s, hy + (o.wave ? 8 : 50) * s, { c, t: T(.58, .7) });
+    k.line(x, hy + 64 * s, x - 15 * s, hy + 104 * s, { c, t: T(.72, .86) });
+    k.line(x, hy + 64 * s, x + 15 * s, hy + 104 * s, { c, t: T(.86, 1) });
+  };
+  k.label = str => el('text', { x: 24, y: 42, 'font-size': 10, fill: th.mu, 'letter-spacing': 1.6, style: 'font-family:"JetBrains Mono",monospace;font-weight:500' }, svg, str);
+  k.title = str => { const e = k.text(24, 88, str, { s: 36, t: [.1, .9] }); const w = e.getBBox().width; k.wave(24, 24 + w, 102, { t: [.9, 1.2] }); return e; };
+  k.ext = (e, i) => { try { return e.getExtentOfChar(i); } catch (x) { return { x: 0, y: 0, width: 0, height: 0 }; } };
+  k.hook = fn => hooks.push(fn);
+  k.frame = (t, showPen) => {
+    let act = null;
+    for (const m of marks) {
+      const p = seg(t, m.t0, m.t1);
+      if (m.type === 'path') { m.el.setAttribute('stroke-dashoffset', f1((m.len + 1) * (1 - ease(p)))); }
+      else if (m.type === 'text') m.clip.setAttribute('width', f1((m.bb.width + 8) * p));
+      else m.el.setAttribute('opacity', (m.op * p).toFixed(3));
+      if (m.type !== 'fade' && t >= m.t0 && t < m.t1 && (!act || m.t0 >= act.m.t0)) act = { m, p };
+    }
+    hooks.forEach(h => h(t));
+    const E0 = dur - 1.0, E1 = dur - .35, ep = seg(t, E0, E1);
+    A(eraseR, { x: f1(-10 + 380 * ep) });
+    if (ep > 0 && ep < 1) { A(eraser, { opacity: 1, transform: `translate(${f1(-10 + 380 * ep)} ${f1(180 + 300 * Math.abs(((ep * 3.5) % 2) - 1))}) rotate(-12)` }); } else A(eraser, { opacity: 0 });
+    if (act && showPen) {
+      let x, y;
+      if (act.m.type === 'path') { const pt = act.m.el.getPointAtLength(act.m.len * ease(act.p)); x = pt.x; y = pt.y; }
+      else { x = act.m.bb.x + act.m.bb.width * act.p; y = act.m.bb.y + act.m.bb.height * .72; }
+      A(pen, { opacity: 1, transform: `translate(${f1(x)} ${f1(y)})` });
+      if (th.pen === 'marker') A(penTip, { fill: act.m.c });
+    } else A(pen, { opacity: 0 });
+  };
+  return k;
+}
+
+/* ===================== SCENES ===================== */
+const S = [];
+S.push({ kind: 'T-chart', name: 'Side-by-side comparison', use: 'Two registers, two options, do vs don\'t.', dur: 10, poster: 8.4, draw(k) {
+  k.label('T-CHART'); k.title('반말 vs 존댓말');
+  k.line(30, 200, 330, 200, { t: [1.0, 1.3] }); k.line(180, 148, 180, 560, { t: [1.2, 1.6] });
+  k.text(105, 182, '반말', { s: 32, c: 'c1', a: 'm', t: [1.6, 2.0] }); k.text(255, 182, '존댓말', { s: 32, c: 'c2', a: 'm', t: [2.0, 2.4] });
+  [['고마워', '고마워요'], ['미안해', '죄송합니다'], ['응', '네'], ['뭐 해?', '뭐 하세요?']].forEach(([l, r], i) => { const y = 258 + i * 66, t0 = 2.6 + i * .95; k.text(105, y, l, { s: 27, a: 'm', t: [t0, t0 + .4] }); k.text(255, y, r, { s: 27, a: 'm', t: [t0 + .45, t0 + .85] }); });
+  k.text(105, 535, 'friends, younger', { s: 17, c: 'mu', a: 'm', t: [6.6, 7.0] }); k.text(255, 535, 'everyone else', { s: 17, c: 'mu', a: 'm', t: [7.0, 7.4] });
+  k.ellipse(255, 312, 64, 24, { c: 'c2', w: 2.5, t: [7.6, 8.1] }); k.text(255, 352, 'for apologies, go formal', { s: 13, c: 'c2', a: 'm', t: [8.1, 8.5] });
+} });
+
+S.push({ kind: 'Venn diagram', name: 'What overlaps', use: 'Shared and separate traits of two words or ideas.', dur: 10, poster: 8.6, draw(k) {
+  k.label('VENN DIAGRAM'); k.title('먹다 vs 마시다');
+  k.ellipse(135, 340, 98, 100, { c: 'c1', t: [1.1, 1.9] }); k.ellipse(225, 340, 98, 100, { c: 'c2', t: [1.7, 2.5] });
+  k.text(100, 222, '먹다 · eat', { s: 22, c: 'c1', a: 'm', t: [2.5, 2.9] }); k.text(262, 222, '마시다 · drink', { s: 22, c: 'c2', a: 'm', t: [2.9, 3.3] });
+  ['밥', '빵', '라면'].forEach((w, i) => k.text(84, 300 + i * 46, w, { s: 26, a: 'm', t: [3.4 + i * .35, 3.7 + i * .35] }));
+  ['물', '커피', '주스'].forEach((w, i) => k.text(276, 300 + i * 46, w, { s: 26, a: 'm', t: [4.5 + i * .35, 4.8 + i * .35] }));
+  k.text(180, 336, '술', { s: 34, a: 'm', t: [5.8, 6.1] }); k.text(180, 366, 'both!', { s: 17, c: 'c3', a: 'm', t: [6.1, 6.4] });
+  k.arrow(180, 478, 180, 382, { t: [6.6, 7.0] });
+  k.text(180, 506, '술 먹다? 술 마시다?', { s: 23, a: 'm', t: [7.0, 7.6] }); k.text(180, 534, 'Koreans say both', { s: 18, c: 'mu', a: 'm', t: [7.6, 8.0] });
+} });
+
+S.push({ kind: 'Decision tree', name: 'Which one do I use?', use: 'Rules with conditions, choosing the right form.', dur: 11, poster: 9.8, draw(k) {
+  k.label('DECISION TREE'); k.title("Saying 'you'");
+  k.rect(34, 128, 292, 50, { t: [1.1, 1.6] }); k.text(180, 160, 'Friend, same age or younger?', { s: 19, a: 'm', max: 280, t: [1.6, 2.3] });
+  k.arrow(130, 182, 85, 240, { t: [2.4, 2.8] }); k.text(96, 210, 'yes', { s: 17, c: 'c3', a: 'e', t: [2.8, 3.0] });
+  k.text(85, 270, '너 · name + 야', { s: 20, a: 'm', t: [3.0, 3.5] }); k.text(85, 304, '민지야!', { s: 27, c: 'c1', a: 'm', t: [3.5, 3.9] });
+  k.arrow(230, 182, 265, 240, { t: [4.0, 4.4] }); k.text(258, 206, 'no', { s: 17, c: 'c2', t: [4.4, 4.6] });
+  k.rect(186, 246, 154, 46, { t: [4.6, 5.0] }); k.text(263, 275, 'Do they have a title?', { s: 16, a: 'm', max: 146, t: [5.0, 5.6] });
+  k.arrow(232, 296, 200, 358, { t: [5.7, 6.0] }); k.text(206, 326, 'yes', { s: 15, c: 'c3', a: 'e', t: [6.0, 6.2] });
+  k.text(190, 384, 'use the title', { s: 17, a: 'm', t: [6.2, 6.6] }); k.text(190, 414, '선생님, 사장님', { s: 22, c: 'c1', a: 'm', t: [6.6, 7.0] });
+  k.arrow(304, 296, 300, 440, { t: [7.1, 7.5] }); k.text(310, 372, 'no', { s: 15, c: 'c2', t: [7.5, 7.7] });
+  k.text(290, 468, 'name + 씨', { s: 18, a: 'm', t: [7.7, 8.1] }); k.text(290, 498, '민지 씨', { s: 24, c: 'c1', a: 'm', t: [8.1, 8.5] });
+  k.text(180, 572, 'Skip 당신 in everyday talk', { s: 20, c: 'c2', a: 'm', t: [8.8, 9.5] }); k.wave(60, 300, 586, { c: 'c2', t: [9.5, 9.8] });
+} });
+
+S.push({ kind: 'Timeline', name: 'Through the day', use: 'Sequences in time: routines, history, steps in a story.', dur: 10, poster: 8.8, draw(k) {
+  k.label('TIMELINE'); k.title('Greetings by time');
+  k.line(60, 140, 60, 580, { t: [1.0, 1.7] });
+  const items = [['안녕하세요', 'morning · hello'], ['밥 먹었어요?', 'lunch · "have you eaten?"'], ['수고하셨습니다', 'after work · "you worked hard"'], ['잘 자요', 'night · sleep well']];
+  items.forEach((it, i) => {
+    const y = 186 + i * 110, t0 = 1.8 + i * 1.9;
+    k.dot(60, y - 8, 6, { t: [t0, t0 + .15] });
+    k.text(84, y, it[0], { s: 26, max: 190, t: [t0, t0 + .6] }); k.text(84, y + 26, it[1], { s: 15, c: 'mu', t: [t0 + .6, t0 + 1.0] });
+    const ix = 306, iy = y - 10, T = [t0 + 1.0, t0 + 1.6];
+    if (i === 0) { k.line(280, iy + 8, 332, iy + 8, { c: 'mu', t: T }); k.arc(ix, iy + 8, 15, 180, 360, { c: 'c2', t: T }); [-50, -90, -130].forEach(a => { const r1 = 21, r2 = 29, ar = a * Math.PI / 180; k.line(ix + r1 * Math.cos(ar), iy + 8 + r1 * Math.sin(ar), ix + r2 * Math.cos(ar), iy + 8 + r2 * Math.sin(ar), { c: 'c2', w: 2.5, t: T }); }); }
+    if (i === 1) { k.ellipse(ix, iy, 13, 13, { c: 'c2', t: T }); for (let a = 0; a < 360; a += 45) { const ar = a * Math.PI / 180; k.line(ix + 18 * Math.cos(ar), iy + 18 * Math.sin(ar), ix + 25 * Math.cos(ar), iy + 25 * Math.sin(ar), { c: 'c2', w: 2.5, t: T }); } }
+    if (i === 2) { k.line(280, iy + 4, 332, iy + 4, { c: 'mu', t: T }); k.arc(ix, iy + 4, 14, 200, 340, { c: 'c2', t: T }); k.wave(284, 328, iy + 14, { c: 'c1', w: 2, t: T }); }
+    if (i === 3) { k.arc(ix, iy, 14, 50, 310, { c: 'c1', t: T }); k.arc(ix + 7, iy - 3, 11, 300, 60, { c: 'c1', t: T }); k.line(ix + 20, iy - 18, ix + 20, iy - 8, { c: 'c3', w: 2, t: T }); k.line(ix + 15, iy - 13, ix + 25, iy - 13, { c: 'c3', w: 2, t: T }); }
+  });
+} });
+
+S.push({ kind: 'Cycle', name: 'A loop that repeats', use: 'Habits, review schedules, feedback loops.', dur: 10, poster: 8.6, draw(k) {
+  k.label('CYCLE'); k.title('Spaced review');
+  const C = [180, 348], R = 118, labs = ['learn', '+1 day', '+3 days', '+1 week'];
+  [-90, 0, 90, 180].forEach((a, i) => {
+    const ar = a * Math.PI / 180, x = C[0] + R * Math.cos(ar), y = C[1] + R * Math.sin(ar), t0 = 1.2 + i * 1.3;
+    k.ellipse(x, y, 36, 36, { c: 'c1', t: [t0, t0 + .4] });
+    k.text(x, y + 6, labs[i], { s: 17, a: 'm', max: 64, t: [t0 + .4, t0 + .7] });
+    k.arcArrow(C[0], C[1], R, a + 22, a + 68, { t: [t0 + .75, t0 + 1.2] });
+  });
+  k.text(180, 352, '기억!', { s: 40, c: 'c3', a: 'm', t: [6.6, 7.0] }); k.text(180, 380, 'it sticks', { s: 17, c: 'mu', a: 'm', t: [7.0, 7.3] });
+  k.text(180, 566, 'each review comes a bit later', { s: 19, c: 'mu', a: 'm', t: [7.6, 8.3] });
+} });
+
+S.push({ kind: 'Route map', name: 'Here to there', use: 'Dialects, travel, where something happens.', dur: 10, poster: 8.6, draw(k) {
+  k.label('MAP'); k.title('Seoul → Busan');
+  k.dot(100, 200, 7, { c: 'c1', t: [1.0, 1.2] }); k.text(100, 178, '서울 Seoul', { s: 20, a: 'm', t: [1.2, 1.6] });
+  const route = k.stroke([[100, 200], [140, 258], [128, 318], [190, 370], [222, 430], [262, 500]], { c: 'mu', w: 3, j: 2, t: [1.7, 3.1] });
+  k.dot(262, 500, 7, { c: 'c2', t: [3.1, 3.3] }); k.text(262, 536, '부산 Busan', { s: 20, a: 'm', t: [3.3, 3.7] });
+  k.text(214, 318, 'KTX ≈ 2.5 h', { s: 16, c: 'mu', t: [3.7, 4.1] });
+  const train = el('g', {}, k.front);
+  el('rect', { x: -15, y: -10, width: 30, height: 20, rx: 6, fill: k.th.c1 }, train); el('rect', { x: -9, y: -5, width: 7, height: 6, fill: k.th.bg }, train); el('rect', { x: 2, y: -5, width: 7, height: 6, fill: k.th.bg }, train);
+  k.fade(train, 3.7, 3.9);
+  const len = route.getTotalLength();
+  k.hook(t => { const p = ease(seg(t, 3.9, 5.8)); const pt = route.getPointAtLength(len * p), q = route.getPointAtLength(Math.min(len, len * p + 2)); A(train, { transform: `translate(${f1(pt.x)} ${f1(pt.y)}) rotate(${f1(Math.atan2(q.y - pt.y, q.x - pt.x) * 180 / Math.PI)})` }); });
+  k.rect(168, 152, 160, 62, { t: [4.4, 4.8] }); k.stroke([[176, 212], [128, 204]], { t: [4.8, 4.9] });
+  k.text(248, 182, '뭐 해?', { s: 27, c: 'c1', a: 'm', t: [4.9, 5.3] }); k.text(248, 204, '"what are you up to?"', { s: 13, c: 'mu', a: 'm', max: 150, t: [5.3, 5.6] });
+  k.rect(30, 420, 168, 62, { t: [6.0, 6.4] }); k.stroke([[198, 466], [248, 494]], { t: [6.4, 6.5] });
+  k.text(114, 450, '뭐 하노?', { s: 27, c: 'c2', a: 'm', t: [6.5, 6.9] }); k.text(114, 472, 'same thing, Busan style', { s: 13, c: 'mu', a: 'm', max: 160, t: [6.9, 7.2] });
+  k.text(180, 600, 'Gyeongsang dialect: wh-questions end in -노', { s: 15, c: 'mu', a: 'm', t: [7.5, 8.3] });
+} });
+
+S.push({ kind: 'Comic strip', name: 'Three-panel story', use: 'Homonyms, misunderstandings, mini dialogues.', dur: 10.5, poster: 9.2, draw(k) {
+  k.label('COMIC STRIP'); k.title('One word: 배');
+  const P = [['배고파!', 'stomach'], ['배 먹을래?', 'pear'], ['배 타자!', 'boat']];
+  P.forEach((p, i) => {
+    const y0 = 122 + i * 156, t0 = 1.1 + i * 2.6;
+    k.rect(24, y0, 312, 144, { w: 2.5, t: [t0, t0 + .4] });
+    k.figure(64, y0 + 30, { sc: .8, wave: i === 2, t: [t0 + .4, t0 + 1.0] });
+    k.rect(104, y0 + 16, 124, 42, { w: 2, t: [t0 + 1.0, t0 + 1.3] }); k.stroke([[112, y0 + 58], [90, y0 + 72]], { w: 2, t: [t0 + 1.3, t0 + 1.4] });
+    k.text(166, y0 + 44, p[0], { s: 22, a: 'm', max: 116, t: [t0 + 1.4, t0 + 1.8] });
+    const T = [t0 + 1.8, t0 + 2.4], y = y0;
+    if (i === 0) { k.stroke([[272, y + 26], [262, y + 52], [270, y + 84], [296, y + 96], [314, y + 80], [298, y + 62], [290, y + 44], [288, y + 26]], { c: 'c2', t: T }); k.text(290, y + 116, '꼬르륵', { s: 15, c: 'c2', a: 'm', t: [T[1], T[1] + .2] }); }
+    if (i === 1) { k.stroke([[284, y + 26], [272, y + 40], [274, y + 56], [258, y + 80], [266, y + 102], [284, y + 108], [302, y + 102], [310, y + 80], [294, y + 56], [296, y + 40], [284, y + 26]], { c: 'c3', t: T }); k.line(284, y + 26, 288, y + 12, { t: T }); k.stroke([[288, y + 16], [302, y + 10], [298, y + 22], [288, y + 16]], { c: 'c3', t: T }); }
+    if (i === 2) { k.stroke([[246, y + 86], [320, y + 86], [306, y + 104], [260, y + 104], [246, y + 86]], { sharp: true, c: 'c1', t: T }); k.line(284, y + 86, 284, y + 22, { t: T }); k.stroke([[287, y + 26], [314, y + 78], [287, y + 78]], { sharp: true, c: 'c2', t: T }); k.wave(240, 328, y + 116, { w: 2, t: T }); }
+    k.text(290, y0 + 136, p[1], { s: 16, c: 'c1', a: 'm', t: [t0 + 2.4, t0 + 2.6] });
+  });
+} });
+
+S.push({ kind: 'Sketch graph', name: 'How it changes', use: 'Progress, motivation, cause and effect over time.', dur: 10, poster: 8.6, draw(k) {
+  k.label('SKETCH GRAPH'); k.title('The learning curve');
+  k.arrow(50, 525, 50, 150, { t: [1.0, 1.4] }); k.arrow(50, 525, 332, 525, { t: [1.4, 1.8] });
+  k.text(62, 162, 'fluency', { s: 16, c: 'mu', t: [1.8, 2.1] }); k.text(330, 552, 'time', { s: 16, c: 'mu', a: 'e', t: [2.1, 2.3] });
+  k.stroke([[54, 520], [80, 450], [105, 396], [135, 366], [170, 357], [205, 353], [235, 347], [258, 318], [282, 252], [310, 180]], { c: 'c1', w: 4, j: .7, t: [2.4, 4.6] });
+  k.text(96, 474, 'honeymoon', { s: 18, c: 'c3', t: [4.7, 5.1] }); k.arrow(110, 456, 92, 424, { c: 'c3', w: 2.5, t: [5.1, 5.4] });
+  k.hatch(136, 350, 100, 12, { t: [5.5, 6.0] });
+  k.text(160, 302, 'plateau', { s: 23, c: 'c2', a: 'm', t: [6.0, 6.4] }); k.text(160, 326, '(totally normal)', { s: 15, c: 'mu', a: 'm', t: [6.4, 6.8] });
+  k.text(252, 196, 'breakthrough!', { s: 20, c: 'c3', a: 'e', t: [7.2, 7.8] }); k.arrow(256, 204, 280, 238, { c: 'c3', w: 2.5, bend: -8, t: [7.8, 8.1] });
+} });
+
+S.push({ kind: 'Mind map', name: 'One idea, many branches', use: 'Word families, brainstorming, topic overviews.', dur: 10, poster: 8.8, draw(k) {
+  k.label('MIND MAP'); k.title('Mind map: 사랑');
+  k.ellipse(180, 345, 64, 42, { c: 'c2', t: [1.0, 1.6] }); k.text(180, 350, '사랑', { s: 34, c: 'c2', a: 'm', t: [1.6, 2.0] }); k.text(180, 374, 'love', { s: 14, c: 'mu', a: 'm', t: [2.0, 2.2] });
+  const N = [[90, 196, '사랑해', 'I love you'], [272, 196, '첫사랑', 'first love'], [72, 478, '짝사랑', 'one-sided love'], [288, 478, '사랑스럽다', 'lovely'], [180, 568, '사랑니', 'wisdom tooth (!)']];
+  N.forEach(([x, y, kr, en], i) => {
+    const t0 = 2.2 + i * 1.15, ex = x, ey = y < 345 ? y + 34 : y - 32, dx = ex - 180, dy = ey - 345, L = Math.hypot(dx, dy);
+    k.arrow(180 + dx / L * 66, 345 + dy / L * 44, ex, ey, { c: 'c1', w: 2.5, bend: i % 2 ? 14 : -14, head: 8, t: [t0, t0 + .45] });
+    k.text(x, y, kr, { s: 26, a: 'm', t: [t0 + .45, t0 + .8] }); k.text(x, y + 22, en, { s: 14, c: 'mu', a: 'm', t: [t0 + .8, t0 + 1.05] });
+  });
+  k.heart(112, 318, 12, { t: [8.2, 8.5] }); k.heart(256, 300, 9, { t: [8.4, 8.7] });
+} });
+
+S.push({ kind: 'Visual metaphor', name: 'Explain it as an object', use: 'Abstract rules made physical: trains, buckets, keys.', dur: 10, poster: 8.6, draw(k) {
+  k.label('METAPHOR'); k.title('The verb is the engine');
+  const g = el('g', {}, k.front); const o = t => ({ g, t });
+  k.rect(20, 300, 92, 58, o([1.1, 1.5])); k.rect(124, 300, 92, 58, o([1.6, 2.0]));
+  k.rect(228, 300, 96, 58, Object.assign(o([2.1, 2.5]), { c: 'c2' })); k.rect(234, 266, 40, 34, Object.assign(o([2.5, 2.8]), { c: 'c2' }));
+  k.rect(296, 276, 12, 24, Object.assign(o([2.8, 2.95]), { c: 'c2' })); k.stroke([[324, 336], [340, 358], [324, 358]], Object.assign(o([2.95, 3.05]), { sharp: true, c: 'c2' }));
+  k.line(112, 345, 124, 345, o([3.05, 3.1])); k.line(216, 345, 228, 345, o([3.1, 3.15]));
+  [44, 88, 148, 192, 252, 300].forEach((x, i) => k.ellipse(x, 368, 9, 9, o([3.15 + i * .07, 3.25 + i * .07])));
+  k.text(66, 338, '저는', { g, s: 22, a: 'm', t: [3.6, 3.9] }); k.text(170, 338, '커피를', { g, s: 20, a: 'm', max: 82, t: [3.9, 4.3] }); k.text(276, 338, '마셔요', { g, s: 21, c: 'c2', a: 'm', max: 86, t: [4.3, 4.7] });
+  k.text(66, 402, 'who', { g, s: 15, c: 'mu', a: 'm', t: [4.7, 4.85] }); k.text(170, 402, 'what', { g, s: 15, c: 'mu', a: 'm', t: [4.85, 5.0] }); k.text(276, 402, 'does it!', { g, s: 15, c: 'c2', a: 'm', t: [5.0, 5.2] });
+  const smoke = el('g', {}, k.front);
+  [[304, 254, 7], [316, 234, 9], [332, 212, 11]].forEach((c, i) => k.ellipse(c[0], c[1], c[2], c[2] * .8, { g: smoke, c: 'mu', w: 2, t: [5.2 + i * .15, 5.4 + i * .15] }));
+  k.hook(t => { A(g, { transform: `translate(${f1(t > 5.4 ? Math.sin(t * 9) * 1.2 : 0)} 0)` }); A(smoke, { transform: `translate(0 ${f1(t > 5.6 ? -((t - 5.6) * 3) % 10 : 0)})` }); });
+  k.text(180, 470, 'English: I → drink → coffee', { s: 18, a: 'm', t: [5.6, 6.3] });
+  k.text(180, 502, 'Korean: 저는 → 커피를 → 마셔요', { s: 18, a: 'm', t: [6.3, 7.0] });
+  k.text(180, 554, 'The verb always comes last', { s: 21, c: 'c2', a: 'm', t: [7.3, 8.0] }); k.wave(64, 296, 568, { c: 'c2', t: [8.0, 8.3] });
+} });
+
+S.push({ kind: 'Pyramid', name: 'Levels and hierarchy', use: 'Politeness levels, priorities, what to learn first.', dur: 10, poster: 8.8, draw(k) {
+  k.label('PYRAMID'); k.title('Speech levels');
+  k.stroke([[180, 140], [38, 520], [322, 520], [180, 140]], { sharp: true, j: 1, t: [1.0, 2.0] });
+  k.line(132, 268, 228, 268, { t: [2.0, 2.3] }); k.line(85, 395, 275, 395, { t: [2.3, 2.6] });
+  k.text(180, 236, '-습니다', { s: 20, c: 'c2', a: 'm', max: 78, t: [2.8, 3.2] }); k.text(180, 258, '합쇼체', { s: 13, c: 'mu', a: 'm', max: 70, t: [3.2, 3.4] });
+  k.text(180, 345, '-어요', { s: 30, c: 'c1', a: 'm', t: [3.4, 3.8] }); k.text(180, 374, '해요체', { s: 16, c: 'mu', a: 'm', t: [3.8, 4.0] });
+  k.text(180, 470, '-어', { s: 34, c: 'c3', a: 'm', t: [4.0, 4.4] }); k.text(180, 500, '반말', { s: 16, c: 'mu', a: 'm', t: [4.4, 4.6] });
+  k.arrow(22, 510, 22, 176, { c: 'mu', w: 2.5, t: [4.8, 5.3] }); k.text(30, 164, 'more formal', { s: 15, c: 'mu', t: [5.3, 5.6] });
+  k.text(24, 558, '-습니다 · news, speeches, the army', { s: 16, c: 'c2', t: [6.0, 6.6] });
+  k.text(24, 584, '-어요 · most everyday situations', { s: 16, c: 'c1', t: [6.6, 7.2] });
+  k.text(24, 610, '-어 · close friends, younger people', { s: 16, c: 'c3', t: [7.2, 7.8] });
+  k.text(264, 336, 'start here!', { s: 16, c: 'c1', t: [8.0, 8.4] }); k.arrow(262, 342, 226, 344, { c: 'c1', w: 2.5, head: 8, t: [8.4, 8.6] });
+} });
+
+S.push({ kind: 'Equations', name: 'Math on the board', use: 'Conjugation, word building, any "this + that = ?" rule.', dur: 11, poster: 9.6, draw(k) {
+  k.label('EQUATIONS'); k.title('Verb math');
+  k.text(36, 190, '먹다 − 다 = 먹', { s: 30, t: [1.1, 2.0] });
+  const e2 = k.text(36, 250, '먹 + 어요 = 먹어요', { s: 30, t: [2.2, 3.2] });
+  const b2 = e2.getBBox(); k.wave(b2.x + b2.width * .66, b2.x + b2.width, 262, { c: 'c1', t: [3.2, 3.5] });
+  k.line(36, 292, 324, 292, { c: 'mu', w: 2, t: [3.6, 3.9] });
+  k.text(36, 350, '가다 − 다 = 가', { s: 30, t: [4.0, 4.9] });
+  const e4 = k.text(36, 412, '가 + 아요 = 가아요', { s: 30, t: [5.0, 6.0] });
+  const x = k.ext(e4, 10); k.line(x.x - 3, x.y + x.height * .58, x.x + x.width + 3, x.y + x.height * .42, { c: 'c2', w: 4, t: [6.2, 6.5] });
+  k.text(x.x - 10, 470, '→ 가요', { s: 32, c: 'c3', t: [6.7, 7.2] }); k.text(x.x - 10, 496, 'same vowels merge', { s: 15, c: 'c2', t: [7.2, 7.6] });
+  k.rect(30, 530, 300, 66, { c: 'c1', t: [7.8, 8.3] });
+  k.text(180, 558, 'ㅏ or ㅗ → 아요', { s: 21, c: 'c1', a: 'm', t: [8.3, 8.8] }); k.text(180, 584, 'anything else → 어요', { s: 19, c: 'c1', a: 'm', t: [8.8, 9.3] });
+} });
+
+S.push({ kind: '2×2 matrix', name: 'Two questions at once', use: 'Sorting by two factors: who and where, cost and effort.', dur: 10, poster: 8.4, draw(k) {
+  k.label('2×2 MATRIX'); k.title('Saying thanks');
+  k.arrow(36, 350, 326, 350, { t: [1.0, 1.5] }); k.arrow(180, 572, 180, 136, { t: [1.5, 2.0] });
+  k.text(40, 340, 'to a friend', { s: 15, c: 'mu', t: [2.0, 2.3] }); k.text(326, 374, 'to an elder', { s: 15, c: 'mu', a: 'e', t: [2.3, 2.6] });
+  k.text(188, 150, 'formal setting', { s: 15, c: 'mu', t: [2.6, 2.9] }); k.text(188, 568, 'casual setting', { s: 15, c: 'mu', t: [2.9, 3.2] });
+  k.text(104, 462, '고마워', { s: 28, c: 'c3', a: 'm', t: [3.4, 3.8] });
+  k.text(258, 462, '고마워요', { s: 26, c: 'c1', a: 'm', t: [4.2, 4.6] });
+  k.text(104, 252, '고맙습니다', { s: 22, c: 'c1', a: 'm', t: [5.0, 5.4] });
+  k.text(258, 252, '감사합니다', { s: 22, c: 'c2', a: 'm', t: [5.8, 6.2] });
+  k.ellipse(258, 245, 70, 28, { c: 'c2', w: 2.5, t: [6.8, 7.3] }); k.text(258, 300, 'safest default', { s: 17, c: 'c2', a: 'm', t: [7.3, 7.8] });
+} });
+
+S.push({ kind: 'Labeled drawing', name: 'Point at the parts', use: 'Vocabulary, anatomy, objects and their parts.', dur: 10, poster: 9.0, draw(k) {
+  k.label('LABELED DRAWING'); k.title('Label it: 얼굴');
+  k.ellipse(180, 350, 90, 116, { t: [1.0, 1.8] });
+  k.stroke([[98, 300], [112, 254], [138, 242], [160, 258], [180, 238], [202, 258], [226, 242], [250, 258], [262, 300]], { t: [1.8, 2.3] });
+  k.ellipse(148, 326, 9, 9, { t: [2.3, 2.45] }); k.ellipse(212, 326, 9, 9, { t: [2.45, 2.6] });
+  k.stroke([[182, 336], [170, 376], [188, 378]], { t: [2.6, 2.9] }); k.stroke([[150, 410], [180, 426], [210, 410]], { c: 'c2', t: [2.9, 3.2] });
+  k.arc(90, 350, 16, 90, 270, { t: [3.2, 3.35] }); k.arc(270, 350, 16, -90, 90, { t: [3.35, 3.5] });
+  const L = [[46, 216, '눈', 'eye', [64, 228, 138, 318]], [314, 222, '코', 'nose', [304, 236, 192, 352]], [52, 506, '입', 'mouth', [70, 492, 150, 418]], [316, 500, '귀', 'ear', [306, 484, 284, 362]], [312, 150, '머리', 'head, hair', [296, 168, 240, 238]]];
+  L.forEach(([x, y, kr, en, a], i) => { const t0 = 3.8 + i * .95; k.text(x, y, kr, { s: 28, c: 'c1', a: 'm', t: [t0, t0 + .3] }); k.text(x, y + 20, en, { s: 13, c: 'mu', a: 'm', t: [t0 + .3, t0 + .5] }); k.arrow(a[0], a[1], a[2], a[3], { c: 'c1', w: 2.2, bend: 12, head: 8, t: [t0 + .5, t0 + .8] }); });
+} });
+
+S.push({ kind: 'Step by step', name: 'Build it up in order', use: 'Recipes, phrases built piece by piece, how-tos.', dur: 10.5, poster: 9.2, draw(k) {
+  k.label('STEP BY STEP'); k.title('Order a coffee');
+  const steps = [['아이스 아메리카노', 'iced americano'], ['한 잔', 'one cup'], ['주세요', 'please (give me)']];
+  steps.forEach((s, i) => {
+    const y = 186 + i * 108, t0 = 1.1 + i * 1.7;
+    k.ellipse(46, y - 8, 18, 18, { c: 'c1', t: [t0, t0 + .3] }); k.text(46, y, String(i + 1), { s: 20, c: 'c1', a: 'm', t: [t0 + .3, t0 + .45] });
+    k.text(78, y, s[0], { s: 25, max: 200, t: [t0 + .5, t0 + 1.0] }); k.text(78, y + 26, s[1], { s: 15, c: 'mu', t: [t0 + 1.0, t0 + 1.3] });
+    if (i < 2) k.arrow(46, y + 16, 46, y + 74, { c: 'mu', w: 2.2, head: 8, t: [t0 + 1.35, t0 + 1.6] });
+  });
+  const T2 = [3.8, 4.3]; k.stroke([[282, 266], [316, 266], [310, 306], [288, 306], [282, 266]], { sharp: true, c: 'c1', t: T2 }); k.line(304, 266, 312, 246, { t: T2 }); k.rect(289, 276, 8, 8, { w: 2, t: T2 }); k.rect(300, 284, 8, 8, { w: 2, t: T2 });
+  const T3 = [5.5, 6.0]; k.ellipse(300, 386, 18, 18, { c: 'c3', t: T3 }); k.dot(294, 382, 2.2, { c: 'c3', t: T3 }); k.dot(306, 382, 2.2, { c: 'c3', t: T3 }); k.stroke([[291, 391], [300, 397], [309, 391]], { c: 'c3', w: 2.5, t: T3 });
+  const e = k.text(180, 504, '아이스 아메리카노 한 잔 주세요!', { s: 22, c: 'c1', a: 'm', t: [6.6, 8.0] });
+  const b = e.getBBox(); k.hatch(b.x, b.y + b.height * .55, b.width, b.height * .32, { t: [8.0, 8.5] });
+  k.text(180, 548, '"One iced americano, please!"', { s: 16, c: 'mu', a: 'm', t: [8.5, 9.0] });
+} });
+
+S.push({ kind: 'Number line', name: 'Place it on a scale', use: 'Frequency, certainty, intensity, any spectrum.', dur: 10, poster: 8.6, draw(k) {
+  k.label('NUMBER LINE'); k.title('How often?');
+  k.arrow(28, 330, 336, 330, { t: [1.0, 1.6] });
+  const W = [[44, '전혀', 'never', 292], [134, '가끔', 'sometimes', 256], [232, '자주', 'often', 292], [318, '항상', 'always', 256]];
+  W.forEach(([x, kr, en, ty], i) => { const t0 = 1.8 + i * 1.0; k.line(x, 320, x, 340, { w: 2.5, t: [t0, t0 + .15] }); k.text(x, ty, kr, { s: 28, c: i === 0 ? 'c2' : 'c1', a: 'm', t: [t0 + .15, t0 + .55] }); k.text(x, 364, en, { s: 15, c: 'mu', a: 'm', t: [t0 + .55, t0 + .8] }); });
+  k.text(44, 408, '0%', { s: 14, c: 'mu', a: 'm', t: [5.8, 5.9] }); k.text(318, 408, '100%', { s: 14, c: 'mu', a: 'm', t: [5.9, 6.0] });
+  const ptr = el('polygon', { points: '-7,-12 7,-12 0,0', fill: k.th.c2 }, k.front); k.fade(ptr, 1.8, 2.0);
+  k.hook(t => { const i = Math.max(0, Math.min(3, Math.floor((t - 1.8) / 1.0))), j = Math.min(3, i + 1), p = ease(seg((t - 1.8) % 1.0, .75, 1)); const x = t < 5.8 ? lerp(W[i][0], W[j][0], i === 3 ? 0 : p) : W[3][0]; A(ptr, { transform: `translate(${f1(x)} 318)` }); });
+  k.text(180, 462, '전혀 needs a negative:', { s: 18, c: 'c2', a: 'm', t: [6.2, 6.8] });
+  k.text(180, 494, '전혀 안 먹어요', { s: 25, a: 'm', t: [6.8, 7.3] }); k.text(180, 520, '"I never eat it"', { s: 15, c: 'mu', a: 'm', t: [7.3, 7.7] });
+  k.text(180, 574, '항상 늦어요!  "always late!"', { s: 18, a: 'm', t: [7.9, 8.6] });
+} });
+
+S.push({ kind: 'Correction', name: 'Cross out, rewrite', use: 'Common mistakes, textbook vs natural, edits.', dur: 11, poster: 9.4, draw(k) {
+  k.label('CORRECTION'); k.title('Sounds off? Fix it');
+  const w = k.text(36, 200, '저는 당신을 좋아해요.', { s: 26, t: [1.1, 2.1] });
+  const a = k.ext(w, 3), b = k.ext(w, 4);
+  k.ellipse((a.x + b.x + b.width) / 2, a.y + a.height / 2 + 1, (b.x + b.width - a.x) / 2 + 9, a.height / 2 + 5, { c: 'c2', w: 2.5, t: [2.3, 2.8] });
+  k.text(36, 240, 'grammatical, but sounds odd', { s: 16, c: 'c2', t: [2.8, 3.3] });
+  const bb = w.getBBox(); k.line(bb.x - 4, bb.y + bb.height * .56, bb.x + bb.width + 4, bb.y + bb.height * .5, { c: 'c2', w: 3.5, t: [3.4, 3.8] });
+  k.check(44, 318, { c: 'c3', t: [4.0, 4.3] }); k.text(66, 330, '민지 씨 좋아해요.', { s: 30, c: 'c3', t: [4.3, 5.2] });
+  k.text(66, 368, 'use their name, not 당신', { s: 17, c: 'c1', t: [5.4, 6.0] });
+  k.text(66, 394, "drop 저는 and 을 when it's clear", { s: 17, c: 'c1', t: [6.0, 6.6] });
+  k.line(36, 432, 324, 432, { c: 'mu', w: 1.5, t: [6.8, 7.0] });
+  k.text(66, 486, '좋아해!', { s: 34, c: 'c1', t: [7.1, 7.6] }); k.text(66, 512, 'to a close friend (casual)', { s: 15, c: 'mu', t: [7.6, 8.0] });
+  k.heart(258, 474, 20, { t: [8.1, 8.5] }); k.heart(300, 440, 12, { t: [8.4, 8.7] });
+} });
+
+/* ===================== ENGINE ===================== */
+const grid = document.getElementById('grid');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let theme = 'white', showPen = true;
+try { theme = localStorage.getItem('wb-surf') || 'white'; } catch (e) {}
+if (!THEMES[theme]) theme = 'white';
+const cards = S.map((sc, i) => {
+  const card = document.createElement('article'); card.className = 'card';
+  card.innerHTML = `<div class="stage" role="button" tabindex="0" aria-label="Pause or play ${sc.kind}"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" max="${sc.dur}" step="0.01" aria-label="Scrub ${sc.kind}"></div><div class="meta"><span class="kind">${sc.kind}</span><h3>${sc.name}</h3><p>${sc.use}</p></div>`;
+  grid.appendChild(card);
+  const st = { sc, card, stage: card.querySelector('.stage'), btn: card.querySelector('button'), rg: card.querySelector('input'), t: sc.poster, playing: !reduced, visible: false, kit: null, seed: 101 + i * 37 };
+  const toggle = () => { st.playing = !st.playing; st.btn.textContent = st.playing ? 'Pause' : 'Play'; };
+  st.btn.textContent = st.playing ? 'Pause' : 'Play';
+  st.btn.addEventListener('click', toggle);
+  st.stage.addEventListener('click', toggle);
+  st.stage.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  st.rg.addEventListener('input', () => { st.t = +st.rg.value; show(st); });
+  return st;
+});
+function show(st) { if (st.kit) st.kit.frame(st.t, showPen); st.rg.value = st.t; }
+function buildAll() {
+  const th = THEMES[theme];
+  cards.forEach(st => {
+    st.stage.innerHTML = ''; st.stage.style.background = th.bg;
+    try { st.kit = makeKit(st.stage, th, st.seed, st.sc.dur); st.sc.draw(st.kit); } catch (e) { console.error(st.sc.kind, e); }
+    show(st);
+  });
+}
+const setTheme = async name => {
+  theme = name; try { localStorage.setItem('wb-surf', name); } catch (e) {}
+  const r = document.getElementById({ white: 's-white', chalk: 's-chalk', note: 's-note', kraft: 's-kraft', light: 's-light' }[name]); if (r) r.checked = true;
+  try { await Promise.race([document.fonts.load(`24px "${THEMES[name].font}"`, '가나다 abc'), new Promise(r => setTimeout(r, 2000))]); } catch (e) {}
+  buildAll();
+};
+document.querySelectorAll('input[name="surf"]').forEach(r => r.addEventListener('change', () => setTheme(r.value)));
+document.getElementById('pen').addEventListener('change', e => { showPen = e.target.checked; cards.forEach(show); });
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { const c = cards.find(c => c.card === e.target); if (c) c.visible = e.isIntersecting; }), { rootMargin: '80px' });
+  cards.forEach(c => io.observe(c.card));
+} else cards.forEach(c => c.visible = true);
+let started = false;
+const start = () => {
+  if (started) return; started = true;
+  setTheme(theme);
+  let last = performance.now();
+  const loop = now => { const dt = Math.min(.1, (now - last) / 1000); last = now; cards.forEach(c => { if (c.visible && c.playing && c.kit) { c.t = (c.t + dt) % c.sc.dur; show(c); } }); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+};
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+setTimeout(start, 2500);
+})();
+</script>
+
+</body>
+</html>
