@@ -1,0 +1,449 @@
+<title>Sketch Process Scenes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gamja+Flower&family=Hi+Melody&family=Nanum+Pen+Script&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@800&display=swap">
+<style>
+/* Layout: a sticky surface switcher over two large hand-drawn 9:16 scenes with their storyboards. */
+:root{
+  --bg:#F3F3EF; --surface:#FFFFFF; --fg:#1D1F2B; --muted:#5F6274; --line:#DCDCD4; --accent:#2F45F5; --accent-soft:#E3E6FF; --marker:#E5484D;
+  --f-display:"Unbounded","Arial Black",sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --f-hand:"Gaegu","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#111218; --surface:#1A1C26; --fg:#EDEEF4; --muted:#9EA1B5; --line:#2B2E3C; --accent:#8D9BFF; --accent-soft:#252B57; --marker:#FF7A7E; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#111218; --surface:#1A1C26; --fg:#EDEEF4; --muted:#9EA1B5; --line:#2B2E3C; --accent:#8D9BFF; --accent-soft:#252B57; --marker:#FF7A7E; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header .wrap{padding-block:46px 24px;display:grid;gap:12px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(32px,5.6vw,58px)/1.04 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 span{font:700 1.18em/1 var(--f-hand);color:var(--marker);letter-spacing:0}
+.lede{max-width:66ch;margin:0;font-size:17px;color:var(--muted)}
+.lede b{color:var(--fg);font-weight:600}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+.ctrl-l{font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface);gap:2px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{font:600 13px/1 var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;color:var(--muted);display:inline-flex;align-items:center;gap:6px}
+.seg label i{width:11px;height:11px;border-radius:50%;border:1px solid var(--line)}
+.seg input:checked+label{background:var(--fg);color:var(--bg)}
+.seg input:focus-visible+label{outline:2px solid var(--accent)}
+.chk{display:inline-flex;align-items:center;gap:7px;font:600 13px var(--f-body);cursor:pointer}
+.chk input{accent-color:var(--accent);width:16px;height:16px}
+.ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+main{padding-block:28px 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),380px));justify-content:center;gap:36px 40px}
+.card{display:grid;gap:10px;align-content:start;min-width:0}
+.stage{position:relative;aspect-ratio:9/16;width:100%;max-width:100%;border-radius:12px;overflow:hidden;background:#FAFAF7;box-shadow:0 1px 0 var(--line),0 12px 28px -16px rgba(20,20,40,.45);cursor:pointer}
+.stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ctl{display:flex;align-items:center;gap:8px}
+.ctl button{font:600 12.5px/1 var(--f-body);border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:999px;padding:6px 10px;cursor:pointer;min-width:56px}
+.ctl button:hover{border-color:var(--accent)}
+.ctl input{flex:1;min-width:0;accent-color:var(--accent)}
+.meta{display:grid;gap:4px;min-width:0}
+.kind{justify-self:start;font:500 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
+.meta h3{margin:2px 0 0;font:700 16px/1.25 var(--f-body)}
+.meta p{margin:0;font-size:13.5px;line-height:1.45;color:var(--muted)}
+
+.notes{padding-block:40px 64px}
+.notes h2{font:800 clamp(22px,3.2vw,30px)/1.1 var(--f-display);margin:0 0 8px;letter-spacing:-.01em}
+.notes>.wrap>p{margin:0 0 22px;color:var(--muted);max-width:66ch}
+.ncols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,290px),1fr));gap:16px}
+.ncols div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:6px;align-content:start;min-width:0}
+.ncols h3{margin:0;font:700 16px var(--f-body)}
+.ncols p,.ncols li{margin:0;font-size:14.5px;color:var(--muted)}
+.ncols ul{margin:0;padding-left:18px;display:grid;gap:4px}
+footer .wrap{padding-block:22px 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+
+<header><div class="wrap">
+  <div class="eyebrow">Sketch samples · structure and process · 9:16</div>
+  <h1>Sketch Process <span>Scenes</span></h1>
+  <p class="lede"><b>Two samples of things in motion, drawn by hand:</b> how a building works inside, and how a food is made. The structure is drawn line by line, then the actions play: heat flows under the floor, a knife cuts, salt falls, water runs, a glove rubs in the seasoning, and the jar bubbles as it ferments. Switch the surface, tap a frame to pause, or drag the scrubber.</p>
+</div></header>
+
+<div class="bar"><div class="wrap">
+  <div class="ctrl" role="radiogroup" aria-label="Drawing surface">
+    <span class="ctrl-l">Surface</span>
+    <span class="seg">
+      <input type="radio" name="surf" id="s-white" value="white" checked><label for="s-white"><i style="background:#FAFAF7"></i>Whiteboard</label>
+      <input type="radio" name="surf" id="s-chalk" value="chalk"><label for="s-chalk"><i style="background:#23332B"></i>Chalkboard</label>
+      <input type="radio" name="surf" id="s-note" value="note"><label for="s-note"><i style="background:#FCFCF7;border-color:#9DB4E6"></i>Notebook</label>
+      <input type="radio" name="surf" id="s-kraft" value="kraft"><label for="s-kraft"><i style="background:#CDAA7D"></i>Kraft paper</label>
+      <input type="radio" name="surf" id="s-light" value="light"><label for="s-light"><i style="background:#0B1020"></i>Lightboard</label>
+    </span>
+  </div>
+  <label class="chk"><input type="checkbox" id="pen" checked> Show the marker</label>
+</div></div>
+
+<main class="wrap"><div class="grid" id="grid"></div></main>
+
+<section class="notes"><div class="wrap">
+  <h2>What else works this way</h2>
+  <p>The same toolkit handles most "how it's built" and "how it's made" topics, as long as the look stays illustrated.</p>
+  <div class="ncols">
+    <div><h3>Structures</h3><ul><li>A 한옥 roof and beams, labeled layer by layer</li><li>Apartment blocks, subway lines, a palace layout</li><li>Anything with an inside: a rice cooker, a 장독대 jar, a phone</li></ul></div>
+    <div><h3>Processes</h3><ul><li>김밥 rolling, 떡볶이 simmering, ramen in three minutes</li><li>Making 한지 paper, brewing 막걸리</li><li>Non-food: sending a package, how a bill becomes law</li></ul></div>
+    <div><h3>Where it stops</h3><ul><li>Hands and tools stay simple drawn shapes</li><li>Food looks illustrated, not photographic</li><li>For realism, send your own photos or clips to animate and label</li></ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Part of the whiteboard sketch series. Kimchi steps are simplified for a short video; real recipes add more steps and resting time.</div></footer>
+
+<script>
+(() => {
+const NS = 'http://www.w3.org/2000/svg';
+const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const ease = p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+const f1 = v => v.toFixed(1);
+const fade = (t, a, b, c, d) => Math.min(seg(t, a, b), 1 - seg(t, c, d));
+function el(tag, attrs, parent, text) { const e = document.createElementNS(NS, tag); if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; if (parent) parent.appendChild(e); return e; }
+const A = (e, a) => { for (const k in a) e.setAttribute(k, a[k]); };
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function smooth(P) {
+  let d = `M${f1(P[0][0])} ${f1(P[0][1])}`;
+  for (let i = 0; i < P.length - 1; i++) {
+    const p0 = P[i - 1] || P[i], p1 = P[i], p2 = P[i + 1], p3 = P[i + 2] || p2;
+    d += ` C${f1(p1[0] + (p2[0] - p0[0]) / 6)} ${f1(p1[1] + (p2[1] - p0[1]) / 6)} ${f1(p2[0] - (p3[0] - p1[0]) / 6)} ${f1(p2[1] - (p3[1] - p1[1]) / 6)} ${f1(p2[0])} ${f1(p2[1])}`;
+  }
+  return d;
+}
+let UID = 0;
+
+const THEMES = {
+  white: { bg: '#FAFAF7', ink: '#1D1F2B', c1: '#2F45F5', c2: '#E5484D', c3: '#16A06B', hl: '#FFE27A', mu: '#7D8294', font: 'Gaegu', fw: 700, fs: 1, pen: 'marker', penBody: '#2B2E3A', eraser: '#3B3F52' },
+  chalk: { bg: '#23332B', ink: '#F1EFE6', c1: '#9BD7FF', c2: '#FFA3A3', c3: '#BDF2A2', hl: '#F5E27A', hlop: .42, mu: '#A9B8AE', font: 'Gamja Flower', fw: 400, fs: 1.04, pen: 'chalk', eraser: '#6B4A2F' },
+  note: { bg: '#FCFCF7', ink: '#1F2A44', c1: '#2549D6', c2: '#D93A3F', c3: '#1E8F5A', hl: '#FFE97A', mu: '#7A8299', font: 'Nanum Pen Script', fw: 400, fs: 1.3, pen: 'pen', penBody: '#33406A', eraser: '#F2A1B0' },
+  kraft: { bg: '#CDAA7D', ink: '#2B2118', c1: '#1F4FA8', c2: '#A8261E', c3: '#2E6B3F', hl: '#FFF2A0', hlop: .9, mu: '#6B5236', font: 'Hi Melody', fw: 400, fs: 1.18, pen: 'pencil', penBody: '#E9A93B', eraser: '#F2A1B0' },
+  light: { bg: '#0B1020', ink: '#F4F6FF', c1: '#5CE1E6', c2: '#FF6FAE', c3: '#C4F25E', hl: '#FFE27A', hlop: .4, mu: '#8E97B8', font: 'Gaegu', fw: 700, fs: 1, pen: 'marker', penBody: '#D9DCE6', eraser: '#2A3048', glow: true }
+};
+
+function board(svg, th, defs, id) {
+  el('rect', { width: 360, height: 640, fill: th.bg }, svg);
+  if (th === THEMES.white) {
+    el('ellipse', { cx: 250, cy: 470, rx: 120, ry: 40, fill: '#1D1F2B', opacity: .025 }, svg);
+    el('ellipse', { cx: 90, cy: 170, rx: 90, ry: 26, fill: '#1D1F2B', opacity: .02 }, svg);
+    el('rect', { x: 3, y: 3, width: 354, height: 634, rx: 10, fill: 'none', stroke: '#C9CCD6', 'stroke-width': 6 }, svg);
+  } else if (th === THEMES.chalk) {
+    [[90, 200, 110], [260, 420, 140], [150, 560, 90]].forEach(c => el('ellipse', { cx: c[0], cy: c[1], rx: c[2], ry: c[2] * .45, fill: '#fff', opacity: .035 }, svg));
+    el('rect', { x: 4, y: 4, width: 352, height: 632, rx: 6, fill: 'none', stroke: '#7A5434', 'stroke-width': 8 }, svg);
+  } else if (th === THEMES.note) {
+    for (let y = 124; y < 640; y += 30) el('line', { x1: 0, x2: 360, y1: y, y2: y, stroke: '#CFDCF2', 'stroke-width': 1 }, svg);
+    el('line', { x1: 18, x2: 18, y1: 0, y2: 640, stroke: '#F2A7A7', 'stroke-width': 1.2 }, svg);
+  } else if (th === THEMES.kraft) {
+    const fn = el('filter', { id: id + 'fib', x: 0, y: 0, width: '100%', height: '100%' }, defs);
+    el('feTurbulence', { type: 'fractalNoise', baseFrequency: '.9 .05', numOctaves: 2, stitchTiles: 'stitch' }, fn);
+    el('feColorMatrix', { values: '0 0 0 0 .35  0 0 0 0 .24  0 0 0 0 .12  0 0 0 .28 0' }, fn);
+    el('rect', { width: 360, height: 640, filter: `url(#${id}fib)` }, svg);
+    el('rect', { x: -14, y: 14, width: 80, height: 22, fill: '#FFF8E6', opacity: .55, transform: 'rotate(-28 26 25)' }, svg);
+    el('rect', { x: 294, y: 14, width: 80, height: 22, fill: '#FFF8E6', opacity: .55, transform: 'rotate(28 334 25)' }, svg);
+  } else if (th === THEMES.light) {
+    const g = el('radialGradient', { id: id + 'lg', cx: .3, cy: .2, r: .9 }, defs);
+    el('stop', { offset: 0, 'stop-color': '#18213F' }, g); el('stop', { offset: 1, 'stop-color': '#080B16' }, g);
+    el('rect', { width: 360, height: 640, fill: `url(#${id}lg)` }, svg);
+    el('line', { x1: 0, y1: 120, x2: 360, y2: 60, stroke: '#fff', 'stroke-width': 40, opacity: .025 }, svg);
+  }
+}
+
+function makeKit(stage, th, seed, dur) {
+  const svg = el('svg', { viewBox: '0 0 360 640', preserveAspectRatio: 'xMidYMid slice' }, stage);
+  const defs = el('defs', {}, svg);
+  const id = 'k' + (UID++) + '-';
+  board(svg, th, defs, id);
+  const eraseClip = el('clipPath', { id: id + 'er' }, defs);
+  const eraseR = el('rect', { x: -10, y: -10, width: 400, height: 680 }, eraseClip);
+  const content = el('g', { 'clip-path': `url(#${id}er)` }, svg);
+  const inner = el('g', {}, content);
+  if (th.pen === 'chalk') {
+    const f = el('filter', { id: id + 'ch', x: '-5%', y: '-5%', width: '110%', height: '110%' }, defs);
+    el('feTurbulence', { type: 'fractalNoise', baseFrequency: 1.1, numOctaves: 1, result: 'n' }, f);
+    el('feColorMatrix', { in: 'n', values: '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.6 1.45', result: 'm' }, f);
+    el('feComposite', { in: 'SourceGraphic', in2: 'm', operator: 'in' }, f);
+    A(inner, { filter: `url(#${id}ch)` });
+  }
+  if (th.glow) {
+    const f = el('filter', { id: id + 'gl', x: '-10%', y: '-10%', width: '120%', height: '120%' }, defs);
+    el('feGaussianBlur', { stdDeviation: 2.4, result: 'b' }, f);
+    const m = el('feMerge', {}, f); el('feMergeNode', { in: 'b' }, m); el('feMergeNode', { in: 'SourceGraphic' }, m);
+    A(inner, { filter: `url(#${id}gl)` });
+  }
+  const back = el('g', {}, inner), front = el('g', {}, inner);
+  // pen + eraser
+  const pen = el('g', { opacity: 0 }, svg);
+  const penI = el('g', { transform: 'rotate(32)' }, pen);
+  let penTip;
+  if (th.pen === 'chalk') { el('rect', { x: -6, y: -34, width: 12, height: 34, rx: 5, fill: '#F4F1E6' }, penI); penTip = el('rect', { x: -6, y: -6, width: 12, height: 6, rx: 3, fill: '#fff' }, penI); }
+  else if (th.pen === 'pencil') { el('rect', { x: -6, y: -74, width: 12, height: 58, fill: th.penBody }, penI); el('polygon', { points: '-6,-16 6,-16 0,0', fill: '#F3D7A8' }, penI); penTip = el('polygon', { points: '-2,-5 2,-5 0,0', fill: th.ink }, penI); el('rect', { x: -6, y: -84, width: 12, height: 10, fill: '#F2A1B0' }, penI); }
+  else if (th.pen === 'pen') { el('rect', { x: -4.5, y: -78, width: 9, height: 66, rx: 4, fill: th.penBody }, penI); el('polygon', { points: '-4.5,-12 4.5,-12 0,0', fill: '#C9CCD6' }, penI); penTip = el('rect', { x: -1.5, y: -86, width: 3, height: 14, rx: 1.5, fill: '#C9CCD6' }, penI); }
+  else { el('rect', { x: -8, y: -70, width: 16, height: 54, rx: 4, fill: th.penBody }, penI); el('rect', { x: -8, y: -36, width: 16, height: 6, fill: '#fff', opacity: .25 }, penI); el('polygon', { points: '-6,-16 6,-16 3,-3 -3,-3', fill: th.penBody }, penI); penTip = el('rect', { x: -9, y: -82, width: 18, height: 14, rx: 4, fill: th.c1 }, penI); }
+  const eraser = el('g', { opacity: 0 }, svg);
+  el('rect', { x: -22, y: -40, width: 44, height: 80, rx: 9, fill: th.eraser }, eraser);
+  el('rect', { x: -22, y: 26, width: 44, height: 14, rx: 5, fill: '#E6E6E0', opacity: .9 }, eraser);
+  const r = rng(seed), J = a => (r() - .5) * 2 * a;
+  const col = c => th[c] || c;
+  const marks = [], hooks = [];
+  const k = { th, svg, defs, back, front };
+  const pathMark = (d, o) => {
+    const e = el('path', { d, fill: 'none', stroke: col(o.c || 'ink'), 'stroke-width': (o.w || 3), 'stroke-linecap': 'round', 'stroke-linejoin': 'round', opacity: o.op ?? 1 }, o.g || front);
+    const len = e.getTotalLength();
+    A(e, { 'stroke-dasharray': `${f1(len + 1)} ${f1(len + 20)}`, 'stroke-dashoffset': f1(len + 1) });
+    marks.push({ type: 'path', el: e, len, t0: o.t[0], t1: o.t[1], c: col(o.c || 'ink') });
+    return e;
+  };
+  k.stroke = (pts, o = {}) => { const j = o.j ?? 1.3; const P = pts.map(p => [p[0] + J(j), p[1] + J(j)]); return pathMark(o.sharp ? 'M' + P.map(p => f1(p[0]) + ' ' + f1(p[1])).join(' L') : smooth(P), o); };
+  const sampleLine = (x1, y1, x2, y2) => { const n = Math.max(2, Math.round(Math.hypot(x2 - x1, y2 - y1) / 55)); return Array.from({ length: n + 1 }, (_, i) => [lerp(x1, x2, i / n), lerp(y1, y2, i / n)]); };
+  k.line = (x1, y1, x2, y2, o = {}) => k.stroke(sampleLine(x1, y1, x2, y2), Object.assign({ j: 1.5 }, o));
+  k.rect = (x, y, w, h, o = {}) => k.stroke([[x, y], [x + w / 2, y], [x + w, y], [x + w, y + h / 2], [x + w, y + h], [x + w / 2, y + h], [x, y + h], [x, y + h / 2], [x + 2, y - 1]], Object.assign({ sharp: true, j: 1.3 }, o));
+  k.ellipse = (cx, cy, rx, ry, o = {}) => { const n = 26, a0 = -1.9; const P = []; for (let i = 0; i <= n + 2; i++) { const a = a0 + i / n * Math.PI * 2, q = 1 + J(.035); P.push([cx + rx * Math.cos(a) * q, cy + ry * Math.sin(a) * q]); } return k.stroke(P, Object.assign({ j: .5 }, o)); };
+  k.arc = (cx, cy, rr, a0, a1, o = {}) => { const n = Math.max(5, Math.round(Math.abs(a1 - a0) / 14)); const P = Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)]; }); return k.stroke(P, Object.assign({ j: .5 }, o)); };
+  const head = (P, o) => {
+    const [x2, y2] = P[P.length - 1], [x1, y1] = P[P.length - 2], a = Math.atan2(y2 - y1, x2 - x1), L = o.head || 12, t1 = o.t[1];
+    k.stroke([[x2 - L * Math.cos(a - .5), y2 - L * Math.sin(a - .5)], [x2, y2], [x2 - L * Math.cos(a + .5), y2 - L * Math.sin(a + .5)]], Object.assign({}, o, { sharp: true, j: .5, t: [t1, t1 + .14] }));
+  };
+  k.arrow = (x1, y1, x2, y2, o = {}) => {
+    let P;
+    if (o.bend) { const dx = x2 - x1, dy = y2 - y1, L = Math.hypot(dx, dy), cx = (x1 + x2) / 2 - dy / L * o.bend, cy = (y1 + y2) / 2 + dx / L * o.bend; P = Array.from({ length: 9 }, (_, i) => { const u = i / 8; return [(1 - u) * (1 - u) * x1 + 2 * (1 - u) * u * cx + u * u * x2, (1 - u) * (1 - u) * y1 + 2 * (1 - u) * u * cy + u * u * y2]; }); }
+    else P = sampleLine(x1, y1, x2, y2);
+    const e = k.stroke(P, Object.assign({ j: 1 }, o)); head(P, o); return e;
+  };
+  k.arcArrow = (cx, cy, rr, a0, a1, o = {}) => { const n = 8; const P = Array.from({ length: n + 1 }, (_, i) => { const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180; return [cx + rr * Math.cos(a), cy + rr * Math.sin(a)]; }); k.stroke(P, Object.assign({ j: .6 }, o)); head(P, o); };
+  k.text = (x, y, str, o = {}) => {
+    const size = (o.s || 24) * th.fs, an = o.a === 'm' ? 'middle' : o.a === 'e' ? 'end' : 'start';
+    const e = el('text', { x, y, 'font-size': f1(size), fill: col(o.c || 'ink'), 'text-anchor': an, style: `font-family:"${th.font}","Gaegu",cursive;font-weight:${th.fw}` }, o.g || front, str);
+    let bb = e.getBBox();
+    const maxW = o.max || (an === 'middle' ? 2 * Math.min(x - 16, 344 - x) : an === 'end' ? x - 16 : 344 - x);
+    if (bb.width > maxW) { A(e, { 'font-size': f1(size * maxW / bb.width) }); bb = e.getBBox(); }
+    const cp = el('clipPath', { id: id + 'c' + marks.length }, defs);
+    const cr = el('rect', { x: f1(bb.x - 4), y: f1(bb.y - 8), height: f1(bb.height + 16), width: 0 }, cp);
+    A(e, { 'clip-path': `url(#${id}c${marks.length})` });
+    marks.push({ type: 'text', el: e, clip: cr, bb, t0: o.t[0], t1: o.t[1], c: col(o.c || 'ink') });
+    return e;
+  };
+  k.hatch = (x, y, w, h, o = {}) => { const st = o.step || 8, P = []; for (let xx = x, i = 0; xx <= x + w + .1; xx += st, i++) P.push([xx, i % 2 ? y + h : y]); return k.stroke(P, Object.assign({ c: 'hl', w: 6.5, sharp: true, j: 1.4, op: th.hlop ?? .85, g: back }, o)); };
+  k.fade = (e, t0, t1, op = 1) => { A(e, { opacity: 0 }); marks.push({ type: 'fade', el: e, t0, t1, op }); return e; };
+  k.dot = (x, y, rr, o = {}) => k.fade(el('circle', { cx: x, cy: y, r: rr, fill: col(o.c || 'ink') }, o.g || front), o.t[0], o.t[1]);
+  k.poly = (pts, o = {}) => k.fade(el('polygon', { points: pts.map(p => p.join(',')).join(' '), fill: col(o.c || 'hl') }, o.g || back), o.t[0], o.t[1], o.op ?? (th.hlop ?? .8));
+  k.wave = (x1, x2, y, o = {}) => { const P = []; for (let x = x1, i = 0; x <= x2 + .1; x += 12, i++) P.push([x, y + Math.sin(i * 1.4) * 2.6]); return k.stroke(P, Object.assign({ c: 'c1', w: 3.2, j: .6 }, o)); };
+  k.check = (x, y, o = {}) => k.stroke([[x - 10, y], [x - 3, y + 9], [x + 12, y - 11]], Object.assign({ sharp: true, j: .6, w: 4 }, o));
+  k.heart = (x, y, s, o = {}) => { const P = []; for (let i = 0; i <= 30; i++) { const a = i / 30 * Math.PI * 2; P.push([x + s / 16 * 16 * Math.pow(Math.sin(a), 3), y - s / 16 * (13 * Math.cos(a) - 5 * Math.cos(2 * a) - 2 * Math.cos(3 * a) - Math.cos(4 * a))]); } return k.stroke(P, Object.assign({ c: 'c2', j: .4 }, o)); };
+  k.figure = (x, hy, o = {}) => {
+    const s = o.sc || 1, [t0, t1] = o.t, d = t1 - t0, c = o.c || 'ink', T = (a, b) => [t0 + d * a, t0 + d * b];
+    k.ellipse(x, hy, 16 * s, 17 * s, { c, t: T(0, .3) });
+    k.line(x, hy + 17 * s, x, hy + 64 * s, { c, t: T(.3, .45) });
+    k.line(x, hy + 32 * s, x - 22 * s, hy + 54 * s, { c, t: T(.45, .58) });
+    k.line(x, hy + 32 * s, x + 22 * s, hy + (o.wave ? 8 : 50) * s, { c, t: T(.58, .7) });
+    k.line(x, hy + 64 * s, x - 15 * s, hy + 104 * s, { c, t: T(.72, .86) });
+    k.line(x, hy + 64 * s, x + 15 * s, hy + 104 * s, { c, t: T(.86, 1) });
+  };
+  k.label = str => el('text', { x: 24, y: 42, 'font-size': 10, fill: th.mu, 'letter-spacing': 1.6, style: 'font-family:"JetBrains Mono",monospace;font-weight:500' }, svg, str);
+  k.title = str => { const e = k.text(24, 88, str, { s: 36, t: [.1, .9] }); const w = e.getBBox().width; k.wave(24, 24 + w, 102, { t: [.9, 1.2] }); return e; };
+  k.ext = (e, i) => { try { return e.getExtentOfChar(i); } catch (x) { return { x: 0, y: 0, width: 0, height: 0 }; } };
+  k.hook = fn => hooks.push(fn);
+  k.frame = (t, showPen) => {
+    let act = null;
+    for (const m of marks) {
+      const p = seg(t, m.t0, m.t1);
+      if (m.type === 'path') { m.el.setAttribute('stroke-dashoffset', f1((m.len + 1) * (1 - ease(p)))); }
+      else if (m.type === 'text') m.clip.setAttribute('width', f1((m.bb.width + 8) * p));
+      else m.el.setAttribute('opacity', (m.op * p).toFixed(3));
+      if (m.type !== 'fade' && t >= m.t0 && t < m.t1 && (!act || m.t0 >= act.m.t0)) act = { m, p };
+    }
+    hooks.forEach(h => h(t));
+    const E0 = dur - 1.0, E1 = dur - .35, ep = seg(t, E0, E1);
+    A(eraseR, { x: f1(-10 + 380 * ep) });
+    if (ep > 0 && ep < 1) { A(eraser, { opacity: 1, transform: `translate(${f1(-10 + 380 * ep)} ${f1(180 + 300 * Math.abs(((ep * 3.5) % 2) - 1))}) rotate(-12)` }); } else A(eraser, { opacity: 0 });
+    if (act && showPen) {
+      let x, y;
+      if (act.m.type === 'path') { const pt = act.m.el.getPointAtLength(act.m.len * ease(act.p)); x = pt.x; y = pt.y; }
+      else { x = act.m.bb.x + act.m.bb.width * act.p; y = act.m.bb.y + act.m.bb.height * .72; }
+      A(pen, { opacity: 1, transform: `translate(${f1(x)} ${f1(y)})` });
+      if (th.pen === 'marker') A(penTip, { fill: act.m.c });
+    } else A(pen, { opacity: 0 });
+  };
+  return k;
+}
+
+/* ===================== SCENES ===================== */
+const S = [];
+const custom = (k, d, g, attrs) => { const e = el('path', Object.assign({ d, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }, attrs), g); const len = e.getTotalLength(); A(e, { 'stroke-dasharray': `${f1(len + 1)} ${f1(len + 20)}`, 'stroke-dashoffset': f1(len + 1) }); return { e, len, set: p => A(e, { 'stroke-dashoffset': f1((len + 1) * (1 - p)) }) }; };
+const font = th => `font-family:"${th.font}","Gaegu",cursive;font-weight:${th.fw}`;
+
+S.push({ kind: 'Cross-section · structure', name: '온돌: how the floor heats', use: 'Fire, flues, stones and the warm spot, drawn as a cutaway with heat flowing through it.', dur: 15.5, poster: 13.2, draw(k) {
+  const th = k.th;
+  k.label('CROSS-SECTION · HOW IT WORKS'); k.title('온돌: a heated floor');
+  k.stroke([[24, 178], [180, 120], [336, 178]], { sharp: true, t: [1.2, 1.8] });
+  k.line(44, 174, 44, 360, { t: [1.8, 2.1] }); k.line(316, 174, 316, 360, { t: [2.1, 2.4] });
+  k.line(44, 360, 316, 360, { c: 'c1', w: 4, t: [2.4, 2.9] });
+  for (let i = 0; i < 6; i++) k.rect(66 + i * 42, 366, 38, 24, { w: 2.5, t: [3.0 + i * .15, 3.2 + i * .15] });
+  k.line(64, 444, 322, 444, { t: [4.0, 4.3] });
+  [104, 146, 188, 230, 272].forEach((x, i) => k.rect(x, 422, 8, 22, { w: 2, t: [4.3 + i * .06, 4.4 + i * .06] }));
+  for (let x = 74; x <= 314; x += 20) k.line(x, 450, x - 8, 460, { c: 'mu', w: 1.5, t: [4.5, 4.7] });
+  k.rect(12, 390, 52, 56, { t: [4.7, 5.0] });
+  const flame = el('g', {}, k.front);
+  el('polygon', { points: '24,442 31,414 38,428 45,402 54,442', fill: th.c2 }, flame);
+  el('polygon', { points: '32,442 38,422 45,442', fill: th.hl }, flame);
+  k.fade(flame, 5.0, 5.2);
+  k.text(38, 480, '아궁이', { s: 20, c: 'c2', a: 'm', t: [5.2, 5.5] }); k.text(38, 499, 'firebox', { s: 13, c: 'mu', a: 'm', t: [5.5, 5.7] });
+  k.line(322, 444, 322, 212, { t: [5.8, 6.1] }); k.line(340, 444, 340, 212, { t: [6.1, 6.4] });
+  k.text(312, 202, '굴뚝 · chimney', { s: 16, a: 'e', t: [6.4, 6.9] });
+  const fp = el('path', { d: 'M40 424 C 70 402, 92 412, 120 410 S 200 402, 240 410 S 300 414, 331 420 L 331 212 L 331 160', fill: 'none' }, k.front);
+  const FL = fp.getTotalLength();
+  const parts = Array.from({ length: 28 }, () => el('circle', { r: 3.2, fill: th.c2, opacity: 0 }, k.front));
+  k.text(150, 480, '고래 · heat channels', { s: 17, a: 'm', t: [7.4, 8.0] }); k.arrow(150, 464, 150, 430, { w: 2, c: 'c2', head: 8, t: [8.0, 8.2] });
+  k.text(226, 528, '구들장 · stone slabs', { s: 17, a: 'm', t: [8.3, 8.9] }); k.arrow(230, 512, 254, 394, { w: 2, head: 8, bend: 10, t: [8.9, 9.1] });
+  const waves = el('g', {}, k.front);
+  [180, 232, 284].forEach((x, i) => { const P = []; for (let y = 352, j = 0; y >= 300; y -= 8, j++) P.push([x + Math.sin(j * 1.3) * 4, y]); k.stroke(P, { g: waves, c: 'c2', w: 2.5, j: .3, t: [9.2 + i * .15, 9.6 + i * .15] }); });
+  k.text(190, 254, '아랫목', { s: 21, c: 'c2', t: [10.0, 10.4] }); k.text(190, 274, 'warmest spot', { s: 13, c: 'mu', t: [10.4, 10.8] });
+  k.arrow(186, 262, 142, 352, { w: 2, c: 'c2', head: 8, bend: -14, t: [10.8, 11.0] });
+  k.ellipse(112, 290, 13, 14, { t: [11.0, 11.2] }); k.line(112, 304, 112, 336, { t: [11.2, 11.3] });
+  k.line(112, 316, 132, 330, { t: [11.3, 11.4] }); k.line(112, 336, 140, 356, { t: [11.4, 11.5] }); k.line(112, 336, 88, 356, { t: [11.5, 11.6] });
+  k.rect(52, 188, 128, 46, { w: 2, t: [11.6, 11.9] }); k.stroke([[100, 234], [108, 272]], { w: 2, t: [11.9, 12.0] });
+  k.text(116, 210, '아~ 뜨끈하다!', { s: 17, a: 'm', max: 118, t: [12.0, 12.4] }); k.text(116, 227, 'ahh, toasty!', { s: 12, c: 'mu', a: 'm', t: [12.4, 12.6] });
+  k.text(180, 586, 'fire → hot air → warm stones → warm floor', { s: 17, a: 'm', t: [12.7, 13.5] });
+  k.text(180, 610, 'the smoke leaves through the chimney', { s: 14, c: 'mu', a: 'm', t: [13.5, 13.9] });
+  k.hook(t => {
+    A(flame, { transform: `translate(38 442) scale(1 ${f1(1 + .14 * Math.sin(t * 13))}) translate(-38 -442)` });
+    const on = fade(t, 6.9, 7.3, 14.3, 14.5);
+    parts.forEach((c, i) => {
+      const u = (t * .16 + i / parts.length) % 1, pt = fp.getPointAtLength(FL * u), sm = pt.y < 215;
+      A(c, { cx: f1(pt.x + (sm ? Math.sin(t * 3 + i) * 4 : 0)), cy: f1(pt.y), r: f1(sm ? 3 + (215 - pt.y) * .12 : 3.2), fill: sm ? th.mu : th.c2, opacity: (on * (sm ? Math.max(0, 1 - (215 - pt.y) / 50) : .95)).toFixed(3) });
+    });
+    A(waves, { transform: `translate(0 ${f1(-((t * 9) % 8))})`, opacity: (.65 + .35 * Math.sin(t * 4)).toFixed(3) });
+  });
+} });
+
+S.push({ kind: 'Process · actions', name: '김치 만들기: making kimchi', use: 'Cut, salt, rinse, season, pack, ferment, each as a small drawn action with a progress tracker.', dur: 17.2, poster: 9.6, draw(k) {
+  const th = k.th;
+  k.label('PROCESS · ACTIONS'); k.title('김치 만들기');
+  const xs = [55, 105, 155, 205, 255, 305], verbs = ['자르다', '절이다', '씻다', '버무리다', '담다', '숙성'];
+  const ST = [[2.0, 4.0], [4.1, 6.1], [6.2, 8.1], [8.2, 10.4], [10.5, 12.3], [12.4, 15.1]];
+  xs.forEach((x, i) => { k.ellipse(x, 566, 12, 12, { w: 2, t: [1.2 + i * .1, 1.4 + i * .1] }); k.text(x, 598, verbs[i], { s: 12, a: 'm', max: 48, c: 'mu', t: [1.3 + i * .1, 1.5 + i * .1] }); k.check(x + 1, 566, { c: 'c3', w: 3, t: [ST[i][1] - .2, ST[i][1]] }); });
+  const ptr = el('polygon', { points: '-6,-10 6,-10 0,0', fill: th.c2 }, k.front); k.fade(ptr, 2.0, 2.2);
+  const L = el('g', {}, k.front), R = el('g', {}, k.front);
+  k.stroke([[180, 206], [146, 220], [126, 262], [124, 320], [140, 370], [180, 392]], { g: L, c: 'c3', w: 3.2, t: [2.0, 2.5] });
+  k.stroke([[180, 206], [214, 220], [234, 262], [236, 320], [220, 370], [180, 392]], { g: R, c: 'c3', w: 3.2, t: [2.2, 2.7] });
+  k.stroke([[178, 388], [164, 300], [152, 236]], { g: L, c: 'c3', w: 2, t: [2.5, 2.7] }); k.stroke([[132, 300], [150, 286], [168, 292]], { g: L, c: 'c3', w: 2, t: [2.6, 2.75] });
+  k.stroke([[182, 388], [196, 300], [208, 236]], { g: R, c: 'c3', w: 2, t: [2.6, 2.8] }); k.stroke([[228, 300], [210, 286], [192, 292]], { g: R, c: 'c3', w: 2, t: [2.7, 2.85] });
+  const cutL = el('line', { x1: 180, y1: 206, x2: 180, y2: 206, stroke: th.ink, 'stroke-width': 3, 'stroke-linecap': 'round' }, L);
+  const cutR = el('line', { x1: 180, y1: 206, x2: 180, y2: 206, stroke: th.ink, 'stroke-width': 3, 'stroke-linecap': 'round' }, R);
+  const seas = [[L, 132, 172, 8.4, 9.3], [R, 188, 228, 9.4, 10.3]].map(([g, x0, x1, a, b]) => {
+    let d = `M${x0} 236`; for (let y = 236, i = 0; y <= 372; y += 11, i++) d += ` L${i % 2 ? x0 : x1} ${y + 6}`;
+    const c = custom(k, d, g, { stroke: th.c2, 'stroke-width': 7, opacity: .6 });
+    const glove = el('g', { opacity: 0 }, g);
+    el('path', { d: 'M-11 4 C -14 -16 -6 -28 3 -27 C 12 -26 15 -14 12 4 Z', fill: th.c2, stroke: th.ink, 'stroke-width': 2 }, glove);
+    el('path', { d: 'M-11 -6 C -20 -10 -22 -2 -12 2', fill: th.c2, stroke: th.ink, 'stroke-width': 2 }, glove);
+    el('rect', { x: -12, y: 2, width: 25, height: 12, rx: 3, fill: th.c2, stroke: th.ink, 'stroke-width': 2 }, glove);
+    return { c, glove, a, b };
+  });
+  const knife = el('g', { opacity: 0 }, k.front);
+  el('polygon', { points: '-11,-92 11,-92 11,0 -11,-16', fill: th.bg, stroke: th.ink, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, knife);
+  el('rect', { x: -7, y: -128, width: 14, height: 38, rx: 4, fill: th.c1 }, knife);
+  const shaker = el('g', { opacity: 0 }, k.front);
+  el('rect', { x: -16, y: -46, width: 32, height: 46, rx: 9, fill: th.bg, stroke: th.ink, 'stroke-width': 2.5 }, shaker);
+  el('rect', { x: -16, y: -2, width: 32, height: 14, rx: 4, fill: th.c1 }, shaker);
+  el('text', { x: 0, y: -16, 'text-anchor': 'middle', 'font-size': 14 * th.fs, fill: th.ink, style: font(th) }, shaker, '소금');
+  const salt = Array.from({ length: 26 }, () => ({ e: el('circle', { r: 1.9, fill: th.mu, opacity: 0 }, k.front), a: Math.random(), b: Math.random() - .5 }));
+  const tap = el('g', {}, k.front);
+  k.line(96, 132, 180, 132, { g: tap, w: 5, c: 'mu', t: [6.2, 6.4] }); k.line(180, 132, 180, 150, { g: tap, w: 5, c: 'mu', t: [6.4, 6.5] });
+  k.line(150, 132, 150, 118, { g: tap, w: 4, c: 'mu', t: [6.5, 6.55] }); k.line(140, 118, 160, 118, { g: tap, w: 4, c: 'mu', t: [6.55, 6.6] });
+  const water = el('g', { opacity: 0 }, k.front);
+  const wl = [173, 180, 187].map(x => el('line', { x1: x, y1: 152, x2: x, y2: 236, stroke: th.c1, 'stroke-width': 3, 'stroke-dasharray': '8 6', 'stroke-linecap': 'round' }, water));
+  const drops = Array.from({ length: 8 }, (_, i) => ({ e: el('circle', { r: 2.4, fill: th.c1 }, water), d: i % 2 ? 1 : -1, a: i / 8 }));
+  k.stroke([[124, 252], [108, 300], [110, 372], [130, 408], [230, 408], [250, 372], [252, 300], [236, 252]], { w: 3, t: [10.6, 11.4] });
+  k.ellipse(180, 250, 60, 10, { w: 2.5, t: [11.4, 11.6] });
+  const bubbles = Array.from({ length: 12 }, (_, i) => ({ e: el('circle', { r: 2 + (i % 3), fill: 'none', stroke: th.c1, 'stroke-width': 1.6, opacity: 0 }, k.front), a: i / 12, x: 140 + ((i * 37) % 80) }));
+  k.rect(264, 150, 62, 60, { w: 2.5, t: [12.4, 12.8] }); k.line(264, 166, 326, 166, { w: 2.5, t: [12.8, 12.9] });
+  const day = el('text', { x: 295, y: 200, 'text-anchor': 'middle', 'font-size': f1(24 * th.fs), fill: th.c2, style: font(th), opacity: 0 }, k.front, '1일');
+  k.text(295, 230, 'a few days', { s: 12, c: 'mu', a: 'm', t: [12.9, 13.2] });
+  const LB = [['1. 자르다', 'cut the cabbage in half'], ['2. 절이다', 'salt it until it softens'], ['3. 씻다', 'rinse off the salt'], ['4. 버무리다', 'rub in the red seasoning'], ['5. 담다', 'pack it into a jar'], ['6. 숙성', 'let it ferment for a few days']];
+  const lg = LB.map((l, i) => { const g = el('g', {}, k.front); k.text(180, 480, l[0], { g, s: 30, c: 'c2', a: 'm', t: [ST[i][0], ST[i][0] + .4] }); k.text(180, 508, l[1], { g, s: 16, c: 'mu', a: 'm', t: [ST[i][0] + .4, ST[i][0] + .7] }); return g; });
+  const fin = el('g', {}, k.front);
+  k.text(180, 488, '김치 완성!', { g: fin, s: 38, c: 'c3', a: 'm', t: [15.2, 15.7] }); k.text(180, 514, 'kimchi, done!', { g: fin, s: 16, c: 'mu', a: 'm', t: [15.7, 16.0] });
+  k.hook(t => {
+    lg.forEach((g, i) => A(g, { opacity: (1 - seg(t, ST[i][1], ST[i][1] + .15)).toFixed(3) }));
+    let si = 0; ST.forEach((s, i) => { if (t >= s[0]) si = i; });
+    A(ptr, { transform: `translate(${xs[si]} 548)` });
+    const kp = ease(seg(t, 2.8, 3.5));
+    A(knife, { opacity: fade(t, 2.6, 2.8, 3.6, 3.9).toFixed(3), transform: `translate(180 ${f1(lerp(215, 400, kp))})` });
+    const cy = f1(lerp(206, 392, seg(t, 2.85, 3.45))); A(cutL, { y2: cy }); A(cutR, { y2: cy });
+    const s = ease(seg(t, 3.5, 3.9)), w = ease(seg(t, 4.6, 5.8)), p = ease(seg(t, 11.0, 12.0));
+    [[L, -1], [R, 1]].forEach(([g, d]) => {
+      const sc = lerp(1, .52, p), sx = (1 - .06 * w) * sc, sy = (1 - .16 * w) * sc;
+      A(g, { transform: `translate(${f1(lerp(40 * s, 18, p) * d)} ${f1(lerp(0, 4, p))}) rotate(${f1(lerp(8 * s, 4, p) * d)} 180 392) translate(180 392) scale(${sx.toFixed(3)} ${sy.toFixed(3)}) translate(-180 -392)` });
+    });
+    const so = fade(t, 4.1, 4.3, 5.8, 6.0);
+    A(shaker, { opacity: so.toFixed(3), transform: `translate(180 160) rotate(${f1(Math.sin(t * 16) * 14 * seg(t, 4.3, 4.4))})` });
+    const sw = t > 4.3 && t < 5.8 ? 1 : 0;
+    salt.forEach(q => { const u = (t * 1.4 + q.a) % 1; A(q.e, { cx: f1(180 + q.b * (20 + u * 120)), cy: f1(176 + u * 190), opacity: (sw * (1 - u * .4)).toFixed(3) }); });
+    A(tap, { opacity: (1 - seg(t, 7.8, 8.0)).toFixed(3) });
+    A(water, { opacity: fade(t, 6.6, 6.8, 7.7, 7.9).toFixed(3) });
+    wl.forEach(l => A(l, { 'stroke-dashoffset': f1(-t * 70) }));
+    drops.forEach(q => { const u = (t * 1.8 + q.a) % 1; A(q.e, { cx: f1(180 + q.d * u * 54), cy: f1(240 - Math.sin(u * Math.PI) * 26 + u * 26) }); });
+    seas.forEach(q => { const pp = seg(t, q.a, q.b); q.c.set(pp); const pt = q.c.e.getPointAtLength(q.c.len * pp); A(q.glove, { opacity: fade(t, q.a - .15, q.a, q.b, q.b + .2).toFixed(3), transform: `translate(${f1(pt.x)} ${f1(pt.y)}) rotate(${f1(Math.sin(t * 20) * 10)})` }); });
+    const bo = fade(t, 12.9, 13.2, 15.0, 15.3);
+    bubbles.forEach(q => { const u = (t * .5 + q.a) % 1; A(q.e, { cx: f1(q.x + Math.sin(u * 6 + q.a * 10) * 4), cy: f1(398 - u * 130), opacity: (bo * (1 - u * .6)).toFixed(3) }); });
+    A(day, { opacity: fade(t, 12.9, 13.0, 16.1, 16.2).toFixed(3) }); day.textContent = (1 + Math.min(4, Math.floor(seg(t, 13.0, 15.0) * 5))) + '일';
+  });
+} });
+
+/* ===================== ENGINE ===================== */
+const grid = document.getElementById('grid');
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let theme = 'white', showPen = true;
+try { theme = localStorage.getItem('wb-surf') || 'white'; } catch (e) {}
+if (!THEMES[theme]) theme = 'white';
+const cards = S.map((sc, i) => {
+  const card = document.createElement('article'); card.className = 'card';
+  card.innerHTML = `<div class="stage" role="button" tabindex="0" aria-label="Pause or play ${sc.kind}"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" max="${sc.dur}" step="0.01" aria-label="Scrub ${sc.kind}"></div><div class="meta"><span class="kind">${sc.kind}</span><h3>${sc.name}</h3><p>${sc.use}</p></div>`;
+  grid.appendChild(card);
+  const st = { sc, card, stage: card.querySelector('.stage'), btn: card.querySelector('button'), rg: card.querySelector('input'), t: sc.poster, playing: !reduced, visible: false, kit: null, seed: 101 + i * 37 };
+  const toggle = () => { st.playing = !st.playing; st.btn.textContent = st.playing ? 'Pause' : 'Play'; };
+  st.btn.textContent = st.playing ? 'Pause' : 'Play';
+  st.btn.addEventListener('click', toggle);
+  st.stage.addEventListener('click', toggle);
+  st.stage.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  st.rg.addEventListener('input', () => { st.t = +st.rg.value; show(st); });
+  return st;
+});
+function show(st) { if (st.kit) st.kit.frame(st.t, showPen); st.rg.value = st.t; }
+function buildAll() {
+  const th = THEMES[theme];
+  cards.forEach(st => {
+    st.stage.innerHTML = ''; st.stage.style.background = th.bg;
+    try { st.kit = makeKit(st.stage, th, st.seed, st.sc.dur); st.sc.draw(st.kit); } catch (e) { console.error(st.sc.kind, e); }
+    show(st);
+  });
+}
+const setTheme = async name => {
+  theme = name; try { localStorage.setItem('wb-surf', name); } catch (e) {}
+  const r = document.getElementById({ white: 's-white', chalk: 's-chalk', note: 's-note', kraft: 's-kraft', light: 's-light' }[name]); if (r) r.checked = true;
+  try { await Promise.race([document.fonts.load(`24px "${THEMES[name].font}"`, '가나다 abc'), new Promise(r => setTimeout(r, 2000))]); } catch (e) {}
+  buildAll();
+};
+document.querySelectorAll('input[name="surf"]').forEach(r => r.addEventListener('change', () => setTheme(r.value)));
+document.getElementById('pen').addEventListener('change', e => { showPen = e.target.checked; cards.forEach(show); });
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { const c = cards.find(c => c.card === e.target); if (c) c.visible = e.isIntersecting; }), { rootMargin: '80px' });
+  cards.forEach(c => io.observe(c.card));
+} else cards.forEach(c => c.visible = true);
+let started = false;
+const start = () => {
+  if (started) return; started = true;
+  setTheme(theme);
+  let last = performance.now();
+  const loop = now => { const dt = Math.min(.1, (now - last) / 1000); last = now; cards.forEach(c => { if (c.visible && c.playing && c.kit) { c.t = (c.t + dt) % c.sc.dur; show(c); } }); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+};
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+setTimeout(start, 2500);
+})();
+</script>
