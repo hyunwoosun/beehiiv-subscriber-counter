@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Shortform Motion Lookbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Black+Han+Sans&family=Gaegu:wght@700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+KR:wght@500;800&family=Unbounded:wght@500;800&family=VT323&display=swap">
+<style>
+/* Layout: a contact sheet of live 9:16 frames, grouped by motion family, under a sticky control bar. */
+:root{
+  --bg:#F1F2F8; --surface:#FFFFFF; --fg:#16182C; --muted:#585C77; --line:#D8DAE7; --accent:#2F45F5; --accent-soft:#E2E5FF;
+  --f-display:"Unbounded","Arial Black",sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --f-slam:"Anton","Black Han Sans",Impact,sans-serif;
+  --f-kd:"Black Han Sans","Noto Sans KR",sans-serif;
+  --f-kb:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --f-hand:"Gaegu","Comic Sans MS",cursive;
+  --f-vhs:"VT323",ui-monospace,monospace;
+  /* frame palette: these are video frames, identical in both themes */
+  --blue:#3047FF; --sun:#FFC92E; --pink:#FF4F8B; --mint:#1FCF9C; --ink:#12142A; --coral:#FF6B3D; --paper:#F6F6FB; --night:#1F2547;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0D0F1E; --surface:#161930; --fg:#ECEEF9; --muted:#9A9EBD; --line:#272B48; --accent:#8D9BFF; --accent-soft:#232A5C; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D0F1E; --surface:#161930; --fg:#ECEEF9; --muted:#9A9EBD; --line:#272B48; --accent:#8D9BFF; --accent-soft:#232A5C; color-scheme:dark}
+
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* header */
+header .wrap{padding-block:48px 28px;display:grid;gap:14px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(34px,6vw,64px)/1.02 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{max-width:64ch;margin:0;font-size:17px;color:var(--muted)}
+.lede b{color:var(--fg);font-weight:600}
+
+/* toolbar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.bar .wrap{padding-block:10px;display:flex;flex-wrap:wrap;gap:10px 24px;align-items:center}
+.ctrl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctrl-l{font:500 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--surface)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{font:600 13px/1 var(--f-body);padding:7px 12px;border-radius:999px;cursor:pointer;color:var(--muted)}
+.seg input:checked+label{background:var(--fg);color:var(--bg)}
+.seg input:focus-visible+label{outline:2px solid var(--accent)}
+.chk{display:inline-flex;align-items:center;gap:7px;font:600 13px var(--f-body);cursor:pointer}
+.chk input{accent-color:var(--accent);width:16px;height:16px}
+.jump{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;min-width:0;flex:1 1 300px}
+.jump a{flex:none;font:600 13px/1 var(--f-body);text-decoration:none;color:var(--fg);padding:7px 11px;border-radius:999px;border:1px solid var(--line)}
+.jump a:hover{border-color:var(--accent);color:var(--accent)}
+.rm-note{font-size:13px;color:var(--muted)}
+
+/* sections */
+main section{padding-block:44px 8px}
+.sec-h{display:grid;gap:6px;margin-bottom:22px;max-width:70ch}
+.sec-h h2{margin:0;font:800 clamp(22px,3vw,30px)/1.1 var(--f-display);letter-spacing:-.01em;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-h h2 small{font:500 13px var(--f-mono);color:var(--muted);letter-spacing:.04em}
+.sec-h p{margin:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,158px),1fr));gap:28px 18px}
+.tile{display:grid;gap:10px;align-content:start;min-width:0}
+.meta{display:grid;gap:4px;min-width:0}
+.meta h3{margin:0;font:700 15px/1.25 var(--f-body)}
+.meta p{margin:0;font-size:13px;line-height:1.45;color:var(--muted)}
+.fmt{justify-self:start;font:500 10.5px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 7px;border-radius:5px;border:1px solid var(--line);color:var(--muted)}
+.fmt.ov{background:var(--accent-soft);border-color:transparent;color:var(--accent)}
+
+/* ========== the 9:16 frame ========== */
+.screen{position:relative;aspect-ratio:9/16;width:100%;max-width:100%;container-type:inline-size;overflow:hidden;border-radius:12px;isolation:isolate;cursor:pointer;background:#1c2033;color:#fff;box-shadow:0 1px 0 var(--line),0 10px 26px -14px rgba(10,14,40,.45)}
+.screen>*{position:absolute}
+.screen p,.screen h4,.screen ul{margin:0;padding:0}
+.screen ul{list-style:none}
+.bg{inset:0;z-index:-1}
+body[data-bg="head"] .bg{background:radial-gradient(55% 35% at 14% 12%,rgba(255,186,120,.38),transparent 70%),linear-gradient(165deg,#61709a 0%,#2c3350 55%,#1b1f31 100%)}
+body[data-bg="head"] .bg::before{content:"";position:absolute;left:31cqw;top:40%;width:38cqw;height:46cqw;border-radius:47% 47% 43% 43%;background:rgba(8,10,22,.5)}
+body[data-bg="head"] .bg::after{content:"";position:absolute;left:10cqw;right:10cqw;bottom:-6%;height:30%;border-radius:48cqw 48cqw 0 0;background:rgba(8,10,22,.5)}
+body[data-bg="solid"] .bg{background:var(--night)}
+body[data-bg="alpha"] .bg{background:repeating-conic-gradient(#3a3f55 0 25%,#2a2e40 0 50%) 0 0/7cqw 7cqw}
+.panel{inset:0;display:flex;flex-direction:column;justify-content:center;padding:8cqw}
+body.sz .screen::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:20;
+  background:linear-gradient(rgba(255,60,60,.32),rgba(255,60,60,.32)) bottom/100% 18% no-repeat,
+             linear-gradient(rgba(255,60,60,.32),rgba(255,60,60,.32)) right 82%/15% 45% no-repeat,
+             linear-gradient(rgba(255,60,60,.32),rgba(255,60,60,.32)) top/100% 8% no-repeat}
+.tile:not(.on) .screen,.tile:not(.on) .screen *,.tile:not(.on) .screen *::before,.tile:not(.on) .screen *::after{animation-play-state:paused!important}
+.screen.reset,.screen.reset *,.screen.reset *::before,.screen.reset *::after{animation:none!important}
+canvas.fx{inset:0;width:100%;height:100%}
+
+/* A1 word pop */
+.cap-pop{left:6cqw;right:6cqw;bottom:22%;text-align:center;font:11.5cqw/1.1 var(--f-slam);text-transform:uppercase;color:#fff;-webkit-text-stroke:1.6cqw var(--ink);paint-order:stroke fill;letter-spacing:.02em}
+.cap-pop span{display:inline-block;animation:popW 4.4s calc(var(--i)*.3s) infinite both}
+.cap-pop .hi{animation-name:popWHi}
+@keyframes popW{0%{opacity:0;transform:scale(.3) translateY(40%)}4%{opacity:1;transform:scale(1.2);color:var(--sun)}8%{transform:none;color:var(--sun)}13%{color:#fff}80%{opacity:1;transform:none}86%,100%{opacity:0;transform:scale(.85)}}
+@keyframes popWHi{0%{opacity:0;transform:scale(.3) translateY(40%)}4%{opacity:1;transform:scale(1.3) rotate(-4deg);color:var(--sun)}9%,80%{opacity:1;transform:rotate(-4deg);color:var(--sun)}86%,100%{opacity:0;transform:scale(.85);color:var(--sun)}}
+
+/* A2 karaoke */
+.kara{left:6cqw;right:6cqw;bottom:20%;padding:4cqw 5cqw;border-radius:4cqw;background:rgba(10,12,24,.74);text-align:center}
+.kara-ko{font:13cqw/1.25 var(--f-kd);background:linear-gradient(90deg,var(--sun) 0 50%,#fff 50% 100%);background-size:200% 100%;background-position:100% 0;-webkit-background-clip:text;background-clip:text;color:transparent;animation:kara 3.8s linear infinite}
+@keyframes kara{0%,8%{background-position:100% 0}62%,100%{background-position:0 0}}
+.kara-ro{font:500 4.4cqw var(--f-mono);color:#c9cde6;margin-top:1cqw!important}
+.kara-en{font:600 4.6cqw/1.35 var(--f-body);margin-top:2cqw!important}
+
+/* A3 search */
+.search{left:7cqw;right:7cqw;top:30%}
+.sbox{display:flex;align-items:center;gap:3cqw;background:#fff;border-radius:99px;padding:3.6cqw 4.5cqw;box-shadow:0 2cqw 6cqw rgba(0,0,0,.35)}
+.sic{width:4.4cqw;height:4.4cqw;border:.9cqw solid #8b90a8;border-radius:50%;position:relative;flex:none}
+.sic::after{content:"";position:absolute;width:.9cqw;height:2.4cqw;background:#8b90a8;right:-1.5cqw;bottom:-2.2cqw;transform:rotate(-45deg)}
+.stype{font:500 4.6cqw/1.2 var(--f-mono);color:var(--ink);white-space:nowrap;overflow:hidden;width:0;border-right:.5cqw solid var(--blue);animation:stype 5.5s steps(23) infinite,caret .6s step-end infinite}
+@keyframes stype{0%,4%{width:0}50%,88%{width:23ch}96%,100%{width:0}}
+@keyframes caret{50%{border-color:transparent}}
+.ssug{margin-top:2.5cqw!important;background:#fff;border-radius:4cqw;padding:2cqw 0!important;animation:ssug 5.5s infinite}
+.ssug li{font:500 4cqw/1.3 var(--f-body);color:var(--ink);padding:1.8cqw 4.5cqw}
+.ssug b{font-family:var(--f-kb);font-weight:800}
+@keyframes ssug{0%,50%{opacity:0;transform:translateY(-3cqw)}56%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+
+/* A4 slam */
+.slam{left:6cqw;right:6cqw;top:9%;display:flex;flex-direction:column;align-items:flex-start;gap:1.6cqw}
+.slam b{font:15cqw/1 var(--f-slam);font-weight:400;text-transform:uppercase;padding:1.4cqw 3cqw .6cqw;background:var(--sun);color:var(--ink);animation:slamL 4.5s calc(var(--i)*.16s) infinite both}
+.slam b.alt{background:var(--blue);color:#fff;align-self:flex-end;animation-name:slamR}
+@keyframes slamL{0%{transform:translateX(-140%) skewX(-18deg)}9%{transform:translateX(4%) skewX(6deg)}13%,82%{transform:none}92%,100%{transform:translateX(-140%) skewX(-18deg)}}
+@keyframes slamR{0%{transform:translateX(140%) skewX(18deg)}9%{transform:translateX(-4%) skewX(-6deg)}13%,82%{transform:none}92%,100%{transform:translateX(140%) skewX(18deg)}}
+
+/* A5 glitch */
+.glitch{left:0;right:0;top:32%;text-align:center;font:19cqw/1 var(--f-kd);animation:gshake 2.6s infinite}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;mix-blend-mode:screen;opacity:0}
+.glitch::before{color:#00E5FF;animation:g1 2.6s steps(1) infinite}
+.glitch::after{color:#FF2E88;animation:g2 2.6s steps(1) infinite}
+@keyframes g1{0%,60%{opacity:0}62%{opacity:1;transform:translate(-2.5cqw,-1cqw);clip-path:inset(10% 0 55% 0)}66%{transform:translate(2cqw,1cqw);clip-path:inset(60% 0 8% 0)}70%{transform:translate(-1.5cqw,0);clip-path:inset(30% 0 40% 0)}74%,100%{opacity:0}}
+@keyframes g2{0%,61%{opacity:0}63%{opacity:1;transform:translate(2.5cqw,1cqw);clip-path:inset(50% 0 20% 0)}67%{transform:translate(-2cqw,-1cqw);clip-path:inset(5% 0 70% 0)}71%{transform:translate(1.5cqw,0);clip-path:inset(40% 0 30% 0)}75%,100%{opacity:0}}
+@keyframes gshake{0%,60%,76%,100%{transform:none}63%{transform:translateX(1.5cqw) skewX(8deg)}68%{transform:translateX(-1.5cqw) skewX(-6deg)}}
+.glitch-sub{left:0;right:0;top:calc(32% + 23cqw);text-align:center;font:700 4.6cqw var(--f-mono);letter-spacing:.08em}
+
+/* A6 marker annotation */
+.anno{left:5cqw;right:5cqw;top:14%;aspect-ratio:100/80}
+.anno-word{position:absolute;left:0;right:0;top:28%;text-align:center;font:21cqw/1 var(--f-kd);text-shadow:0 1cqw 0 rgba(0,0,0,.4)}
+.anno svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.anno path{fill:none;stroke:var(--sun);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 4.5s infinite both}
+@keyframes draw{0%{stroke-dashoffset:1;opacity:1}20%{stroke-dashoffset:0}85%{stroke-dashoffset:0;opacity:1}95%,100%{stroke-dashoffset:0;opacity:0}}
+.anno-note{position:absolute;right:2%;bottom:-8%;font:700 8cqw/1 var(--f-hand);color:var(--sun);animation:noteIn 4.5s 1.3s infinite both}
+@keyframes noteIn{0%{opacity:0;transform:rotate(-6deg) scale(.6)}6%{opacity:1;transform:rotate(-6deg) scale(1.08)}10%,80%{opacity:1;transform:rotate(-6deg)}90%,100%{opacity:0;transform:rotate(-6deg)}}
+
+/* A7 slot */
+.slot{left:6cqw;right:6cqw;top:24%;text-align:center}
+.slot-q{font:600 5cqw var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+.slot-win{height:1.3em;overflow:hidden;font:12cqw var(--f-kd);margin-top:2cqw;background:rgba(10,12,24,.6);border-radius:3cqw}
+.slot-tag{height:1.3em;overflow:hidden;font:700 4.4cqw var(--f-mono);margin-top:2.5cqw}
+.reel{animation:reel 6s cubic-bezier(.7,-.3,.3,1.3) infinite}
+.reel span{display:block;height:1.3em;line-height:1.3em}
+.slot-tag i{font-style:normal;padding:.8cqw 2.4cqw;border-radius:99px;color:var(--ink)}
+@keyframes reel{0%,26%{transform:translateY(0)}33%,59%{transform:translateY(-1.3em)}66%,92%{transform:translateY(-2.6em)}100%{transform:translateY(-3.9em)}}
+
+/* A8 cube */
+.cube-wrap{left:0;right:0;top:32%;height:22cqw;perspective:120cqw}
+.cube{position:relative;width:72cqw;height:22cqw;margin:0 auto;transform-style:preserve-3d;animation:cubeR 8s infinite cubic-bezier(.6,-.4,.3,1.4)}
+.cube span{position:absolute;inset:0;display:grid;place-items:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;font:12cqw var(--f-kd);border-radius:2cqw;transform:rotateX(calc(var(--i) * -90deg)) translateZ(11cqw)}
+@keyframes cubeR{0%,18%{transform:rotateX(0)}25%,43%{transform:rotateX(90deg)}50%,68%{transform:rotateX(180deg)}75%,93%{transform:rotateX(270deg)}100%{transform:rotateX(360deg)}}
+.cube-cap{left:0;right:0;top:calc(32% + 28cqw);text-align:center;font:600 4.6cqw var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+
+/* A9 tape */
+.tape{left:-25cqw;width:150cqw;padding:2.4cqw 0;overflow:hidden;white-space:nowrap;font:7cqw/1 var(--f-slam);text-transform:uppercase;letter-spacing:.03em;box-shadow:0 1.5cqw 4cqw rgba(0,0,0,.35)}
+.tape.t1{top:38%;transform:rotate(-9deg);background:var(--sun);color:var(--ink)}
+.tape.t2{top:52%;transform:rotate(7deg);background:var(--pink);color:#fff}
+.tape div{display:inline-block;animation:tape 7s linear infinite}
+.tape.t2 div{animation-direction:reverse}
+@keyframes tape{to{transform:translateX(-50%)}}
+
+/* B1 lower third */
+.l3{left:6cqw;bottom:20%;padding-left:4cqw}
+.l3-bar{position:absolute;left:0;top:0;bottom:0;width:1.6cqw;background:var(--sun);transform-origin:top;animation:l3bar 5s infinite}
+.l3-name{font:800 8.5cqw/1.15 var(--f-display);animation:l3wipe 5s infinite}
+.l3-role{display:inline-block;margin-top:1.5cqw;background:var(--blue);font:600 4cqw var(--f-body);padding:1.2cqw 2.4cqw;border-radius:1cqw;animation:l3wipe 5s .25s infinite both}
+@keyframes l3bar{0%{transform:scaleY(0)}8%,84%{transform:scaleY(1)}92%,100%{transform:scaleY(0)}}
+@keyframes l3wipe{0%,6%{clip-path:inset(0 100% 0 0)}16%,80%{clip-path:inset(0 0 0 0)}88%,100%{clip-path:inset(0 100% 0 0)}}
+
+/* B2 bubble */
+.bub{left:46cqw;top:20%;background:#fff;color:var(--ink);padding:3cqw 5cqw;border-radius:6cqw;font:11cqw/1 var(--f-kd);transform-origin:10% 100%;animation:bub 3.6s infinite;box-shadow:0 2cqw 5cqw rgba(0,0,0,.3)}
+.bub::after{content:"";position:absolute;left:3cqw;bottom:-4cqw;width:7cqw;height:5cqw;background:#fff;clip-path:polygon(0 0,100% 0,0 100%)}
+.bub small{display:block;font:600 3.8cqw var(--f-body);color:#6b7090;margin-top:1cqw}
+@keyframes bub{0%{transform:scale(0) rotate(-12deg)}8%{transform:scale(1.15) rotate(4deg)}13%{transform:scale(.96) rotate(-2deg)}17%,80%{transform:scale(1) rotate(0)}84%{transform:scale(1.05)}90%,100%{transform:scale(0)}}
+
+/* B3 stickers */
+.stk{left:8cqw;top:15%;padding:3cqw 5cqw;background:var(--mint);color:var(--ink);border:1.4cqw solid #fff;border-radius:5cqw;font:800 6.4cqw/1.05 var(--f-display);text-transform:uppercase;box-shadow:0 1.5cqw 0 rgba(0,0,0,.25);overflow:hidden;animation:stk 4s infinite}
+.stk::after{content:"";position:absolute;top:-30%;bottom:-30%;width:30%;left:-40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);transform:skewX(-20deg);animation:shine 4s infinite}
+.stk.s2{left:auto;right:8cqw;top:31%;background:var(--sun);animation-name:stk2;animation-delay:.3s;animation-fill-mode:both}
+@keyframes stk{0%{transform:scale(0) rotate(-40deg)}10%{transform:scale(1.12) rotate(-4deg)}15%,85%{transform:scale(1) rotate(-7deg)}93%,100%{transform:scale(0) rotate(10deg)}}
+@keyframes stk2{0%{transform:scale(0) rotate(40deg)}10%{transform:scale(1.12) rotate(10deg)}15%,85%{transform:scale(1) rotate(6deg)}93%,100%{transform:scale(0) rotate(-10deg)}}
+@keyframes shine{0%,22%{left:-40%}40%,100%{left:130%}}
+
+/* B4 highlighter */
+.hl{left:6cqw;right:6cqw;bottom:20%;font:700 7cqw/1.4 var(--f-body);text-align:center;text-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.6)}
+.hl mark{position:relative;background:none;color:#fff;text-shadow:none;padding:0 1cqw;white-space:nowrap;font-family:var(--f-kb);font-weight:800;animation:hlText 3.8s infinite}
+.hl mark::before{content:"";position:absolute;inset:6% -1cqw 0;background:var(--sun);z-index:-1;transform-origin:left;transform:scaleX(0) skewX(-8deg);border-radius:1cqw;animation:hl 3.8s infinite}
+@keyframes hl{0%,8%{transform:scaleX(0) skewX(-8deg)}20%,85%{transform:scaleX(1) skewX(-8deg)}93%,100%{transform:scaleX(0) skewX(-8deg)}}
+@keyframes hlText{0%,10%{color:#fff}18%,86%{color:var(--ink)}92%,100%{color:#fff}}
+
+/* B5 chat */
+.chat{left:6cqw;right:6cqw;top:7%;display:flex;flex-direction:column;gap:2cqw;padding:4cqw;background:rgba(255,255,255,.96);border-radius:5cqw;color:var(--ink)}
+.chat-h{font:700 4cqw var(--f-kb);display:flex;align-items:center;gap:2cqw;padding-bottom:1cqw;border-bottom:.3cqw solid #e3e5ee}
+.chat-h::before{content:"";width:6cqw;height:6cqw;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--sun))}
+.msg{max-width:78%;padding:2.2cqw 3.5cqw;border-radius:4cqw;font:500 4.8cqw/1.3 var(--f-kb);opacity:0;transform-origin:left bottom}
+.msg small{display:block;font:500 3.2cqw var(--f-body);color:#6b7090}
+.msg.me{align-self:flex-end;background:var(--sun);transform-origin:right bottom}
+.msg.me small{color:#6a5410}
+.msg.them{align-self:flex-start;background:#ECEEF5}
+.slot3{display:grid;justify-items:start}
+.slot3>*{grid-area:1/1}
+.typing{display:flex;gap:1.2cqw;padding:3cqw 4cqw;background:#ECEEF5;border-radius:4cqw;opacity:0;animation:typing 7s infinite}
+.typing i{width:1.8cqw;height:1.8cqw;border-radius:50%;background:#8b90a8;animation:dot .9s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes dot{30%{transform:translateY(-1.2cqw)}60%{transform:none}}
+.m1{animation:c1 7s infinite}.m2{animation:c2 7s infinite}.m3{animation:c3 7s infinite}.m4{animation:c4 7s infinite}
+@keyframes c1{0%,4%{opacity:0;transform:scale(.6)}9%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes c2{0%,18%{opacity:0;transform:scale(.6)}23%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes typing{0%,30%{opacity:0}34%,47%{opacity:1}49%,100%{opacity:0}}
+@keyframes c3{0%,48%{opacity:0;transform:scale(.6)}53%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes c4{0%,63%{opacity:0;transform:scale(.6)}68%,88%{opacity:1;transform:none}94%,100%{opacity:0}}
+
+/* B6 CTA */
+.cta{left:6cqw;right:6cqw;bottom:22%;display:flex;justify-content:center}
+.cta-btn{position:relative;display:grid;font:700 4.8cqw/1 var(--f-body);border-radius:99px;animation:ctaPress 4s infinite}
+.cta-btn>span{grid-area:1/1;padding:4cqw 6cqw;border-radius:99px;text-align:center;white-space:nowrap}
+.lab1{background:var(--pink)}
+.lab2{background:#fff;color:var(--ink);opacity:0;animation:lab2 4s infinite}
+.cta-btn::after{content:"";position:absolute;left:50%;top:50%;width:20cqw;height:20cqw;margin:-10cqw;border-radius:50%;border:1cqw solid #fff;opacity:0;animation:ripple 4s infinite}
+.cur{left:52%;top:48%;width:9cqw;animation:curMove 4s infinite}
+@keyframes ctaPress{0%,38%{transform:scale(1)}41%{transform:scale(.92)}45%,100%{transform:scale(1)}}
+@keyframes lab2{0%,41%{opacity:0}44%,90%{opacity:1}96%,100%{opacity:0}}
+@keyframes ripple{0%,40%{opacity:0;transform:scale(.3)}42%{opacity:.9}55%,100%{opacity:0;transform:scale(1.6)}}
+@keyframes curMove{0%{transform:translate(30cqw,25cqw);opacity:0}8%{opacity:1}35%{transform:translate(0,0)}39%{transform:scale(.8)}43%{transform:scale(1)}60%{transform:translate(8cqw,14cqw);opacity:1}70%,100%{transform:translate(8cqw,14cqw);opacity:0}}
+
+/* B7 reply card */
+.reply{left:6cqw;right:12cqw;top:13%;background:#fff;color:var(--ink);border-radius:4cqw;padding:3.5cqw 4cqw;box-shadow:0 2cqw 5cqw rgba(0,0,0,.35);transform-origin:left top;animation:reply 5s infinite}
+.reply-h{display:flex;align-items:center;gap:2cqw;font:600 3.5cqw var(--f-body);color:#6b7090}
+.reply-h::before{content:"";width:6cqw;height:6cqw;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--blue));flex:none}
+.reply-q{font:800 5.6cqw/1.35 var(--f-kb);margin-top:2cqw!important}
+@keyframes reply{0%{transform:translateX(-130%) rotate(-8deg)}10%{transform:translateX(3%) rotate(-2deg)}15%,85%{transform:rotate(-3deg)}95%,100%{transform:translateX(-130%) rotate(-8deg)}}
+
+/* C1 counter */
+.cnt{left:6cqw;right:6cqw;top:12%;text-align:center}
+.cnt-n{font:24cqw/1 var(--f-slam);color:var(--sun);font-variant-numeric:tabular-nums;-webkit-text-stroke:1.2cqw var(--ink);paint-order:stroke fill}
+.cnt-u{font:800 6cqw var(--f-display);text-transform:uppercase;letter-spacing:.03em;text-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.5)}
+.cnt-s{font:500 4cqw/1.4 var(--f-body);margin-top:2cqw!important;text-shadow:0 .4cqw 1.2cqw rgba(0,0,0,.6)}
+
+/* C2 bars */
+.bars{background:var(--paper);color:var(--ink);gap:3.6cqw}
+.bars h4{font:800 6.4cqw/1.15 var(--f-display)}
+.bars .src{font:500 3.4cqw var(--f-mono);color:#6b7090;margin-top:-2cqw}
+.brow{display:grid;grid-template-columns:16cqw 1fr;align-items:center;gap:2cqw}
+.brow b{font:800 5.4cqw var(--f-kb)}
+.brow span{height:7.5cqw;width:var(--w);background:var(--c);border-radius:1.6cqw;transform-origin:left;display:flex;align-items:center;justify-content:flex-end;padding-right:2cqw;font:700 3.6cqw var(--f-mono);color:var(--ink);animation:barG 5s calc(var(--i)*.15s) infinite both cubic-bezier(.2,.9,.2,1.1)}
+@keyframes barG{0%{transform:scaleX(0)}25%,85%{transform:scaleX(1)}95%,100%{transform:scaleX(0)}}
+
+/* C3 donut */
+@property --p{syntax:"<integer>";inherits:false;initial-value:0}
+.donut{left:20cqw;right:20cqw;top:11%}
+.dn-ring{position:relative;aspect-ratio:1}
+.dn-ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.dn-ring circle{fill:none;stroke-width:12}
+.dn-arc{stroke:var(--sun);stroke-dasharray:100;stroke-dashoffset:100;stroke-linecap:round;animation:donut 4.5s infinite cubic-bezier(.3,.8,.3,1)}
+@keyframes donut{0%{stroke-dashoffset:100}40%,85%{stroke-dashoffset:40}95%,100%{stroke-dashoffset:100}}
+.dn-num{position:absolute;inset:0;display:grid;place-items:center;font:16cqw var(--f-slam);counter-reset:p var(--p);animation:pc 4.5s infinite cubic-bezier(.3,.8,.3,1)}
+.dn-num::after{content:counter(p) "%"}
+@keyframes pc{0%{--p:0}40%,85%{--p:60}95%,100%{--p:0}}
+.dn-cap{font:600 4.6cqw/1.35 var(--f-body);text-align:center;margin-top:3cqw!important;text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.6)}
+
+/* C4 line */
+.line{background:var(--ink);gap:3cqw}
+.line h4{font:800 6.2cqw/1.15 var(--f-display)}
+.line svg{width:100%;overflow:visible}
+.line .grid-l{stroke:rgba(255,255,255,.12);stroke-width:.4}
+.line .ax{font:500 3.4px var(--f-mono);fill:#9da1be}
+.ln{fill:none;stroke:var(--mint);stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:lnDraw 5s infinite}
+.ln-dot{fill:var(--mint);transform-box:fill-box;transform-origin:center;animation:lnDot 5s infinite}
+.ln-note{font:700 5px var(--f-hand);fill:var(--sun);animation:lnNote 5s infinite}
+@keyframes lnDraw{0%{stroke-dashoffset:1}45%,88%{stroke-dashoffset:0;opacity:1}96%,100%{stroke-dashoffset:0;opacity:0}}
+@keyframes lnDot{0%,44%{transform:scale(0)}50%{transform:scale(1.6)}54%,88%{transform:scale(1)}96%,100%{transform:scale(0)}}
+@keyframes lnNote{0%,28%{opacity:0}36%,88%{opacity:1}96%,100%{opacity:0}}
+
+/* C5 versus */
+.vs{left:0;right:0;height:50%;display:grid;place-content:center;text-align:center;gap:1cqw}
+.vs.top{top:0;background:var(--blue);animation:vsL 4s infinite}
+.vs.bot{bottom:0;background:var(--pink);animation:vsR 4s infinite}
+.vs b{font:15cqw/1.1 var(--f-kd);font-weight:400}
+.vs i{font:700 4cqw var(--f-mono);font-style:normal;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.vs span{font:500 5cqw var(--f-kb);margin-top:2cqw}
+.vs-badge{left:50%;top:50%;width:18cqw;height:18cqw;margin:-9cqw 0 0 -9cqw;border-radius:50%;background:var(--sun);display:grid;place-items:center;font:9cqw var(--f-slam);color:var(--ink);border:1.2cqw solid var(--ink);animation:vsB 4s infinite}
+@keyframes vsL{0%{transform:translateX(-100%)}10%,88%{transform:none}96%,100%{transform:translateX(-100%)}}
+@keyframes vsR{0%{transform:translateX(100%)}10%,88%{transform:none}96%,100%{transform:translateX(100%)}}
+@keyframes vsB{0%,12%{transform:scale(0)}18%{transform:scale(1.3) rotate(12deg)}22%,86%{transform:none}94%,100%{transform:scale(0)}}
+
+/* C6 countdown */
+.timer{left:27cqw;right:27cqw;top:13%;aspect-ratio:1}
+.timer svg{width:100%;height:100%;transform:rotate(-90deg)}
+.timer circle{fill:none;stroke-width:9}
+.tm-arc{stroke:var(--sun);stroke-dasharray:100;stroke-linecap:round;animation:ring 4s linear infinite}
+@keyframes ring{0%{stroke-dashoffset:0;stroke:var(--sun)}55%{stroke:var(--sun)}75%,100%{stroke-dashoffset:100;stroke:var(--coral)}}
+.tm-n{position:absolute;inset:0;display:grid;place-items:center;font:20cqw var(--f-slam);opacity:0}
+.n3{animation:n3 4s infinite}.n2{animation:n2 4s infinite}.n1{animation:n1 4s infinite}.nx{animation:nx 4s infinite;color:var(--mint)}
+@keyframes n3{0%{opacity:1;transform:scale(1.3)}5%{transform:none}22%{opacity:1}25%,100%{opacity:0}}
+@keyframes n2{0%,24%{opacity:0}25%{opacity:1;transform:scale(1.3)}30%{transform:none}47%{opacity:1}50%,100%{opacity:0}}
+@keyframes n1{0%,49%{opacity:0}50%{opacity:1;transform:scale(1.3)}55%{transform:none}72%{opacity:1}75%,100%{opacity:0}}
+@keyframes nx{0%,74%{opacity:0;transform:scale(.5)}77%{opacity:1;transform:scale(1.3)}81%,95%{opacity:1;transform:none}100%{opacity:0}}
+.tm-q{left:6cqw;right:6cqw;top:calc(13% + 52cqw);text-align:center;font:600 4.8cqw/1.35 var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.6)}
+.tm-q b{display:block;font:11cqw/1.3 var(--f-kd);font-weight:400;color:var(--sun);animation:ans 4s infinite}
+@keyframes ans{0%,74%{opacity:0;transform:translateY(3cqw)}78%,96%{opacity:1;transform:none}100%{opacity:0}}
+
+/* C7 gauge */
+.gauge{left:8cqw;right:8cqw;top:11%;text-align:center}
+.gauge h4{font:800 5.4cqw var(--f-display);text-transform:uppercase;letter-spacing:.03em;margin-bottom:2cqw!important;text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+.gauge svg{width:100%;overflow:visible}
+.gauge .arc{fill:none;stroke-width:9}
+.needle{transform-box:view-box;transform-origin:50px 52px;animation:needle 6s infinite}
+@keyframes needle{0%,26%{transform:rotate(-60deg)}31%{transform:rotate(8deg)}34%,59%{transform:rotate(0)}64%{transform:rotate(68deg)}67%,92%{transform:rotate(60deg)}100%{transform:rotate(-60deg)}}
+.g-lab{display:grid;margin-top:3cqw}
+.g-lab span{grid-area:1/1;font:800 6cqw/1.3 var(--f-kb)}
+.g-lab small{display:block;font:500 3.8cqw var(--f-mono);opacity:.85}
+.gl1{animation:gl1 6s infinite}.gl2{animation:gl2 6s infinite}.gl3{animation:gl3 6s infinite}
+@keyframes gl1{0%,26%{opacity:1}30%,96%{opacity:0}100%{opacity:1}}
+@keyframes gl2{0%,30%{opacity:0}34%,59%{opacity:1}63%,100%{opacity:0}}
+@keyframes gl3{0%,63%{opacity:0}67%,92%{opacity:1}96%,100%{opacity:0}}
+
+/* D1 flowchart */
+.flow{background:var(--paper);color:var(--ink);align-items:center;gap:0}
+.fl-n{background:#fff;border:.6cqw solid var(--ink);border-radius:3cqw;padding:2.4cqw 4cqw;text-align:center;width:74cqw;box-shadow:1.2cqw 1.2cqw 0 var(--ink);animation:flPop 6s calc(var(--i)*.6s) infinite both}
+.fl-n b{display:block;font:8cqw/1.15 var(--f-kd);font-weight:400}
+.fl-n span{font:500 3.6cqw/1.3 var(--f-body);color:#4a4e68}
+.fl-n.end{background:var(--blue);color:#fff}
+.fl-n.end span{color:#dfe3ff}
+.fl-a{width:.8cqw;height:7cqw;background:var(--ink);position:relative;transform-origin:top;animation:flArr 6s calc(var(--i)*.6s + .3s) infinite both}
+.fl-a::after{content:"";position:absolute;left:50%;bottom:-1cqw;border:2cqw solid transparent;border-top:2.4cqw solid var(--ink);border-bottom:0;transform:translateX(-50%)}
+@keyframes flPop{0%{opacity:0;transform:translateY(4cqw) scale(.9)}6%{opacity:1;transform:none}82%{opacity:1}90%,100%{opacity:0}}
+@keyframes flArr{0%{transform:scaleY(0)}5%,82%{transform:scaleY(1);opacity:1}90%,100%{opacity:0}}
+
+/* D2 timeline */
+.tl{background:var(--night)}
+.tl-t{left:8cqw;right:8cqw;top:6%;font:9cqw var(--f-kd)}
+.tl-line{left:13.6cqw;top:19%;bottom:10%;width:.8cqw;background:rgba(255,255,255,.3);transform-origin:top;animation:tlLine 7s infinite}
+.tl-list{left:10cqw;right:6cqw;top:18%;bottom:8%;display:flex;flex-direction:column;justify-content:space-between}
+.tl-e{display:grid;grid-template-columns:8cqw 1fr;gap:3cqw;align-items:start;animation:tlIn 7s calc(var(--i)*.7s) infinite both}
+.tl-e::before{content:"";width:5cqw;height:5cqw;border-radius:50%;background:var(--sun);border:1cqw solid var(--night);margin-top:2cqw}
+.tl-e b{display:block;font:9cqw/1 var(--f-slam);font-weight:400;color:var(--sun)}
+.tl-e span{font:500 4cqw/1.35 var(--f-body)}
+@keyframes tlLine{0%{transform:scaleY(0)}40%,88%{transform:scaleY(1);opacity:1}96%,100%{opacity:0}}
+@keyframes tlIn{0%{opacity:0;transform:translateX(6cqw)}7%,80%{opacity:1;transform:none}88%,100%{opacity:0}}
+
+/* D3 venn */
+.venn{background:var(--paper);color:var(--ink)}
+.vn-t{left:8cqw;right:8cqw;top:12%;font:800 7cqw/1.15 var(--f-display)}
+.vn{top:32%;width:56cqw;height:56cqw;border-radius:50%;mix-blend-mode:multiply;display:flex;align-items:center;font:800 4.4cqw var(--f-display);color:#fff}
+.vn.a{left:5cqw;background:var(--blue);padding-left:7cqw;animation:vnA 5s infinite}
+.vn.b{right:5cqw;background:var(--pink);justify-content:flex-end;padding-right:6cqw;animation:vnB 5s infinite}
+.vn-both{left:8cqw;right:8cqw;top:calc(32% + 62cqw);text-align:center;font:600 4.4cqw/1.45 var(--f-body);animation:vnS 5s infinite}
+.vn-both b{display:block;font:700 3.6cqw var(--f-mono);letter-spacing:.1em;color:#6a2bb0}
+@keyframes vnA{0%{transform:translateX(-40cqw);opacity:0}12%{opacity:1}30%,85%{transform:none;opacity:1}95%,100%{transform:translateX(-40cqw);opacity:0}}
+@keyframes vnB{0%{transform:translateX(40cqw);opacity:0}12%{opacity:1}30%,85%{transform:none;opacity:1}95%,100%{transform:translateX(40cqw);opacity:0}}
+@keyframes vnS{0%,30%{opacity:0;transform:translateY(3cqw)}38%,85%{opacity:1;transform:none}93%,100%{opacity:0}}
+
+/* D4 checklist */
+.ck{left:6cqw;right:6cqw;top:9%;background:#fff;color:var(--ink);border-radius:5cqw;padding:5cqw;display:grid;gap:3.4cqw;box-shadow:0 2cqw 6cqw rgba(0,0,0,.35)}
+.ck h4{font:800 5.2cqw/1.2 var(--f-display)}
+.ck-i{display:grid;grid-template-columns:7cqw 1fr;gap:3cqw;align-items:center;font:500 4.4cqw/1.3 var(--f-kb)}
+.ck-b{width:7cqw;height:7cqw;border:.7cqw solid var(--ink);border-radius:1.8cqw;display:grid;place-items:center;animation:ckBox 6s calc(var(--i)*.7s) infinite both}
+.ck-b svg{width:80%}
+.ck-b path{fill:none;stroke:#fff;stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:ckDraw 6s calc(var(--i)*.7s) infinite both}
+@keyframes ckBox{0%,4%{background:transparent;transform:none}8%{background:var(--mint);transform:scale(1.2)}12%,86%{background:var(--mint);transform:none}94%,100%{background:transparent}}
+@keyframes ckDraw{0%,6%{stroke-dashoffset:1}14%,86%{stroke-dashoffset:0}94%,100%{stroke-dashoffset:1}}
+
+/* D5 before/after */
+.ba{inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:2cqw;padding:8cqw}
+.ba.before{background:#2B2F45}
+.ba.after{background:var(--blue);animation:baWipe 5s infinite cubic-bezier(.7,0,.3,1)}
+.ba i{font:700 3.8cqw var(--f-mono);font-style:normal;letter-spacing:.12em;padding:1.2cqw 2.6cqw;border-radius:99px;background:rgba(255,255,255,.14)}
+.ba.after i{background:var(--sun);color:var(--ink)}
+.ba b{font:11cqw/1.25 var(--f-kd);font-weight:400}
+.ba span{font:500 4.6cqw var(--f-body);opacity:.85}
+.ba-line{top:0;bottom:0;width:1cqw;margin-left:-.5cqw;background:#fff;animation:baLine 5s infinite cubic-bezier(.7,0,.3,1)}
+.ba-line::after{content:"";position:absolute;top:50%;left:50%;width:9cqw;height:9cqw;margin:-4.5cqw;border-radius:50%;background:#fff;box-shadow:0 1cqw 3cqw rgba(0,0,0,.4)}
+@keyframes baWipe{0%,15%{clip-path:inset(0 100% 0 0)}45%,80%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 100% 0 0)}}
+@keyframes baLine{0%,15%{left:0}45%,80%{left:100%}100%{left:0}}
+
+/* D6 morpheme */
+.mo{left:0;right:0;top:28%;text-align:center}
+.mo-g{font:600 4.6cqw var(--f-body);margin-bottom:4cqw!important;text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+.mo-g em{font-style:normal;font-family:var(--f-mono);opacity:.8}
+.mo-w{display:flex;justify-content:center}
+.mo-p{display:flex;flex-direction:column;align-items:center;gap:2.4cqw;animation:moS 5s infinite cubic-bezier(.5,-.3,.3,1.4)}
+.mo-p b{font:18cqw/1 var(--f-kd);font-weight:400;animation:moC 5s infinite}
+.mo-p i{font:700 4cqw var(--f-mono);font-style:normal;padding:1cqw 2.4cqw;border-radius:99px;background:var(--c);color:var(--ink);animation:moL 5s infinite}
+@keyframes moS{0%,20%{transform:none}32%,78%{transform:translateX(var(--x))}90%,100%{transform:none}}
+@keyframes moC{0%,26%{color:#fff}34%,80%{color:var(--c)}88%,100%{color:#fff}}
+@keyframes moL{0%,30%{opacity:0;transform:translateY(-2cqw)}38%,76%{opacity:1;transform:none}84%,100%{opacity:0}}
+
+/* D7 hangul block */
+.hb{left:22cqw;width:56cqw;top:17%;aspect-ratio:1;border:.6cqw dashed rgba(255,255,255,.45);border-radius:3cqw}
+.hb span{position:absolute;font:800 22cqw/1 var(--f-kb);opacity:0}
+.jh{left:6%;top:4%;color:var(--sun);--from:translate(-40cqw,-30cqw) rotate(-40deg);animation:jA1 6s infinite}
+.ja{left:60%;top:4%;color:var(--pink);--from:translate(40cqw,-20cqw) rotate(30deg);animation:jA2 6s infinite}
+.jn{left:24%;top:48%;color:var(--mint);--from:translate(0,60cqw);animation:jA3 6s infinite}
+.hb .full{inset:0;display:grid;place-items:center;font:44cqw/1 var(--f-kd);color:#fff;animation:jFull 6s infinite}
+@keyframes jA1{0%{opacity:0;transform:var(--from)}10%,56%{opacity:1;transform:none}62%,100%{opacity:0;transform:none}}
+@keyframes jA2{0%,7%{opacity:0;transform:var(--from)}17%,56%{opacity:1;transform:none}62%,100%{opacity:0;transform:none}}
+@keyframes jA3{0%,14%{opacity:0;transform:var(--from)}24%,56%{opacity:1;transform:none}62%,100%{opacity:0;transform:none}}
+@keyframes jFull{0%,58%{opacity:0;transform:scale(.6)}64%{opacity:1;transform:scale(1.12)}68%,92%{opacity:1;transform:none}98%,100%{opacity:0}}
+.hb-eq{left:4cqw;right:4cqw;top:calc(17% + 62cqw);display:flex;justify-content:center;align-items:center;gap:1.6cqw;font:700 4.6cqw var(--f-mono)}
+.hb-eq b{font:800 6cqw var(--f-kb);padding:1cqw 2cqw;border-radius:2cqw;background:rgba(255,255,255,.12)}
+
+/* D8 SOV blocks */
+.sov-t{left:8cqw;right:8cqw;top:9%;text-align:center}
+.sov-t b{display:block;font:9cqw/1.2 var(--f-kd);font-weight:400}
+.sov-t span{font:600 4.4cqw var(--f-body);opacity:.85}
+.sov{left:12cqw;right:12cqw;top:30%;height:56cqw}
+.sov>div{position:absolute;left:0;right:0;top:calc(var(--s) * 20cqw);height:16cqw;display:flex;align-items:center;justify-content:space-between;padding:0 5cqw;border-radius:3cqw;color:var(--ink);box-shadow:0 1.2cqw 0 rgba(0,0,0,.25)}
+.sov b{font:800 6.6cqw var(--f-kb)}
+.sov i{font:700 3.8cqw var(--f-mono);font-style:normal;text-transform:uppercase}
+.sov .o{animation:sovO 6s infinite cubic-bezier(.6,-.4,.3,1.4)}
+.sov .v{animation:sovV 6s infinite cubic-bezier(.6,-.4,.3,1.4)}
+@keyframes sovO{0%,40%{transform:none}52%,88%{transform:translateY(20cqw)}100%{transform:none}}
+@keyframes sovV{0%,40%{transform:none}52%,88%{transform:translateY(-20cqw)}100%{transform:none}}
+.sov-l{left:6cqw;right:6cqw;top:calc(30% + 62cqw);display:grid;text-align:center}
+.sov-l span{grid-area:1/1;font:700 4.6cqw var(--f-mono);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+.sl1{animation:sl1 6s infinite}.sl2{animation:sl2 6s infinite}
+@keyframes sl1{0%,40%{opacity:1}46%,92%{opacity:0}100%{opacity:1}}
+@keyframes sl2{0%,46%{opacity:0}54%,88%{opacity:1}94%,100%{opacity:0}}
+
+/* E1 flashcard */
+.fc{left:16cqw;right:16cqw;top:15%;aspect-ratio:3/4;perspective:200cqw}
+.fc-in{position:absolute;inset:0;transform-style:preserve-3d;animation:flip 4.4s infinite cubic-bezier(.6,-.3,.3,1.3)}
+.fc-f{position:absolute;inset:0;border-radius:5cqw;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:grid;place-content:center;text-align:center;gap:2cqw;box-shadow:0 2cqw 6cqw rgba(0,0,0,.35)}
+.fc-f.front{background:#fff;color:var(--ink)}
+.fc-f.back{background:var(--sun);color:var(--ink);transform:rotateY(180deg)}
+.fc-f b{font:20cqw/1 var(--f-kd);font-weight:400}
+.fc-f.back b{font:800 11cqw/1 var(--f-display)}
+.fc-f span{font:500 3.8cqw var(--f-mono);color:#555a74}
+@keyframes flip{0%,35%{transform:rotateY(0)}50%,85%{transform:rotateY(180deg)}100%{transform:rotateY(360deg)}}
+
+/* E2 quiz */
+.qz{left:6cqw;right:6cqw;top:10%;display:grid;gap:3cqw}
+.qz-q{font:700 6.2cqw/1.3 var(--f-body);text-shadow:0 .5cqw 1.5cqw rgba(0,0,0,.6)}
+.qz-bar{height:1.6cqw;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden}
+.qz-bar::after{content:"";display:block;height:100%;background:var(--sun);transform-origin:left;animation:qzBar 5s linear infinite}
+.qz-o{display:flex;align-items:center;gap:3cqw;background:#fff;color:var(--ink);border-radius:3.5cqw;padding:3cqw 4cqw;font:800 5.4cqw var(--f-kb)}
+.qz-o i{font:700 4cqw var(--f-mono);font-style:normal;width:7cqw;height:7cqw;border-radius:50%;display:grid;place-items:center;background:var(--ink);color:#fff;flex:none}
+.qz-o.ok{animation:qzRight 5s infinite}
+.qz-o.no{animation:qzWrong 5s infinite}
+@keyframes qzBar{0%{transform:scaleX(1)}50%,95%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+@keyframes qzRight{0%,50%{background:#fff;transform:none}54%{background:var(--mint);transform:scale(1.06)}58%,92%{background:var(--mint);transform:none}100%{background:#fff}}
+@keyframes qzWrong{0%,50%{opacity:1}56%,92%{opacity:.35}100%{opacity:1}}
+
+/* E3 fill in the blank */
+.fb{left:4cqw;right:4cqw;top:28%;text-align:center}
+.fb-g{font:600 4.4cqw var(--f-body);margin-bottom:3cqw!important;text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.5)}
+.fb-s{font:12.5cqw/1.2 var(--f-kd);white-space:nowrap}
+.fb-slot{display:inline-grid;min-width:1.25em;border-bottom:.9cqw dashed rgba(255,255,255,.7);vertical-align:bottom;margin:0 .5cqw}
+.fb-slot span{grid-area:1/1;opacity:0}
+.fo1{color:var(--coral);animation:fo1 6s infinite}.fo2{color:var(--coral);animation:fo2 6s infinite}.fo3{color:var(--mint);animation:fo3 6s infinite}
+@keyframes fo1{0%,4%{opacity:0;transform:translateY(-40%)}8%{opacity:1;transform:none}12%{transform:translateX(-8%)}15%{transform:translateX(8%)}18%{transform:none}24%{opacity:1}27%,100%{opacity:0}}
+@keyframes fo2{0%,28%{opacity:0;transform:translateY(-40%)}32%{opacity:1;transform:none}36%{transform:translateX(-8%)}39%{transform:translateX(8%)}42%{transform:none}48%{opacity:1}51%,100%{opacity:0}}
+@keyframes fo3{0%,52%{opacity:0;transform:translateY(-40%)}56%{opacity:1;transform:scale(1.25)}60%,92%{opacity:1;transform:none}97%,100%{opacity:0}}
+.fb-why{display:grid;margin-top:5cqw!important}
+.fb-why span{grid-area:1/1;font:600 4.4cqw/1.4 var(--f-body);padding:2cqw 3cqw;border-radius:3cqw;background:rgba(10,12,24,.65);opacity:0}
+.fw1{animation:fo1 6s infinite}.fw2{animation:fo2 6s infinite}.fw3{animation:fo3 6s infinite}
+
+/* F1 confetti */
+.cf-txt{left:0;right:0;top:36%;text-align:center;font:20cqw var(--f-kd);-webkit-text-stroke:1.4cqw var(--ink);paint-order:stroke fill;animation:cfPop 3s infinite}
+.cf-txt small{display:block;font:700 5cqw var(--f-mono);-webkit-text-stroke:0;margin-top:1cqw}
+@keyframes cfPop{0%,8%{transform:scale(0) rotate(-10deg)}16%{transform:scale(1.2) rotate(4deg)}22%,85%{transform:none}95%,100%{transform:scale(0)}}
+
+/* F2 blobs */
+.blobs{inset:0;background:#141836;overflow:hidden}
+.blob{position:absolute;width:70cqw;height:70cqw;filter:blur(9cqw);opacity:.9;border-radius:42% 58% 63% 37%/45% 41% 59% 55%;animation:blob 9s ease-in-out infinite alternate}
+.bl1{left:-20cqw;top:6%;background:var(--blue)}
+.bl2{right:-25cqw;top:30%;background:var(--pink);animation-duration:11s;animation-delay:-3s}
+.bl3{left:0;bottom:-8%;background:var(--sun);animation-duration:13s;animation-delay:-6s}
+@keyframes blob{0%{transform:translate(0,0) rotate(0);border-radius:42% 58% 63% 37%/45% 41% 59% 55%}50%{transform:translate(18cqw,-14cqw) rotate(90deg) scale(1.15);border-radius:63% 37% 38% 62%/59% 55% 45% 41%}100%{transform:translate(-8cqw,16cqw) rotate(200deg) scale(.9);border-radius:37% 63% 52% 48%/38% 62% 38% 62%}}
+.bl-txt{left:8cqw;right:8cqw;top:34%;text-align:center}
+.bl-txt i{font:700 4cqw var(--f-mono);font-style:normal;letter-spacing:.12em}
+.bl-txt b{display:block;font:22cqw/1.15 var(--f-kd);font-weight:400}
+.bl-txt span{font:600 4.8cqw/1.4 var(--f-body)}
+
+/* F3 fill-up text */
+.fill{left:0;right:0;top:28%;text-align:center;font:34cqw/1.1 var(--f-kd)}
+.fill .ol{color:transparent;-webkit-text-stroke:.8cqw #fff}
+.fill .fl{position:absolute;inset:0;color:var(--sun);animation:fillUp 4.5s infinite cubic-bezier(.4,0,.2,1)}
+@keyframes fillUp{0%{clip-path:inset(100% 0 0 0)}55%,85%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(100% 0 0 0)}}
+.fill-cap{left:6cqw;right:6cqw;top:calc(28% + 42cqw);text-align:center;font:600 4.6cqw/1.4 var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.6)}
+.fill-cap em{font-style:normal;font-family:var(--f-mono);color:var(--sun)}
+
+/* F4 jamo rain caption */
+.rain-cap{left:6cqw;right:6cqw;bottom:20%;text-align:center;font:800 6cqw/1.3 var(--f-display);text-shadow:0 .5cqw 1.6cqw rgba(0,0,0,.7)}
+.rain-cap small{display:block;font:500 4cqw var(--f-body)}
+
+/* F5 stack */
+.stack-t{left:6cqw;right:6cqw;top:9%;text-align:center;font:800 6.4cqw/1.2 var(--f-display);text-shadow:0 .5cqw 1.6cqw rgba(0,0,0,.5)}
+.stack{left:16cqw;right:16cqw;top:36%;height:48cqw;perspective:300cqw}
+.stack-in{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(55deg) rotateZ(-35deg)}
+.card3{position:absolute;inset:0;border-radius:4cqw;display:grid;place-content:center;text-align:center;color:var(--ink);box-shadow:0 0 0 .5cqw rgba(0,0,0,.15);animation:stackUp 5s infinite cubic-bezier(.5,-.3,.3,1.4)}
+.card3 b{font:12cqw/1 var(--f-kd);font-weight:400}
+.card3 span{font:700 4cqw var(--f-mono)}
+@keyframes stackUp{0%,15%{transform:translateZ(0)}40%,80%{transform:translateZ(calc(var(--i) * 13cqw))}95%,100%{transform:translateZ(0)}}
+
+/* F6 waveform */
+.wv-pill{left:50%;top:22%;transform:translateX(-50%);white-space:nowrap;font:700 4cqw var(--f-mono);letter-spacing:.08em;padding:1.8cqw 3.6cqw;border-radius:99px;background:var(--pink)}
+.wave{left:8cqw;right:8cqw;top:34%;height:24cqw;display:flex;align-items:center;gap:1.1cqw}
+.wave i{flex:1;height:100%;background:var(--sun);border-radius:99px;transform:scaleY(.12);animation:wv var(--d) ease-in-out var(--dl) infinite alternate}
+@keyframes wv{to{transform:scaleY(var(--h))}}
+.wv-w{left:0;right:0;top:calc(34% + 30cqw);text-align:center;font:12cqw var(--f-kd)}
+.wv-w span{animation:syl 2.8s calc(var(--i)*.35s) infinite}
+@keyframes syl{0%,14%{color:var(--sun)}20%,100%{color:#fff}}
+.wv-r{left:0;right:0;top:calc(34% + 46cqw);text-align:center;font:500 4.2cqw var(--f-mono);opacity:.85}
+
+/* F7 line icon */
+.ico{left:18cqw;right:18cqw;top:16%;aspect-ratio:1}
+.ico svg{width:100%;height:100%;overflow:visible}
+.ico path{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;animation:icoDraw 5s calc(var(--i)*.25s) infinite both}
+.ico path.st{stroke:var(--sun);animation:icoDraw 5s calc(var(--i)*.25s) infinite both,steam 1.6s ease-in-out infinite alternate}
+@keyframes icoDraw{0%{stroke-dashoffset:1;opacity:1}25%,85%{stroke-dashoffset:0;opacity:1}95%,100%{stroke-dashoffset:0;opacity:0}}
+@keyframes steam{to{transform:translateY(-3px)}}
+.ico-l{left:0;right:0;top:calc(16% + 70cqw);text-align:center;animation:icoL 5s infinite}
+.ico-l b{font:13cqw var(--f-kd);font-weight:400}
+.ico-l span{display:block;font:500 4.2cqw var(--f-mono)}
+@keyframes icoL{0%,30%{opacity:0;transform:translateY(4cqw)}38%,85%{opacity:1;transform:none}95%,100%{opacity:0}}
+
+/* F8 particle text caption */
+.pt-cap{left:6cqw;right:6cqw;bottom:22%;text-align:center;font:600 4.6cqw var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.6)}
+
+/* G1 circle wipe */
+.cw{inset:0;background:var(--blue);display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:2cqw;clip-path:circle(0% at 70% 35%);animation:cw 4.5s infinite cubic-bezier(.7,0,.3,1)}
+.cw i{font:700 4.4cqw var(--f-mono);font-style:normal;letter-spacing:.14em;color:var(--sun)}
+.cw b{font:19cqw/1.1 var(--f-kd);font-weight:400}
+.cw span{font:600 5cqw var(--f-body)}
+@keyframes cw{0%,15%{clip-path:circle(0% at 70% 35%)}35%,75%{clip-path:circle(150% at 70% 35%)}95%,100%{clip-path:circle(0% at 30% 70%)}}
+
+/* G2 zoom punch */
+.t-zoom .bg{animation:punch 3s infinite}
+@keyframes punch{0%,30%{transform:scale(1)}33%{transform:scale(1.34)}36%,70%{transform:scale(1.25)}74%,100%{transform:scale(1)}}
+.flash{inset:0;background:#fff;opacity:0;animation:flash 3s infinite}
+@keyframes flash{0%,30%{opacity:0}32%{opacity:.85}42%,100%{opacity:0}}
+.zm-t{left:0;right:0;top:16%;text-align:center;font:24cqw/1 var(--f-slam);color:var(--sun);-webkit-text-stroke:1.4cqw var(--ink);paint-order:stroke fill;opacity:0;animation:zmT 3s infinite}
+@keyframes zmT{0%,31%{opacity:0;transform:scale(2)}35%{opacity:1;transform:scale(.95)}38%,68%{opacity:1;transform:none}74%,100%{opacity:0}}
+
+/* G3 story progress */
+.sp{left:4cqw;right:4cqw;top:3cqw;display:flex;gap:1.2cqw}
+.sp i{flex:1;height:1cqw;border-radius:99px;background:rgba(255,255,255,.35);overflow:hidden}
+.sp i::after{content:"";display:block;height:100%;background:#fff;transform-origin:left;transform:scaleX(0)}
+.sp i.done::after{transform:none}
+.sp i.cur::after{animation:spFill 5s linear infinite}
+@keyframes spFill{to{transform:scaleX(1)}}
+.sp-card{left:6cqw;right:6cqw;top:11%;display:grid;gap:2cqw;animation:spCard 5s infinite}
+.sp-card i{font:700 4cqw var(--f-mono);font-style:normal;letter-spacing:.12em;color:var(--sun)}
+.sp-card b{font:800 9cqw/1.1 var(--f-display);text-shadow:0 .6cqw 2cqw rgba(0,0,0,.5)}
+.sp-card span{font:600 4.6cqw/1.4 var(--f-body);text-shadow:0 .4cqw 1.4cqw rgba(0,0,0,.6)}
+.sp-card span b{font:800 4.6cqw var(--f-kb);text-shadow:none}
+@keyframes spCard{0%{opacity:0;transform:translateY(5cqw)}8%,85%{opacity:1;transform:none}95%,100%{opacity:0}}
+
+/* G4 VHS */
+.t-vhs .bg{filter:sepia(.35) saturate(1.5) hue-rotate(-12deg) contrast(1.1);animation:jit .25s steps(2) infinite}
+@keyframes jit{50%{transform:translateX(.4cqw)}}
+.scan{inset:0;background:repeating-linear-gradient(rgba(0,0,0,.22) 0 .4cqw,transparent .4cqw 1.2cqw);pointer-events:none}
+.track{left:0;right:0;height:8%;background:linear-gradient(transparent,rgba(255,255,255,.18),transparent);animation:track 3.5s linear infinite}
+@keyframes track{from{top:-10%}to{top:110%}}
+.vhs{font:8cqw/1 var(--f-vhs);text-shadow:.4cqw 0 rgba(255,0,80,.6),-.4cqw 0 rgba(0,220,255,.6)}
+.v-rec{left:6cqw;top:6cqw}
+.v-rec::before{content:"";display:inline-block;width:3.6cqw;height:3.6cqw;border-radius:50%;background:#ff2e3a;margin-right:2cqw;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.v-play{right:6cqw;top:6cqw}
+.v-ts{left:6cqw;bottom:8cqw;line-height:1.1}
+.v-title{left:6cqw;right:6cqw;top:30%;text-align:center;font-size:11cqw}
+
+@media (prefers-reduced-motion: reduce){.track{animation:none}}
+
+/* closing guide */
+.guide{padding-block:56px 72px}
+.guide h2{font:800 clamp(24px,3.4vw,34px)/1.1 var(--f-display);margin:0 0 10px;letter-spacing:-.01em}
+.guide>.wrap>p{margin:0 0 26px;color:var(--muted);max-width:66ch}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:16px}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;display:grid;gap:8px;align-content:start;min-width:0}
+.step h3{margin:0;font:700 16px/1.3 var(--f-body)}
+.step p{margin:0;font-size:14.5px;color:var(--muted)}
+.step code{font:500 12.5px var(--f-mono);background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:4px}
+.limits{margin-top:28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px}
+.limits div{border-top:2px solid var(--fg);padding-top:12px;min-width:0}
+.limits h3{margin:0 0 6px;font:700 15px var(--f-body)}
+.limits ul{margin:0;padding-left:18px;color:var(--muted);font-size:14.5px;display:grid;gap:4px}
+footer .wrap{padding-block:24px 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">Lookbook · 9:16 · 1080 × 1920</div>
+    <h1>Shortform Motion <em>Lookbook</em></h1>
+    <p class="lede"><b><span id="count">46</span> animation styles Claude can build from code</b> for talking-head and explainer reels. Every frame below is live HTML, CSS and canvas. The same code can be rendered to a 1080×1920 video file and laid over your footage. Tap any frame to replay it from the start.</p>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="ctrl" role="radiogroup" aria-label="Frame background">
+      <span class="ctrl-l">Behind</span>
+      <span class="seg">
+        <input type="radio" name="bg" id="bg-head" value="head" checked><label for="bg-head">Talking head</label>
+        <input type="radio" name="bg" id="bg-solid" value="solid"><label for="bg-solid">Solid</label>
+        <input type="radio" name="bg" id="bg-alpha" value="alpha"><label for="bg-alpha">Transparent</label>
+      </span>
+    </div>
+    <label class="chk"><input type="checkbox" id="sz"> Safe zones</label>
+    <nav class="jump" aria-label="Jump to family">
+      <a href="#captions">Captions &amp; type</a>
+      <a href="#callouts">Callouts</a>
+      <a href="#data">Numbers &amp; data</a>
+      <a href="#diagrams">Explainer diagrams</a>
+      <a href="#quiz">Quiz</a>
+      <a href="#motion">Motion graphics</a>
+      <a href="#transitions">Transitions &amp; effects</a>
+      <a href="#guide">Getting it into your edit</a>
+    </nav>
+    <span class="rm-note" id="rm-note" hidden>Reduced motion is on: tap a frame to play it.</span>
+  </div>
+</div>
+
+<main>
+<!-- ================= CAPTIONS ================= -->
+<section id="captions"><div class="wrap">
+  <div class="sec-h"><h2>Captions &amp; kinetic type <small>9 styles</small></h2><p>Words that move with your voice. These carry most of the retention work in the first two seconds and keep muted viewers following along.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="cap-pop"><span style="--i:0">Koreans</span> <span style="--i:1">say</span> <span style="--i:2">this</span> <span style="--i:3" class="hi">every</span> <span style="--i:4">single</span> <span style="--i:5">day</span></div>
+    </div><div class="meta"><h3>Word-pop captions</h3><p>Hook lines and fast talking. Each word lands on the beat, with one keyword in color.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="kara"><p class="kara-ko">밥 먹었어요?</p><p class="kara-ro">bap meogeosseoyo?</p><p class="kara-en">"Have you eaten?" means "How are you?"</p></div>
+    </div><div class="meta"><h3>Karaoke sweep</h3><p>Model sentences. The fill follows your pronunciation so viewers read along.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="search"><div class="sbox"><span class="sic"></span><span class="stype">how to say hi in korean</span></div>
+      <ul class="ssug"><li><b>안녕하세요</b> · annyeonghaseyo</li><li><b>안녕</b> · casual hi</li><li><b>여보세요</b> · on the phone</li></ul></div>
+    </div><div class="meta"><h3>Search-bar typing</h3><p>Opening on the question your viewer already Googled.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="slam"><b style="--i:0">3 words</b><b style="--i:1" class="alt">you'll</b><b style="--i:2">hear</b><b style="--i:3" class="alt">daily</b></div>
+    </div><div class="meta"><h3>Title slam</h3><p>Listicle openers. Stacked blocks slam in from alternating sides.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="glitch" data-t="잠깐만!">잠깐만!</div><div class="glitch-sub">jamkkanman · hold on!</div>
+    </div><div class="meta"><h3>RGB glitch</h3><p>Plot twists, "wait, what?" moments, and common-mistake reveals.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="anno"><div class="anno-word">존댓말</div>
+        <svg viewBox="0 0 100 80" aria-hidden="true"><path pathLength="1" d="M22 22 C 40 10, 86 12, 92 32 C 97 50, 50 58, 18 50 C 2 44, 6 24, 30 17"/><path pathLength="1" style="animation-delay:.9s" d="M80 76 C 84 66, 76 60, 68 56"/><path pathLength="1" style="animation-delay:1.2s" d="M74 55 L68 56 L70 62"/></svg>
+        <div class="anno-note">polite speech!</div></div>
+    </div><div class="meta"><h3>Hand-drawn marker</h3><p>Circling and pointing at the one thing to remember, like a teacher's whiteboard.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="slot"><p class="slot-q">Saying hello to…</p>
+        <div class="slot-win"><div class="reel"><span>안녕</span><span>안녕하세요</span><span>안녕하십니까</span><span>안녕</span></div></div>
+        <div class="slot-tag"><div class="reel"><span><i style="background:var(--mint)">a friend</i></span><span><i style="background:var(--sun)">anyone</i></span><span><i style="background:var(--pink)">your boss</i></span><span><i style="background:var(--mint)">a friend</i></span></div></div></div>
+    </div><div class="meta"><h3>Slot-machine roll</h3><p>Showing variations of one phrase: formality levels, synonyms, conjugations.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="cube-wrap"><div class="cube">
+        <span style="--i:0;background:var(--blue)">사랑</span><span style="--i:1;background:var(--sun);color:var(--ink);font-family:var(--f-mono);font-size:9cqw">sa·rang</span><span style="--i:2;background:var(--pink);font-family:var(--f-display);font-weight:800;font-size:10cqw">love</span><span style="--i:3;background:var(--ink)">사랑해</span>
+      </div></div><p class="cube-cap">One word, four sides</p>
+    </div><div class="meta"><h3>3D flip label</h3><p>Word → romanization → meaning → usage, in one spot on screen.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="tape t1"><div>New word · 새 단어 · New word · 새 단어 · New word · 새 단어 · New word · 새 단어 · </div></div>
+      <div class="tape t2"><div>오늘의 표현 · Phrase of the day · 오늘의 표현 · Phrase of the day · 오늘의 표현 · Phrase of the day · </div></div>
+    </div><div class="meta"><h3>Caution-tape ticker</h3><p>Series branding and recurring segment intros.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= CALLOUTS ================= -->
+<section id="callouts"><div class="wrap">
+  <div class="sec-h"><h2>Callouts &amp; social UI <small>7 styles</small></h2><p>Labels, bubbles and familiar app interface pieces placed around your face.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="l3"><div class="l3-bar"></div><div class="l3-name">Hyunwoo</div><div class="l3-role">Korean teacher · TTMIK</div></div>
+    </div><div class="meta"><h3>Lower third</h3><p>Name and title cards, guest intros, location tags.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="bub">진짜?!<small>jinjja?! · really?!</small></div>
+    </div><div class="meta"><h3>Speech-bubble pop</h3><p>Reactions and inner thoughts placed right next to your head.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="stk">Beginner<br>friendly</div><div class="stk s2">Level 1</div>
+    </div><div class="meta"><h3>Sticker slap</h3><p>Level tags, "new" badges and series labels, with a shine sweep.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <p class="hl">Use <mark>-아/어요</mark> with people you've just met</p>
+    </div><div class="meta"><h3>Highlighter swipe</h3><p>Pulling the grammar point out of a caption line.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="chat"><div class="chat-h">민지</div>
+        <div class="msg them m1">뭐 해?<small>what are you up to?</small></div>
+        <div class="msg me m2">그냥 집에 있어<small>just at home</small></div>
+        <div class="slot3"><div class="typing"><i></i><i></i><i></i></div><div class="msg them m3">치킨 먹을래?<small>want chicken?</small></div></div>
+        <div class="msg me m4">콜!!<small>deal!!</small></div></div>
+    </div><div class="meta"><h3>Chat thread</h3><p>Real conversation examples, slang and texting abbreviations.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="cta"><div class="cta-btn"><span class="lab1">Follow for daily Korean</span><span class="lab2">Following ✓</span></div>
+      <svg class="cur" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2 L4 19 L8.5 15 L11.5 22 L14.5 20.8 L11.5 14 L18 14 Z" fill="#fff" stroke="#12142A" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+    </div><div class="meta"><h3>Tap-to-follow CTA</h3><p>End-card calls to action with a cursor tap and state change.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="reply"><div class="reply-h">Reply to jess.learns.korean</div><p class="reply-q">What's the difference between 은 and 는??</p></div>
+    </div><div class="meta"><h3>Comment-reply card</h3><p>Answering viewer questions, the format that keeps a series going.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= DATA ================= -->
+<section id="data"><div class="wrap">
+  <div class="sec-h"><h2>Numbers &amp; data <small>7 styles</small></h2><p>Counters, charts and meters drawn to scale. Claude can feed them your real numbers.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="cnt"><div class="cnt-n" data-to="2200">0</div><div class="cnt-u">class hours</div><p class="cnt-s">The US Foreign Service Institute's estimate for English speakers to reach professional Korean</p></div>
+    </div><div class="meta"><h3>Counter roll-up</h3><p>Big stats and surprising numbers, counted up with easing.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="panel bars"><h4>Most-used Korean verbs</h4><p class="src">sample data</p>
+        <div class="brow"><b>하다</b><span style="--i:0;--w:100%;--c:var(--sun)">100</span></div>
+        <div class="brow"><b>있다</b><span style="--i:1;--w:82%;--c:var(--pink)">82</span></div>
+        <div class="brow"><b>되다</b><span style="--i:2;--w:61%;--c:var(--mint)">61</span></div>
+        <div class="brow"><b>보다</b><span style="--i:3;--w:47%;--c:#8C9BFF">47</span></div>
+        <div class="brow"><b>가다</b><span style="--i:4;--w:40%;--c:var(--coral)">40</span></div></div>
+    </div><div class="meta"><h3>Bar chart grow</h3><p>Rankings and frequency lists, as a full-screen cutaway.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="donut"><div class="dn-ring"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,.2)"/><circle class="dn-arc" cx="50" cy="50" r="40" pathLength="100"/></svg><div class="dn-num"></div></div>
+      <p class="dn-cap">of Korean words come from Chinese characters (approx.)</p></div>
+    </div><div class="meta"><h3>Donut fill</h3><p>One percentage that tells the story, with a live counter.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="panel line"><h4>Your listening progress</h4>
+        <svg viewBox="0 0 100 86" aria-hidden="true">
+          <line class="grid-l" x1="4" x2="96" y1="10" y2="10"/><line class="grid-l" x1="4" x2="96" y1="30" y2="30"/><line class="grid-l" x1="4" x2="96" y1="50" y2="50"/><line class="grid-l" x1="4" x2="96" y1="70" y2="70"/>
+          <path class="ln" pathLength="1" d="M6 70 C 18 66, 24 50, 34 46 S 46 44, 56 43 S 66 42, 70 40 C 78 30, 86 16, 94 10"/>
+          <circle class="ln-dot" cx="94" cy="10" r="2.6"/>
+          <text class="ln-note" x="34" y="58">the plateau. totally normal</text>
+          <text class="ax" x="4" y="80">Week 1</text><text class="ax" x="80" y="80">Week 12</text>
+        </svg></div>
+    </div><div class="meta"><h3>Line graph draw</h3><p>Progress over time, with a handwritten note on the part that matters.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="vs top"><b>반말</b><i>banmal · casual</i><span>밥 먹었어?</span></div>
+      <div class="vs bot"><b>존댓말</b><i>jondaenmal · polite</i><span>식사하셨어요?</span></div>
+      <div class="vs-badge">VS</div>
+    </div><div class="meta"><h3>Versus split</h3><p>This-or-that comparisons: casual vs polite, North vs South, Korean vs English.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="timer"><svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="42" stroke="rgba(255,255,255,.2)"/><circle class="tm-arc" cx="50" cy="50" r="42" pathLength="100"/></svg>
+        <span class="tm-n n3">3</span><span class="tm-n n2">2</span><span class="tm-n n1">1</span><span class="tm-n nx">✓</span></div>
+      <p class="tm-q">Say "Nice to meet you" before the timer ends<b>반갑습니다!</b></p>
+    </div><div class="meta"><h3>Countdown ring</h3><p>"Pause and try it" moments that get viewers speaking out loud.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="gauge"><h4>Politeness meter</h4>
+        <svg viewBox="0 0 100 58" aria-hidden="true">
+          <path class="arc" stroke="#1FCF9C" d="M10 52 A40 40 0 0 1 30 17.36"/><path class="arc" stroke="#FFC92E" d="M30 17.36 A40 40 0 0 1 70 17.36"/><path class="arc" stroke="#FF4F8B" d="M70 17.36 A40 40 0 0 1 90 52"/>
+          <g class="needle"><line x1="50" y1="52" x2="50" y2="20" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="50" cy="52" r="4" fill="#fff"/></g>
+        </svg>
+        <div class="g-lab"><span class="gl1">먹어<small>casual · friends</small></span><span class="gl2">먹어요<small>polite · most people</small></span><span class="gl3">드십시오<small>formal · honorific</small></span></div></div>
+    </div><div class="meta"><h3>Gauge needle</h3><p>Scales and spectrums: politeness, difficulty, how natural something sounds.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= DIAGRAMS ================= -->
+<section id="diagrams"><div class="wrap">
+  <div class="sec-h"><h2>Explainer diagrams <small>8 styles</small></h2><p>The teaching layer: build-ups that show how a word, rule or idea is put together.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="panel flow">
+        <div class="fl-n" style="--i:0"><b>먹다</b><span>to eat · dictionary form</span></div><div class="fl-a" style="--i:0"></div>
+        <div class="fl-n" style="--i:1"><b>먹 + 다</b><span>drop 다 to get the stem</span></div><div class="fl-a" style="--i:1"></div>
+        <div class="fl-n" style="--i:2"><b>먹 + 어요</b><span>last vowel ㅓ → add 어요</span></div><div class="fl-a" style="--i:2"></div>
+        <div class="fl-n end" style="--i:3"><b>먹어요</b><span>I eat · polite present</span></div></div>
+    </div><div class="meta"><h3>Flowchart build</h3><p>Step-by-step rules like conjugation, revealed one box at a time.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="panel tl"></div>
+      <div class="tl-t">한글 타임라인</div><div class="tl-line"></div>
+      <div class="tl-list">
+        <div class="tl-e" style="--i:0"><div><b>1443</b><span>King Sejong and his scholars create Hangul</span></div></div>
+        <div class="tl-e" style="--i:1"><div><b>1446</b><span>Published as 훈민정음, "the correct sounds to teach the people"</span></div></div>
+        <div class="tl-e" style="--i:2"><div><b>1894</b><span>Becomes the official script for government documents</span></div></div>
+        <div class="tl-e" style="--i:3"><div><b>10.9</b><span>Every October 9 is 한글날, Hangul Day</span></div></div></div>
+    </div><div class="meta"><h3>Timeline draw</h3><p>History, origin stories, and "how it changed" segments.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="panel venn"></div>
+      <div class="vn-t">What they share</div>
+      <div class="vn a">Korean</div><div class="vn b">Japanese</div>
+      <p class="vn-both"><b>BOTH</b>Subject-object-verb order · particles · honorific speech</p>
+    </div><div class="meta"><h3>Venn merge</h3><p>Comparing two languages, words or concepts that overlap.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="ck"><h4>Before your first trip to Seoul</h4>
+        <div class="ck-i"><span class="ck-b" style="--i:0"><svg viewBox="0 0 24 24"><path pathLength="1" style="--i:0" d="M5 12.5l4.5 4.5L19 7"/></svg></span>Read Hangul</div>
+        <div class="ck-i"><span class="ck-b" style="--i:1"><svg viewBox="0 0 24 24"><path pathLength="1" style="--i:1" d="M5 12.5l4.5 4.5L19 7"/></svg></span>Count: 하나, 둘, 셋</div>
+        <div class="ck-i"><span class="ck-b" style="--i:2"><svg viewBox="0 0 24 24"><path pathLength="1" style="--i:2" d="M5 12.5l4.5 4.5L19 7"/></svg></span>Order with 주세요</div>
+        <div class="ck-i"><span class="ck-b" style="--i:3"><svg viewBox="0 0 24 24"><path pathLength="1" style="--i:3" d="M5 12.5l4.5 4.5L19 7"/></svg></span>Say 감사합니다</div></div>
+    </div><div class="meta"><h3>Checklist tick</h3><p>Recaps and "you'll need these" lists, ticked as you say them.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="ba before"><i>TEXTBOOK</i><b>저는 학생입니다.</b><span>I am a student.</span></div>
+      <div class="ba after"><i>REAL LIFE</i><b>학생이에요.</b><span>(I'm a) student.</span></div>
+      <div class="ba-line"></div>
+    </div><div class="meta"><h3>Before / after wipe</h3><p>Textbook vs real life, wrong vs right, old vs new.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="mo"><p class="mo-g">먹었어요 <em>· meogeosseoyo</em> · "I ate"</p>
+        <div class="mo-w"><span class="mo-p" style="--x:-6cqw;--c:var(--sun)"><b>먹</b><i>eat</i></span><span class="mo-p" style="--x:0cqw;--c:var(--pink)"><b>었</b><i>past</i></span><span class="mo-p" style="--x:6cqw;--c:var(--mint)"><b>어요</b><i>polite</i></span></div></div>
+    </div><div class="meta"><h3>Word breakdown</h3><p>Splitting a word into its parts, with each part labeled.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="hb"><span class="jh">ㅎ</span><span class="ja">ㅏ</span><span class="jn">ㄴ</span><span class="full">한</span></div>
+      <div class="hb-eq"><b>ㅎ</b>h + <b>ㅏ</b>a + <b>ㄴ</b>n</div>
+    </div><div class="meta"><h3>Hangul block assembly</h3><p>Letters fly into a syllable block. Works for any character-building idea.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="sov-t"><b>저는 커피를 마셔요</b><span>"I drink coffee"</span></div>
+      <div class="sov"><div style="--s:0;background:#8C9BFF"><b>저는</b><i>I</i></div><div class="o" style="--s:1;background:var(--pink)"><b>커피를</b><i>coffee</i></div><div class="v" style="--s:2;background:var(--mint)"><b>마셔요</b><i>drink</i></div></div>
+      <div class="sov-l"><span class="sl1">Korean: S → O → V</span><span class="sl2">English: S → V → O</span></div>
+    </div><div class="meta"><h3>Sentence blocks</h3><p>Word order and structure, shown by physically rearranging the parts.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= QUIZ ================= -->
+<section id="quiz"><div class="wrap">
+  <div class="sec-h"><h2>Quiz formats <small>3 styles</small></h2><p>Interactive-feeling beats that make viewers pause, guess and comment their answer.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="fc"><div class="fc-in"><div class="fc-f front"><b>사과</b><span>what does it mean?</span></div><div class="fc-f back"><b>apple</b><span>sa-gwa</span></div></div></div>
+    </div><div class="meta"><h3>Flashcard flip</h3><p>Vocab drills: show, pause, flip to reveal.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="qz"><p class="qz-q">How do you say "thank you"?</p><div class="qz-bar"></div>
+        <div class="qz-o no"><i>A</i>미안해요</div><div class="qz-o ok"><i>B</i>감사합니다</div><div class="qz-o no"><i>C</i>안녕히 가세요</div></div>
+    </div><div class="meta"><h3>Multiple choice</h3><p>Timed questions where the right answer lights up.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="fb"><p class="fb-g">"I am a student"</p>
+        <p class="fb-s">저<span class="fb-slot"><span class="fo1">은</span><span class="fo2">를</span><span class="fo3">는</span></span> 학생이에요</p>
+        <div class="fb-why"><span class="fw1">✕ 은 goes after consonants</span><span class="fw2">✕ 를 marks the object</span><span class="fw3">✓ 저 ends in a vowel, so 는</span></div></div>
+    </div><div class="meta"><h3>Fill in the blank</h3><p>Particle and ending drills that show wrong answers and why.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= MOTION GRAPHICS ================= -->
+<section id="motion"><div class="wrap">
+  <div class="sec-h"><h2>Motion graphics <small>8 styles</small></h2><p>Particles, shapes, icons and simple 3D for energy, atmosphere and celebration.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <canvas class="fx" data-fx="confetti"></canvas><div class="cf-txt">정답!<small>jeongdap · correct!</small></div>
+    </div><div class="meta"><h3>Confetti burst</h3><p>Correct answers, milestones and "you did it" moments.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="blobs"><span class="blob bl1"></span><span class="blob bl2"></span><span class="blob bl3"></span></div>
+      <div class="bl-txt"><i>WORD OF THE DAY</i><b>설레다</b><span>to feel a flutter of excitement</span></div>
+    </div><div class="meta"><h3>Liquid gradient</h3><p>Soft moving backdrop for word-of-the-day cards and quotes.</p><span class="fmt">Full-frame</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="fill"><div class="ol">꿀팁</div><div class="fl" aria-hidden="true">꿀팁</div></div>
+      <p class="fill-cap"><em>kkul-tip</em> · "honey tip," slang for a really useful tip</p>
+    </div><div class="meta"><h3>Fill-up text</h3><p>Big single-word reveals that fill like a liquid.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <canvas class="fx" data-fx="rain"></canvas><p class="rain-cap">14 + 10<small>basic consonants and vowels</small></p>
+    </div><div class="meta"><h3>Letter rain</h3><p>Ambient texture behind an intro; works with any characters or icons.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <p class="stack-t">3 verbs you'll use every day</p>
+      <div class="stack"><div class="stack-in">
+        <div class="card3" style="--i:0;background:#fff"><b>가다</b><span>to go</span></div>
+        <div class="card3" style="--i:1;background:var(--sun)"><b>오다</b><span>to come</span></div>
+        <div class="card3" style="--i:2;background:var(--pink)"><b>보다</b><span>to see</span></div></div></div>
+    </div><div class="meta"><h3>Isometric stack</h3><p>Grouped items that fan apart in 3D: sets of words, steps, options.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="wv-pill">LISTEN &amp; REPEAT</div><div class="wave" id="wave"></div>
+      <div class="wv-w"><span style="--i:0">감</span><span style="--i:1">사</span><span style="--i:2">합</span><span style="--i:3">니</span><span style="--i:4">다</span></div>
+      <p class="wv-r">gam-sa-ham-ni-da</p>
+    </div><div class="meta"><h3>Voice waveform</h3><p>Pronunciation segments, with syllables lighting up in time.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="ico"><svg viewBox="0 0 100 100" aria-hidden="true">
+        <path pathLength="1" style="--i:0" d="M28 44 H70 V64 C70 76 62 82 49 82 C36 82 28 76 28 64 Z"/>
+        <path pathLength="1" style="--i:1" d="M70 50 C82 50 82 66 70 66"/>
+        <path pathLength="1" style="--i:2" d="M18 90 H80"/>
+        <path class="st" pathLength="1" style="--i:3" d="M40 36 C36 30 44 26 40 18"/><path class="st" pathLength="1" style="--i:4" d="M50 36 C46 30 54 26 50 18"/><path class="st" pathLength="1" style="--i:5" d="M60 36 C56 30 64 26 60 18"/></svg></div>
+      <div class="ico-l"><b>커피</b><span>keo-pi · coffee</span></div>
+    </div><div class="meta"><h3>Line-icon draw</h3><p>Vocabulary illustrated with icons that draw themselves.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <canvas class="fx" data-fx="particles"></canvas><p class="pt-cap">Hangul: 24 letters, learnable in an afternoon</p>
+    </div><div class="meta"><h3>Particle assemble</h3><p>A word forms out of particles, then scatters. Strong title moment.</p><span class="fmt ov">Overlay</span></div></article>
+  </div>
+</div></section>
+
+<!-- ================= TRANSITIONS ================= -->
+<section id="transitions"><div class="wrap">
+  <div class="sec-h"><h2>Transitions &amp; effects <small>4 styles</small></h2><p>Applied to your footage itself, or used between sections.</p></div>
+  <div class="grid">
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="cw"><i>PART 2</i><b>존댓말</b><span>the polite way</span></div>
+    </div><div class="meta"><h3>Circle wipe</h3><p>Chapter breaks. A shape grows out of the frame into a title card.</p><span class="fmt">Transition</span></div></article>
+
+    <article class="tile t-zoom"><div class="screen"><div class="bg"></div>
+      <div class="flash"></div><div class="zm-t">WAIT.</div>
+    </div><div class="meta"><h3>Zoom punch</h3><p>Punch-in on your face with a flash, for emphasis and comedic beats.</p><span class="fmt">Effect</span></div></article>
+
+    <article class="tile"><div class="screen"><div class="bg"></div>
+      <div class="sp"><i class="done"></i><i class="cur"></i><i></i><i></i><i></i></div>
+      <div class="sp-card"><i>TIP 2 OF 5</i><b>Drop the subject</b><span>Koreans skip <b>저는</b> when it's obvious who's talking</span></div>
+    </div><div class="meta"><h3>Story chapters</h3><p>Progress segments for multi-tip videos, so viewers know how much is left.</p><span class="fmt ov">Overlay</span></div></article>
+
+    <article class="tile t-vhs"><div class="screen"><div class="bg"></div>
+      <div class="scan"></div><div class="track"></div>
+      <div class="vhs v-rec">REC</div><div class="vhs v-play">PLAY ▶</div>
+      <div class="vhs v-title">storytime</div>
+      <div class="vhs v-ts">OCT. 09 1995<br>PM 3:21</div>
+    </div><div class="meta"><h3>Camcorder VHS</h3><p>Storytime and throwback segments: scanlines, tint, tracking band.</p><span class="fmt">Effect</span></div></article>
+  </div>
+</div></section>
+</main>
+
+<section class="guide" id="guide"><div class="wrap">
+  <h2>Getting it into your edit</h2>
+  <p>Everything above is code, so it renders frame-perfect at any resolution. These are the routes from a style you like to a clip on your timeline.</p>
+  <div class="steps">
+    <div class="step"><h3>Pick a style, give Claude the content</h3><p>"Use the word-pop captions for this script" or "make the flowchart for 가다 → 가요." Claude builds it at 1080×1920 in your fonts and colors.</p></div>
+    <div class="step"><h3>Render to a video file</h3><p>In Claude Code, Claude can capture the animation frame by frame with a headless browser and encode it with ffmpeg: <code>.mp4</code> at 30 or 60 fps. In regular Claude chat you get the live preview, which you can screen-record.</p></div>
+    <div class="step"><h3>Keep the background transparent</h3><p>Overlays export as <code>.mov</code> ProRes 4444 or <code>.webm</code> with alpha for Premiere, Final Cut and DaVinci. If your editor can't read alpha video, render on solid green and key it out (CapCut's chroma key works for this).</p></div>
+    <div class="step"><h3>Sync to your voice</h3><p>Share word-level timestamps (an <code>.srt</code> from your editor's auto-captions, or a transcription tool) and captions, highlights and reveals can land on the exact word.</p></div>
+    <div class="step"><h3>Turn a style into a template</h3><p>Ask for a version where you only change the text, colors and timing per video, so each new reel takes minutes.</p></div>
+    <div class="step"><h3>Mind the safe zones</h3><p>Turn on "Safe zones" above. Reels, TikTok and Shorts cover roughly the bottom 18% with captions and the right edge with buttons, so key text belongs in the middle band.</p></div>
+  </div>
+  <div class="limits">
+    <div><h3>Claude makes these well</h3><ul><li>Kinetic type, captions and labels</li><li>Charts, counters, diagrams and timelines</li><li>Icons, shapes, particles and simple 3D</li><li>UI mockups: chats, search bars, comment replies</li></ul></div>
+    <div><h3>Outside what Claude generates</h3><ul><li>Photoreal or AI-generated footage</li><li>Lip-synced or character animation with acting</li><li>Detailed 3D scenes and realistic lighting</li><li>Cutting your talking-head footage itself (your editor does that)</li></ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Korean examples drawn from Talk To Me In Korean lesson topics. Bar chart values are sample data.</div></footer>
+
+<script>
+(() => {
+  const body = document.body;
+  // background mode
+  let mode = 'head';
+  try { mode = localStorage.getItem('lb-bg') || 'head'; } catch (e) {}
+  const setMode = m => { body.dataset.bg = m; const r = document.getElementById('bg-' + m); if (r) r.checked = true; };
+  setMode(mode);
+  document.querySelectorAll('input[name="bg"]').forEach(r => r.addEventListener('change', () => {
+    setMode(r.value); try { localStorage.setItem('lb-bg', r.value); } catch (e) {}
+  }));
+  const sz = document.getElementById('sz');
+  sz.addEventListener('change', () => body.classList.toggle('sz', sz.checked));
+
+  const tiles = [...document.querySelectorAll('.tile')];
+  document.getElementById('count').textContent = tiles.length;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) document.getElementById('rm-note').hidden = false;
+
+  // waveform bars
+  const wave = document.getElementById('wave');
+  for (let i = 0; i < 22; i++) {
+    const b = document.createElement('i');
+    const env = Math.sin((i + 1) / 23 * Math.PI);
+    b.style.setProperty('--h', (0.25 + env * 0.75 * (0.6 + Math.random() * 0.4)).toFixed(2));
+    b.style.setProperty('--d', (0.35 + Math.random() * 0.5).toFixed(2) + 's');
+    b.style.setProperty('--dl', (-Math.random()).toFixed(2) + 's');
+    wave.appendChild(b);
+  }
+
+  // play only visible tiles
+  tiles.forEach(t => { t.t0 = performance.now(); });
+  if (!reduced && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver(es => es.forEach(e => e.target.classList.toggle('on', e.isIntersecting)), { rootMargin: '80px' });
+    tiles.forEach(t => io.observe(t));
+  } else if (!reduced) tiles.forEach(t => t.classList.add('on'));
+
+  // tap to replay
+  tiles.forEach(t => {
+    const s = t.querySelector('.screen');
+    s.tabIndex = 0;
+    s.setAttribute('role', 'button');
+    s.setAttribute('aria-label', 'Replay ' + t.querySelector('h3').textContent);
+    const replay = () => {
+      if (reduced) t.classList.add('on');
+      s.classList.add('reset'); void s.offsetWidth; s.classList.remove('reset');
+      t.t0 = performance.now();
+    };
+    s.addEventListener('click', replay);
+    s.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); replay(); } });
+  });
+
+  // JS-driven pieces
+  const PAL = ['#FFC92E', '#FF4F8B', '#1FCF9C', '#3047FF', '#FF6B3D', '#FFFFFF'];
+  const JAMO = 'ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎㅏㅑㅓㅕㅗㅛㅜㅠㅡㅣ';
+  const rnd = (a, b) => a + Math.random() * (b - a);
+  const fx = {
+    confetti(c) {
+      let parts = [], burstAt = -1e9, last = 0;
+      return (t, ctx, w, h) => {
+        const dt = Math.min(50, t - last) / 1000; last = t;
+        if (t - burstAt > 3000) {
+          burstAt = t; parts = [];
+          for (let i = 0; i < 90; i++) {
+            const a = rnd(0, Math.PI * 2), sp = rnd(.25, 1.1) * w;
+            parts.push({ x: w / 2, y: h * .42, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp - w * .5, r: rnd(0, 6), vr: rnd(-8, 8), s: rnd(.02, .04) * w, c: PAL[i % PAL.length] });
+          }
+        }
+        ctx.clearRect(0, 0, w, h);
+        const age = (t - burstAt) / 1000;
+        if (age < .3) return;
+        for (const p of parts) {
+          p.vy += w * 1.6 * dt; p.vx *= .985; p.vy *= .985;
+          p.x += p.vx * dt; p.y += p.vy * dt; p.r += p.vr * dt;
+          ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.fillStyle = p.c;
+          ctx.globalAlpha = Math.max(0, 1 - (age - 1.8));
+          ctx.fillRect(-p.s / 2, -p.s / 4, p.s, p.s / 2); ctx.restore();
+        }
+      };
+    },
+    rain(c) {
+      let drops = null, last = 0;
+      return (t, ctx, w, h) => {
+        const dt = Math.min(50, t - last) / 1000; last = t;
+        if (!drops) drops = Array.from({ length: 34 }, () => ({ x: rnd(0, w), y: rnd(-h, h), v: rnd(.15, .45) * h, s: rnd(.06, .16) * w, ch: JAMO[Math.floor(rnd(0, JAMO.length))], c: PAL[Math.floor(rnd(0, 6))], r: rnd(-.4, .4) }));
+        ctx.clearRect(0, 0, w, h);
+        for (const d of drops) {
+          d.y += d.v * dt;
+          if (d.y > h + d.s) { d.y = -d.s; d.x = rnd(0, w); }
+          ctx.save(); ctx.translate(d.x, d.y); ctx.rotate(d.r);
+          ctx.globalAlpha = .35 + (d.s / w) * 4; ctx.fillStyle = d.c;
+          ctx.font = `800 ${d.s}px "Noto Sans KR", sans-serif`; ctx.textAlign = 'center';
+          ctx.fillText(d.ch, 0, 0); ctx.restore();
+        }
+      };
+    },
+    particles(c) {
+      let pts = null, size = '';
+      const build = (w, h) => {
+        const o = document.createElement('canvas'); o.width = w; o.height = h;
+        const x = o.getContext('2d'); x.fillStyle = '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+        x.font = `${Math.round(w * .4)}px "Black Han Sans", "Noto Sans KR", sans-serif`;
+        x.fillText('한글', w / 2, h * .4);
+        const data = x.getImageData(0, 0, w, h).data, step = Math.max(3, Math.round(w / 70)), out = [];
+        for (let y = 0; y < h; y += step) for (let xx = 0; xx < w; xx += step)
+          if (data[(y * w + xx) * 4 + 3] > 128) out.push({ hx: xx, hy: y, sx: rnd(-.2, 1.2) * w, sy: rnd(-.2, 1.2) * h, c: PAL[Math.floor(rnd(0, 3))], d: rnd(0, .15) });
+        return out;
+      };
+      return (t, ctx, w, h) => {
+        if (size !== w + 'x' + h) { pts = build(w, h); size = w + 'x' + h; }
+        const p = (t % 5000) / 5000, r = w / 150;
+        ctx.clearRect(0, 0, w, h);
+        for (const q of pts) {
+          let k;
+          if (p < .5) k = Math.min(1, Math.max(0, (p - q.d) / .35));
+          else if (p < .78) k = 1;
+          else k = 1 - Math.min(1, (p - .78) / .2);
+          const e = k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+          const jx = k === 1 ? Math.sin(t / 300 + q.hx) * r * .4 : 0;
+          ctx.fillStyle = q.c;
+          ctx.beginPath(); ctx.arc(q.sx + (q.hx - q.sx) * e + jx, q.sy + (q.hy - q.sy) * e, r, 0, 7); ctx.fill();
+        }
+      };
+    }
+  };
+  const runners = [];
+  document.querySelectorAll('canvas.fx').forEach(c => {
+    const tile = c.closest('.tile'), ctx = c.getContext('2d');
+    runners.push({ tile, c, ctx, draw: fx[c.dataset.fx](c) });
+  });
+  const counters = [...document.querySelectorAll('.cnt-n')].map(el => ({ el, tile: el.closest('.tile'), to: +el.dataset.to }));
+  const fit = r => {
+    const dpr = Math.min(2, devicePixelRatio || 1), w = Math.round(r.c.clientWidth * dpr), h = Math.round(r.c.clientHeight * dpr);
+    if (r.c.width !== w || r.c.height !== h) { r.c.width = w; r.c.height = h; }
+  };
+  const ready = document.fonts ? document.fonts.ready : Promise.resolve();
+  ready.then(() => {
+    const loop = now => {
+      for (const r of runners) {
+        if (!r.tile.classList.contains('on')) continue;
+        fit(r); r.draw(now - r.tile.t0, r.ctx, r.c.width, r.c.height);
+      }
+      for (const k of counters) {
+        if (!k.tile.classList.contains('on')) continue;
+        const p = ((now - k.tile.t0) % 4500) / 4500;
+        const e = p < .45 ? 1 - Math.pow(1 - p / .45, 3) : (p > .92 ? 0 : 1);
+        k.el.textContent = Math.round(k.to * e).toLocaleString('en-US');
+      }
+      requestAnimationFrame(loop);
+    };
+    requestAnimationFrame(loop);
+  });
+})();
+</script>
+
+</body>
+</html>
