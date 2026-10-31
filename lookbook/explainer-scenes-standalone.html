@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>Explainer Scene Lookbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu:wght@700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+KR:wght@500;800&family=Unbounded:wght@500;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+/* Layout: scene cards two-up, each a 9:16 stage with a scrubber beside its storyboard; catalog of further scenario types below. */
+:root{
+  --bg:#EEF0F6; --surface:#FFFFFF; --fg:#151729; --muted:#575B76; --line:#D6D9E6; --accent:#2F45F5; --accent-soft:#E1E5FF;
+  --f-display:"Unbounded","Arial Black",sans-serif;
+  --f-body:"Instrument Sans",system-ui,-apple-system,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --f-kd:"Black Han Sans","Noto Sans KR",sans-serif;
+  --f-kb:"Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --f-hand:"Gaegu","Comic Sans MS",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0D0F1D; --surface:#161930; --fg:#ECEEF9; --muted:#9A9EBD; --line:#272B47; --accent:#8D9BFF; --accent-soft:#232A5C; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0D0F1D; --surface:#161930; --fg:#ECEEF9; --muted:#9A9EBD; --line:#272B47; --accent:#8D9BFF; --accent-soft:#232A5C; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font:16px/1.55 var(--f-body)}
+.wrap{max-width:1280px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+header .wrap{padding-block:48px 12px;display:grid;gap:14px}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+h1{font:800 clamp(32px,5.6vw,60px)/1.03 var(--f-display);margin:0;letter-spacing:-.02em;text-wrap:balance}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{max-width:66ch;margin:0;font-size:17px;color:var(--muted)}
+.lede b{color:var(--fg);font-weight:600}
+.styles{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.styles span{font:500 12px/1 var(--f-mono);padding:6px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted)}
+
+.scenes{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,580px),1fr));gap:22px;padding-block:28px 20px}
+.scene{display:grid;grid-template-columns:minmax(0,270px) minmax(0,1fr);gap:20px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;align-items:start}
+@media (max-width:620px){.scene{grid-template-columns:1fr}.scene .player{max-width:340px;width:100%;margin:0 auto}}
+.player{display:grid;gap:10px;min-width:0}
+.stage{position:relative;aspect-ratio:9/16;width:100%;max-width:100%;border-radius:12px;overflow:hidden;background:#111;container-type:inline-size;isolation:isolate}
+.stage>svg,.stage>canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.ctl{display:flex;align-items:center;gap:10px}
+.ctl button{font:600 13px/1 var(--f-body);border:1px solid var(--line);background:var(--bg);color:var(--fg);border-radius:999px;padding:7px 12px;cursor:pointer;min-width:64px}
+.ctl button:hover{border-color:var(--accent)}
+.ctl input[type=range]{flex:1;min-width:0;accent-color:var(--accent)}
+.ctl output{font:500 12px var(--f-mono);color:var(--muted);font-variant-numeric:tabular-nums;min-width:4.2em;text-align:right}
+.info{display:grid;gap:10px;min-width:0;align-content:start}
+.kind{justify-self:start;font:500 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:5px;background:var(--accent-soft);color:var(--accent)}
+.info h2{margin:0;font:800 21px/1.2 var(--f-display);letter-spacing:-.01em;text-wrap:balance}
+.info>p{margin:0;color:var(--muted);font-size:15px}
+.beats{margin:0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px}
+.beats li{display:grid;grid-template-columns:3.4em 1fr;gap:8px}
+.beats time{font:500 12px/1.9 var(--f-mono);color:var(--accent);font-variant-numeric:tabular-nums}
+.also{font-size:14px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;margin:0}
+.also b{color:var(--fg);font-weight:600}
+
+/* overlay text for the 3D scene */
+.ov{position:absolute;color:#fff;pointer-events:none}
+.ov-h{left:6.6cqw;top:9.5cqw}
+.ov-h i{display:block;font:500 2.9cqw var(--f-mono);font-style:normal;letter-spacing:.15em;color:#9AA3D6}
+.ov-h b{display:block;font:700 6.9cqw/1.2 var(--f-body);margin-top:1.6cqw}
+.ov-leg{left:6.6cqw;right:6.6cqw;bottom:7cqw;display:grid;gap:2.4cqw}
+.ov-leg div{display:flex;align-items:center;gap:2.6cqw;font:600 4cqw/1.3 var(--f-body)}
+.ov-leg span{width:4cqw;height:4cqw;border-radius:1cqw;flex:none}
+.ov-leg em{font-style:normal;font-family:var(--f-kb);font-weight:800}
+.ov-fin{left:0;right:0;bottom:12cqw;text-align:center;font:9cqw var(--f-kd)}
+.ov-fin small{display:block;font:500 3.8cqw var(--f-mono);color:#9AA3D6}
+.ov-fb{inset:0;display:grid;place-items:center;text-align:center;padding:10cqw;font:500 4cqw var(--f-body);color:#9AA3D6}
+
+/* svg text roles */
+.stage .tm{font-family:var(--f-mono);font-weight:500}
+.stage .tmb{font-family:var(--f-mono);font-weight:700}
+.stage .tt{font-family:var(--f-body);font-weight:700}
+.stage .ts{font-family:var(--f-body);font-weight:500}
+.stage .tk{font-family:var(--f-kd)}
+.stage .tb{font-family:var(--f-kb);font-weight:800}
+.stage .tbm{font-family:var(--f-kb);font-weight:500}
+.stage .th{font-family:var(--f-hand);font-weight:700}
+.stage .td{font-family:var(--f-display);font-weight:800}
+
+/* catalog */
+.more{padding-block:40px 20px}
+.more h2,.notes h2{font:800 clamp(22px,3.2vw,32px)/1.1 var(--f-display);margin:0 0 8px;letter-spacing:-.01em}
+.more>.wrap>p,.notes>.wrap>p{margin:0 0 22px;color:var(--muted);max-width:66ch}
+.cat{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,260px),1fr));gap:14px}
+.cat div{border-top:2px solid var(--fg);padding-top:10px;display:grid;gap:4px;min-width:0}
+.cat h3{margin:0;font:700 15.5px/1.3 var(--f-body)}
+.cat p{margin:0;font-size:14px;color:var(--muted)}
+.notes{padding-block:36px 64px}
+.ncols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.ncols div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:6px;align-content:start;min-width:0}
+.ncols h3{margin:0;font:700 16px var(--f-body)}
+.ncols p,.ncols li{margin:0;font-size:14.5px;color:var(--muted)}
+.ncols ul{margin:0;padding-left:18px;display:grid;gap:4px}
+footer .wrap{padding-block:22px 40px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+</style>
+
+<header><div class="wrap">
+  <div class="eyebrow">Lookbook vol. 2 · full-screen · 9:16</div>
+  <h1>Explainer Scene <em>Lookbook</em></h1>
+  <p class="lede"><b>13 full-screen scenes that explain an idea with pictures, not captions.</b> Each one is a scripted sequence of 9 to 12 seconds, built entirely from code and drawn in a different visual style. Press Pause and drag the scrubber to step through the beats. Every scene renders frame by frame, so it exports cleanly to a 1080×1920 video.</p>
+  <div class="styles" aria-label="Visual styles shown"><span>camera zoom</span><span>medical cross-section</span><span>3D</span><span>isometric</span><span>industrial flat</span><span>underwater metaphor</span><span>paper cutout</span><span>space</span><span>physics</span><span>flat characters</span><span>ink on paper</span><span>blueprint</span><span>whiteboard</span></div>
+</div></header>
+
+<main class="wrap"><div class="scenes">
+
+<article class="scene" data-scene="zoom"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Infinite zoom</span><h2>From paragraph to letter</h2><p>The camera dives through nested levels without a cut. Each level is redrawn sharp, so it holds up at any zoom.</p>
+<ul class="beats"><li><time>0:00</time>A paragraph, one sentence highlighted</li><li><time>0:01</time>Dive into the sentence; words get labeled</li><li><time>0:04</time>Dive into 한국어를; root and particle split</li><li><time>0:07</time>Dive into 한, which breaks into ㅎ + ㅏ + ㄴ</li></ul>
+<p class="also"><b>Also works for:</b> country → city → street, book → chapter → idea, company → team → role.</p></div></article>
+
+<article class="scene" data-scene="mouth"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Cross-section</span><h2>Why ㄱ looks like ㄱ</h2><p>A side view of the mouth. The tongue and lips move into position and the letter's shape is traced right over them.</p>
+<ul class="beats"><li><time>0:00</time>Cross-section draws in, parts labeled</li><li><time>0:01</time>Back of tongue rises, ㄱ traced</li><li><time>0:04</time>Tongue tip touches the ridge, ㄴ traced</li><li><time>0:07</time>Lips close, ㅁ traced</li></ul>
+<p class="also"><b>Also works for:</b> how an engine runs, how the ear hears, the inside of any object.</p></div></article>
+
+<article class="scene" data-scene="exploded"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Exploded view · 3D</span><h2>Inside one syllable</h2><p>Real 3D: the block turns to a three-quarter view, separates into layers, then snaps back together.</p>
+<ul class="beats"><li><time>0:00</time>Block assembles facing camera</li><li><time>0:01</time>Camera swings to a 3/4 angle</li><li><time>0:02</time>Pieces separate; each one is named</li><li><time>0:06</time>Reassemble and read: 한 = han</li></ul>
+<p class="also"><b>Also works for:</b> the parts of a product, the layers of an app, what's in a dish.</p></div></article>
+
+<article class="scene" data-scene="iso"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Isometric build-up</span><h2>How a verb is built</h2><p>Each grammar piece drops in as one floor of a building, so the structure literally stacks.</p>
+<ul class="beats"><li><time>0:00</time>Stem 가 lands as the foundation</li><li><time>0:02</time>Honorific 시, then past 었, then polite 어요</li><li><time>0:06</time>The tower reads as one word: 가셨어요</li></ul>
+<p class="also"><b>Also works for:</b> tech stacks, layers of a skill, building a habit step by step.</p></div></article>
+
+<article class="scene" data-scene="machine"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Process machine</span><h2>The past-tense machine</h2><p>A rule shown as a machine: words ride in on a belt, get processed, and come out transformed.</p>
+<ul class="beats"><li><time>0:00</time>가다 goes in, comes out 갔어요</li><li><time>0:03</time>먹다 → 먹었어요</li><li><time>0:06</time>하다 → 했어요</li></ul>
+<p class="also"><b>Also works for:</b> any input → process → output: recipes, workflows, how a law gets passed.</p></div></article>
+
+<article class="scene" data-scene="iceberg"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Metaphor + camera move</span><h2>What 괜찮아요 really means</h2><p>The camera sinks below the waterline to show everything under a polite "It's fine."</p>
+<ul class="beats"><li><time>0:00</time>Above water: "괜찮아요."</li><li><time>0:03</time>Camera dives under the surface</li><li><time>0:05</time>Hidden signals appear one by one</li><li><time>0:07</time>Name it: 눈치, reading the room</li></ul>
+<p class="also"><b>Also works for:</b> hidden costs, surface vs root causes, the work behind a result.</p></div></article>
+
+<article class="scene" data-scene="tree"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Growth tree · paper cutout</span><h2>One root, many words</h2><p>A Sino-Korean root grows into a tree of everyday words, with the shared part highlighted on every leaf.</p>
+<ul class="beats"><li><time>0:00</time>Root card 學 · 학 appears</li><li><time>0:01</time>Trunk grows, branches draw out</li><li><time>0:02</time>Six word-leaves pop on, each containing 학</li></ul>
+<p class="also"><b>Also works for:</b> family trees, product lines, one idea branching into many.</p></div></article>
+
+<article class="scene" data-scene="orbit"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">System diagram</span><h2>Particles orbit nouns</h2><p>The noun is a planet and particles are moons. One docks, and the sentence it makes appears.</p>
+<ul class="beats"><li><time>0:00</time>Six particles orbit 학교</li><li><time>0:03</time>에 docks → 학교에 가요</li><li><time>0:06</time>에서 docks → 학교에서 공부해요</li></ul>
+<p class="also"><b>Also works for:</b> ecosystems, a core product and its features, team structures.</p></div></article>
+
+<article class="scene" data-scene="balance"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Physics metaphor</span><h2>Two number systems</h2><p>A scale that really swings: each example drops into its pan and the beam settles with spring physics.</p>
+<ul class="beats"><li><time>0:01</time>세 시 drops into the native pan</li><li><time>0:03</time>삼십 분 into the Sino pan</li><li><time>0:05</time>Age, then money</li><li><time>0:08</time>Payoff: 세 시 삼십 분 uses both</li></ul>
+<p class="also"><b>Also works for:</b> pros vs cons, cost vs benefit, any trade-off.</p></div></article>
+
+<article class="scene" data-scene="bow"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Character scene</span><h2>How deep to bow</h2><p>A simple flat character acts it out while a protractor measures the angle.</p>
+<ul class="beats"><li><time>0:00</time>15° nod: 목례</li><li><time>0:03</time>30° standard bow: 보통례</li><li><time>0:07</time>45° deep bow: 정중례</li></ul>
+<p class="also"><b>Also works for:</b> etiquette, posture and body language, physical how-tos.</p></div></article>
+
+<article class="scene" data-scene="ink"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Shape morph · ink</span><h2>Pictures became hanja</h2><p>Brush strokes draw a picture, then bend into the character that came from it.</p>
+<ul class="beats"><li><time>0:00</time>Mountain → 山 · 산</li><li><time>0:04</time>Sun over the horizon → 日 · 일</li><li><time>0:08</time>Tree → 木 · 목</li></ul>
+<p class="also"><b>Also works for:</b> logo origins, how a design evolved, before → after.</p></div></article>
+
+<article class="scene" data-scene="blueprint"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Technical breakdown</span><h2>Anatomy of a sentence</h2><p>A blueprint drawing: parts get boxed and measured, then a detail callout magnifies the tricky bit.</p>
+<ul class="beats"><li><time>0:00</time>Sentence appears on the grid</li><li><time>0:01</time>Each part boxed and labeled</li><li><time>0:04</time>Detail circle: 만나 + 았 + 어요</li><li><time>0:06</time>Vowels merge → 만났어요</li></ul>
+<p class="also"><b>Also works for:</b> product specs, the anatomy of a good hook, annotated screenshots.</p></div></article>
+
+<article class="scene" data-scene="whiteboard"><div class="player"><div class="stage"></div><div class="ctl"><button type="button">Pause</button><input type="range" min="0" step="0.01" aria-label="Scrub scene"><output>0.0s</output></div></div>
+<div class="info"><span class="kind">Whiteboard sketch</span><h2>은/는 vs 이/가</h2><p>Marker lines draw themselves with a hand-made wobble, like explaining it on a whiteboard.</p>
+<ul class="beats"><li><time>0:01</time>Topic: 저는 학생이에요</li><li><time>0:04</time>Spotlight: 누가 학생이에요?</li><li><time>0:06</time>제가 학생이에요! with 가 circled</li></ul>
+<p class="also"><b>Also works for:</b> any casual "here's the difference" explanation.</p></div></article>
+
+</div></main>
+
+<section class="more"><div class="wrap">
+  <h2>More scenarios Claude can build</h2>
+  <p>The scenes above are samples. These are other kinds of full-screen explainer scenes made the same way, from vector shapes, type, simple 3D and physics.</p>
+  <div class="cat">
+    <div><h3>Map journeys</h3><p>Routes drawing between pins, regions lighting up. Where dialects are spoken, a trip itinerary.</p></div>
+    <div><h3>Cycles and loops</h3><p>A process that repeats, like a spaced-repetition review cycle or a feedback loop.</p></div>
+    <div><h3>Chain reactions</h3><p>Dominoes or gears where one cause visibly triggers the next.</p></div>
+    <div><h3>Scale comparisons</h3><p>Objects sized to their real numbers, e.g. study hours for five languages as stacked books.</p></div>
+    <div><h3>Cutaway rooms</h3><p>A house or café opened up, with every object labeled in Korean.</p></div>
+    <div><h3>Simulations</h3><p>Particles, crowds or spreading networks, e.g. how slang spreads from one group to everyone.</p></div>
+    <div><h3>Puzzle assembly</h3><p>Pieces that only fit one way: verb endings, sentence parts, product modules.</p></div>
+    <div><h3>Split-screen worlds</h3><p>Two scenes playing side by side, e.g. a dinner table in Korea vs the US.</p></div>
+    <div><h3>App walkthroughs</h3><p>A phone mockup tapping through screens to show how a feature works.</p></div>
+    <div><h3>Living infographics</h3><p>Several stats building one composition, then the camera tours it.</p></div>
+    <div><h3>3D fly-throughs</h3><p>A camera gliding through a 3D space of floating cards, objects or a simple city.</p></div>
+    <div><h3>Your own artwork, animated</h3><p>Send PNG or SVG layers (illustrations, photos, your logo) and Claude can add parallax, cut-out puppet moves and transitions.</p></div>
+  </div>
+</div></section>
+
+<section class="notes"><div class="wrap">
+  <h2>Making one for a real video</h2>
+  <p>Give Claude the script for the segment and say which scene type fits. It builds the scene to your timing, then renders it.</p>
+  <div class="ncols">
+    <div><h3>What to send</h3><ul><li>The lines you'll say over the scene, with rough timestamps</li><li>Your brand colors and fonts, if you have them</li><li>Any images or logos to include</li></ul></div>
+    <div><h3>What you get back</h3><ul><li>A live preview you can review and request changes on</li><li>A 1080×1920 MP4, rendered in Claude Code</li><li>A transparent or green-screen version, if it sits over your footage</li></ul></div>
+    <div><h3>Where it hits limits</h3><ul><li>No photoreal or AI-generated imagery</li><li>Characters stay simple, without lip-sync or expressive acting</li><li>3D stays at the level of simple shapes, not detailed scenes</li></ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">Vol. 1 covers captions, callouts and charts. Bow angles follow common Korean etiquette guidance; Hangul letter origins follow the Hunminjeongeum Haerye (1446).</div></footer>
+
+<script>
+(() => {
+const NS = 'http://www.w3.org/2000/svg';
+const cl = x => x < 0 ? 0 : x > 1 ? 1 : x;
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eo = p => 1 - Math.pow(1 - p, 3);
+const eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eb = p => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2); };
+const fade = (t, a, b, c, d) => Math.min(seg(t, a, b), 1 - seg(t, c, d));
+const lerpArr = (A, B, p) => A.map((a, i) => a + (B[i] - a) * p);
+function el(tag, attrs, parent, text) {
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (text != null) e.textContent = text;
+  if (parent) parent.appendChild(e);
+  return e;
+}
+const A = (e, attrs) => { for (const k in attrs) e.setAttribute(k, attrs[k]); };
+const O = (e, v) => e.setAttribute('opacity', (+v).toFixed(3));
+const D = (e, p) => e.setAttribute('stroke-dashoffset', (1 - p).toFixed(4));
+function svgRoot(stage, bg) {
+  const s = el('svg', { viewBox: '0 0 360 640', preserveAspectRatio: 'xMidYMid slice', role: 'img' }, stage);
+  if (bg) el('rect', { width: 360, height: 640, fill: bg }, s);
+  return s;
+}
+function head(s, eyebrow, title, col, sub) {
+  el('text', { x: 24, y: 52, class: 'tm', 'font-size': 10.5, fill: sub, 'letter-spacing': 1.6 }, s, eyebrow);
+  el('text', { x: 24, y: 84, class: 'tt', 'font-size': 25, fill: col }, s, title);
+}
+const drawable = (parent, d, attrs) => el('path', Object.assign({ d, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, fill: 'none' }, attrs), parent);
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function layout(str, F) {
+  const adv = ch => ch === ' ' ? .38 * F : /[.,!?]/.test(ch) ? .35 * F : /[A-Za-z]/.test(ch) ? .55 * F : .95 * F;
+  let total = 0;
+  const chars = [...str].map(ch => { const w = adv(ch); const o = { ch, w, x: total + w / 2 }; total += w; return o; });
+  chars.forEach(o => o.x -= total / 2);
+  return { chars, total };
+}
+function textRow(g, str, cx, cy, F, attrs) {
+  const L = layout(str, F);
+  L.chars.forEach(o => { o.x += cx; if (o.ch !== ' ') o.el = el('text', Object.assign({ x: o.x.toFixed(2), y: cy, 'font-size': F, 'text-anchor': 'middle', 'dominant-baseline': 'central' }, attrs), g, o.ch); });
+  return L;
+}
+
+const SCENES = {};
+
+/* ---------- 1. INFINITE ZOOM ---------- */
+SCENES.zoom = { dur: 12, poster: 5.0, build(stage) {
+  const s = svgRoot(stage, '#FBFBFD');
+  const world = el('g', {}, s);
+  const INK = '#12142A', SUN = '#FFD84D';
+  const lv = [0, 1, 2, 3].map(() => el('g', {}, world));
+  // L0 paragraph
+  const lines = ['오늘은 토요일이에요.', '날씨가 정말 좋아요.', '저는 카페에 가요.', '저는 한국어를 배워요.', '친구도 같이 와요.', '정말 재미있어요!'];
+  const hl0 = el('rect', { fill: SUN, rx: 3 }, lv[0]);
+  let tgt0;
+  lines.forEach((ln, i) => { const L = textRow(lv[0], ln, 180, 250 + i * 28, 15, { class: 'tbm', fill: INK }); if (i === 3) tgt0 = L; });
+  A(hl0, { x: 180 - tgt0.total / 2 - 5, y: 334 - 12, width: tgt0.total + 10, height: 24 });
+  // L1 sentence
+  const hl1 = el('rect', { fill: SUN, rx: 5 }, lv[1]);
+  const L1 = textRow(lv[1], '저는 한국어를 배워요.', 180, 320, 34, { class: 'tb', fill: INK });
+  const wc = (L, a, b) => { const c = L.chars; return { x0: c[a].x - c[a].w / 2, x1: c[b].x + c[b].w / 2, cx: (c[a].x + c[b].x) / 2 }; };
+  const w1 = [wc(L1, 0, 1), wc(L1, 3, 6), wc(L1, 8, 10)];
+  A(hl1, { x: w1[1].x0 - 4, y: 298, width: w1[1].x1 - w1[1].x0 + 8, height: 44 });
+  const lab1 = el('g', {}, lv[1]);
+  [['I', 'topic'], ['Korean', 'object'], ['learn', 'verb']].forEach((l, i) => {
+    el('line', { x1: w1[i].x0 + 2, x2: w1[i].x1 - 2, y1: 350, y2: 350, stroke: '#3047FF', 'stroke-width': 2 }, lab1);
+    el('text', { x: w1[i].cx, y: 368, 'text-anchor': 'middle', class: 'tt', 'font-size': 12, fill: INK }, lab1, l[0]);
+    el('text', { x: w1[i].cx, y: 383, 'text-anchor': 'middle', class: 'tm', 'font-size': 9, fill: '#3047FF' }, lab1, l[1].toUpperCase());
+  });
+  // L2 word
+  const hl2 = el('rect', { fill: SUN, rx: 8 }, lv[2]);
+  const L2 = textRow(lv[2], '한국어를', 180, 310, 72, { class: 'tb', fill: INK });
+  const c2 = L2.chars;
+  A(hl2, { x: c2[0].x - c2[0].w / 2 - 2, y: 268, width: c2[0].w + 4, height: 84 });
+  const lab2 = el('g', {}, lv[2]);
+  const b1 = { x0: c2[0].x - c2[0].w / 2, x1: c2[2].x + c2[2].w / 2 }, b2 = { x0: c2[3].x - c2[3].w / 2, x1: c2[3].x + c2[3].w / 2 };
+  [[b1, 'Korean (language)'], [b2, 'object marker']].forEach(([b, t]) => {
+    el('path', { d: `M${b.x0 + 3} 360 v10 H${b.x1 - 3} v-10`, fill: 'none', stroke: '#3047FF', 'stroke-width': 2.5 }, lab2);
+    el('text', { x: (b.x0 + b.x1) / 2, y: 392, 'text-anchor': 'middle', class: 'tt', 'font-size': 13, fill: INK }, lab2, t);
+  });
+  // L3 syllable
+  const L3 = el('g', {}, lv[3]);
+  const syl = el('text', { x: 180, y: 300, 'font-size': 230, class: 'tb', fill: INK, 'text-anchor': 'middle', 'dominant-baseline': 'central' }, L3, '한');
+  const jam = [['ㅎ', 118, 230, 120, '#3047FF', 'h'], ['ㅏ', 262, 262, 130, '#FF4F8B', 'a'], ['ㄴ', 168, 384, 120, '#1FB088', 'n']].map(j => {
+    const g = el('g', {}, L3);
+    el('text', { x: j[1], y: j[2], 'font-size': j[3], class: 'tb', fill: j[4], 'text-anchor': 'middle', 'dominant-baseline': 'central' }, g, j[0]);
+    const c = el('g', {}, g);
+    el('rect', { x: j[1] - 14, y: j[2] + j[3] * .42, width: 28, height: 20, rx: 10, fill: j[4] }, c);
+    el('text', { x: j[1], y: j[2] + j[3] * .42 + 14.5, 'text-anchor': 'middle', class: 'tmb', 'font-size': 12, fill: '#fff' }, c, j[5]);
+    return { g, c, x: j[1], y: j[2] };
+  });
+  // transforms
+  const sc = [1, 15 / 34, 15 / 34 * 34 / 72, 15 / 34 * 34 / 72 * 72 / 230];
+  const o = [{ x: 0, y: 0 }];
+  const T = (k, p) => ({ x: o[k].x + p.x * sc[k], y: o[k].y + p.y * sc[k] });
+  o[1] = { x: 180 - 180 * sc[1], y: 334 - 320 * sc[1] };
+  const f1 = T(1, { x: w1[1].cx, y: 320 });
+  o[2] = { x: f1.x - 180 * sc[2], y: f1.y - 310 * sc[2] };
+  const f2 = T(2, { x: c2[0].x, y: 310 });
+  o[3] = { x: f2.x - 180 * sc[3], y: f2.y - 300 * sc[3] };
+  lv.forEach((g, k) => A(g, { transform: `translate(${o[k].x} ${o[k].y}) scale(${sc[k]})` }));
+  const C = [{ x: 180, y: 320 }, T(1, { x: 180, y: 320 }), T(2, { x: 180, y: 320 }), T(3, { x: 180, y: 320 })];
+  const F = [{ x: 180, y: 334 }, f1, f2];
+  const TR = [[1.2, 2.7], [4.3, 5.8], [7.4, 8.9]];
+  // HUD
+  const hud = el('g', {}, s);
+  el('rect', { x: 0, y: 0, width: 360, height: 70, fill: '#FBFBFD', opacity: .92 }, hud);
+  el('text', { x: 24, y: 36, class: 'tm', 'font-size': 10.5, fill: '#6B7090', 'letter-spacing': 1.6 }, hud, 'INFINITE ZOOM');
+  const steps = ['PARAGRAPH', 'SENTENCE', 'WORD', 'SYLLABLE', 'LETTERS'];
+  let hx = 24;
+  const stepEls = steps.map(n => { const e = el('text', { x: hx, y: 56, class: 'tmb', 'font-size': 9.5, 'letter-spacing': .6 }, hud, n); hx += n.length * 6.2 + 12; return e; });
+  const capBg = el('rect', { x: 0, y: 560, width: 360, height: 80, fill: '#FBFBFD', opacity: .92 }, hud);
+  const caps = ['Start with a paragraph', 'Zoom into one sentence', '…into one word', '…into one syllable block', '…down to its letters: ㅎ + ㅏ + ㄴ'].map(c => el('text', { x: 180, y: 600, 'text-anchor': 'middle', class: 'tt', 'font-size': 16, fill: INK }, hud, c));
+  const white = el('rect', { width: 360, height: 640, fill: '#FBFBFD' }, s);
+  return t => {
+    let k = 0, p = 0;
+    for (let i = 0; i < 3; i++) { if (t >= TR[i][0]) { k = i; p = eio(seg(t, TR[i][0], TR[i][1])); } }
+    if (t < TR[0][0]) { k = 0; p = 0; }
+    let Z, Cc;
+    if (p <= 0 && t < TR[0][0]) { Z = 1; Cc = C[0]; }
+    else {
+      const Zk = 1 / sc[k], Zk1 = 1 / sc[k + 1];
+      Z = Math.pow(Zk, 1 - p) * Math.pow(Zk1, p);
+      const Fw = F[k];
+      const S0 = { x: (Fw.x - C[k].x) * Zk, y: (Fw.y - C[k].y) * Zk }, S1 = { x: (Fw.x - C[k + 1].x) * Zk1, y: (Fw.y - C[k + 1].y) * Zk1 };
+      Cc = { x: Fw.x - lerp(S0.x, S1.x, p) / Z, y: Fw.y - lerp(S0.y, S1.y, p) / Z };
+    }
+    A(world, { transform: `translate(180 320) scale(${Z}) translate(${-Cc.x} ${-Cc.y})` });
+    const lvl = t < TR[0][0] ? 0 : k + p;
+    lv.forEach((g, i) => {
+      let v;
+      if (i === 0) v = 1 - seg(lvl, .65, .95);
+      else v = Math.min(seg(lvl, i - 1 + .4, i - 1 + .75), 1 - seg(lvl, i + .65, i + .95));
+      O(g, v); g.style.display = v < .002 ? 'none' : '';
+    });
+    O(hl0, seg(t, .3, .8)); O(hl1, fade(t, 3.5, 3.9, 4.6, 5.2)); O(hl2, fade(t, 6.6, 7.0, 7.7, 8.3));
+    O(lab1, fade(t, 2.8, 3.3, 4.3, 4.6)); O(lab2, fade(t, 5.9, 6.4, 7.4, 7.7));
+    const sp = eio(seg(t, 9.2, 10.0));
+    O(syl, 1 - seg(t, 9.0, 9.4));
+    jam.forEach((j, i) => {
+      const dx = (j.x - 180) * .18 * sp, dy = (j.y - 300) * .18 * sp;
+      A(j.g, { transform: `translate(${dx} ${dy})` }); O(j.g, seg(t, 9.0, 9.4)); O(j.c, seg(t, 9.8 + i * .2, 10.1 + i * .2));
+    });
+    const stage_ = t < TR[0][1] - .5 ? 0 : t < TR[1][1] - .5 ? 1 : t < TR[2][1] - .5 ? 2 : t < 9.1 ? 3 : 4;
+    stepEls.forEach((e, i) => A(e, { fill: i === stage_ ? '#3047FF' : '#B4B8CC' }));
+    caps.forEach((c, i) => O(c, i === stage_ ? seg(t, [0, TR[0][1] - .5, TR[1][1] - .5, TR[2][1] - .5, 9.1][i], [0, TR[0][1] - .5, TR[1][1] - .5, TR[2][1] - .5, 9.1][i] + .4) || (i === 0 ? 1 : 0) : 0));
+    O(white, Math.max(seg(t, 11.3, 11.8), 1 - seg(t, 0, .4)));
+  };
+} };
+
+/* ---------- 2. MOUTH CROSS-SECTION ---------- */
+SCENES.mouth = { dur: 10.5, poster: 3.1, build(stage) {
+  const s = svgRoot(stage, '#E8EEF5');
+  const INK = '#12142A', BLUE = '#3047FF';
+  head(s, 'HANGUL WAS DRAWN FROM THE MOUTH', 'Why ㄱ looks like ㄱ', INK, '#5B6B85');
+  const outl = ['M168 128 C 118 128, 92 160, 90 200 L 70 246 Q 66 256, 78 258 L 90 262 L 88 282',
+    'M90 352 C 88 380, 104 400, 146 404 L 196 404 C 206 420, 210 436, 212 446',
+    'M168 128 C 250 124, 306 172, 306 258 C 306 330, 290 380, 284 446'].map(d => drawable(s, d, { stroke: INK, 'stroke-width': 3, 'stroke-linecap': 'round' }));
+  const pal = drawable(s, 'M104 300 C 136 286, 204 280, 240 296 C 258 304, 266 326, 266 360 L 266 446', { stroke: INK, 'stroke-width': 4, 'stroke-linecap': 'round' });
+  const rest = [106, 338, 130, 320, 190, 314, 228, 328, 248, 336, 252, 380, 248, 432];
+  const gS = [108, 340, 128, 332, 176, 302, 234, 298, 258, 300, 256, 380, 248, 432];
+  const nS = [106, 302, 116, 294, 160, 328, 226, 336, 248, 340, 252, 380, 248, 432];
+  const tD = P => `M${P[0]} ${P[1]} C${P[2]} ${P[3]} ${P[4]} ${P[5]} ${P[6]} ${P[7]} C${P[8]} ${P[9]} ${P[10]} ${P[11]} ${P[12]} ${P[13]} L200 440 C150 430 116 392 ${P[0]} ${P[1] + 10} Z`;
+  const tongue = el('path', { fill: '#E9788F', stroke: INK, 'stroke-width': 2.5, 'stroke-linejoin': 'round' }, s);
+  el('rect', { x: 92, y: 294, width: 10, height: 16, rx: 2, fill: '#fff', stroke: INK, 'stroke-width': 2 }, s);
+  el('rect', { x: 94, y: 332, width: 10, height: 14, rx: 2, fill: '#fff', stroke: INK, 'stroke-width': 2 }, s);
+  const lipU = el('path', { d: 'M88 282 C 74 286, 74 302, 90 308 L 102 304 L 102 286 Z', fill: '#D9667E', stroke: INK, 'stroke-width': 2.5 }, s);
+  const lipL = el('path', { d: 'M90 328 C 74 332, 74 350, 92 354 L 104 350 L 104 330 Z', fill: '#D9667E', stroke: INK, 'stroke-width': 2.5 }, s);
+  const labs = el('g', {}, s);
+  [['PALATE', 150, 272], ['THROAT', 274, 432], ['LIPS', 26, 324]].forEach(l => el('text', { x: l[1], y: l[2], class: 'tm', 'font-size': 9.5, fill: '#5B6B85', 'letter-spacing': 1 }, labs, l[0]));
+  el('line', { x1: 56, y1: 320, x2: 74, y2: 318, stroke: '#5B6B85', 'stroke-width': 1 }, labs);
+  const tl = el('text', { x: 172, y: 372, class: 'tmb', 'font-size': 9.5, fill: '#fff', 'letter-spacing': 1 }, labs, 'TONGUE');
+  const traceAttrs = { stroke: BLUE, 'stroke-width': 6, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' };
+  const tr = [drawable(s, 'M174 286 L 240 286 L 240 346', traceAttrs), drawable(s, 'M98 268 L 98 314 L 152 314', traceAttrs), drawable(s, 'M68 278 H 114 V 356 H 68 Z', traceAttrs)];
+  const pulse = [el('circle', { cx: 238, cy: 300, fill: 'none', stroke: BLUE, 'stroke-width': 2.5 }, s), el('circle', { cx: 106, cy: 300, fill: 'none', stroke: BLUE, 'stroke-width': 2.5 }, s), el('circle', { cx: 90, cy: 318, fill: 'none', stroke: BLUE, 'stroke-width': 2.5 }, s)];
+  el('rect', { x: 24, y: 462, width: 312, height: 150, rx: 18, fill: '#fff' }, s);
+  const intro = el('g', {}, s);
+  el('text', { x: 180, y: 530, 'text-anchor': 'middle', class: 'tt', 'font-size': 17, fill: INK }, intro, 'Three letters, three mouth shapes');
+  el('text', { x: 180, y: 556, 'text-anchor': 'middle', class: 'tb', 'font-size': 26, fill: BLUE, 'letter-spacing': 10 }, intro, 'ㄱ ㄴ ㅁ');
+  const G = [['ㄱ', 'giyeok', 'The back of the tongue', 'blocks the throat.'], ['ㄴ', 'nieun', 'The tongue tip touches', 'the ridge behind the teeth.'], ['ㅁ', 'mieum', 'The shape of the', 'closed mouth.']].map(g => {
+    const e = el('g', {}, s);
+    el('text', { x: 92, y: 540, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tk', 'font-size': 100, fill: BLUE }, e, g[0]);
+    el('text', { x: 164, y: 512, class: 'tt', 'font-size': 18, fill: INK }, e, g[0] + ' · ' + g[1]);
+    el('text', { x: 164, y: 538, class: 'ts', 'font-size': 13.5, fill: '#3A3F5C' }, e, g[2]);
+    el('text', { x: 164, y: 556, class: 'ts', 'font-size': 13.5, fill: '#3A3F5C' }, e, g[3]);
+    el('text', { x: 164, y: 590, class: 'tm', 'font-size': 9, fill: '#8A90AA' }, e, 'per the 훈민정음 해례, 1446');
+    return e;
+  });
+  return t => {
+    const p = eo(seg(t, 0, 1)); outl.forEach(o => D(o, p)); D(pal, p);
+    let P;
+    if (t < 4.4) P = lerpArr(rest, gS, eio(seg(t, 1.2, 2)) - eio(seg(t, 3.8, 4.4)));
+    else P = lerpArr(rest, nS, eio(seg(t, 4.4, 5.2)) - eio(seg(t, 7.0, 7.6)));
+    A(tongue, { d: tD(P) }); O(tongue, seg(t, .5, 1));
+    const m = eio(seg(t, 7.6, 8.2)) - eio(seg(t, 9.8, 10.3));
+    A(lipU, { transform: `translate(0 ${10 * m})` }); A(lipL, { transform: `translate(0 ${-12 * m})` });
+    O(labs, fade(t, .8, 1.2, 9.9, 10.3));
+    [[2.1, 2.9, 3.9, 4.3], [5.2, 6.0, 7.1, 7.5], [8.2, 9.0, 9.9, 10.3]].forEach((w, i) => { D(tr[i], eo(seg(t, w[0], w[1]))); O(tr[i], 1 - seg(t, w[2], w[3])); });
+    [[2.0, 3.7], [5.2, 6.9], [8.2, 9.8]].forEach((w, i) => { const on = t >= w[0] && t <= w[1]; const f = (t * 1.6) % 1; A(pulse[i], { r: 6 + 18 * f }); O(pulse[i], on ? 1 - f : 0); });
+    O(intro, Math.max(1 - seg(t, 2.3, 2.7), seg(t, 10.1, 10.5)));
+    O(G[0], fade(t, 2.6, 3.0, 5.3, 5.6)); O(G[1], fade(t, 5.6, 6.0, 8.4, 8.7)); O(G[2], fade(t, 8.6, 9.0, 9.9, 10.3));
+  };
+} };
+
+/* ---------- 3. EXPLODED 3D ---------- */
+SCENES.exploded = { dur: 10, poster: 4.4, build(stage) {
+  const ov = (cls, html) => { const d = document.createElement('div'); d.className = 'ov ' + cls; d.innerHTML = html; stage.appendChild(d); return d; };
+  if (!window.THREE) { stage.style.background = '#0F1226'; ov('ov-fb', 'The 3D library could not load in this view. In a normal browser this scene renders in real 3D.'); return () => {}; }
+  const T3 = window.THREE;
+  const canvas = document.createElement('canvas'); stage.appendChild(canvas);
+  const renderer = new T3.WebGLRenderer({ canvas, antialias: true });
+  renderer.setClearColor(0x0F1226, 1);
+  const scene = new T3.Scene();
+  const cam = new T3.PerspectiveCamera(34, 9 / 16, .1, 100); cam.position.set(0, 0, 10.5);
+  scene.add(new T3.AmbientLight(0xffffff, .62));
+  const dl = new T3.DirectionalLight(0xffffff, .75); dl.position.set(3, 4, 6); scene.add(dl);
+  const grp = new T3.Group(); grp.position.y = .25; scene.add(grp);
+  const tex = (ch, w, h, bg) => {
+    const c = document.createElement('canvas'); c.width = Math.round(256 * w); c.height = Math.round(256 * h);
+    const x = c.getContext('2d'); x.fillStyle = bg; x.fillRect(0, 0, c.width, c.height);
+    x.fillStyle = '#12142A'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    x.font = `800 ${Math.round(Math.min(c.width, c.height) * .78)}px "Noto Sans KR", sans-serif`;
+    x.fillText(ch, c.width / 2, c.height / 2 + c.height * .03);
+    const t = new T3.CanvasTexture(c); t.anisotropy = 4; return t;
+  };
+  const tiles = [
+    { ch: 'ㅎ', w: 1.3, h: 1.3, x: -.72, y: .72, c: '#FFC92E', z: 1.4, sx: -.35, sy: .3 },
+    { ch: 'ㅏ', w: .8, h: 1.3, x: .6, y: .72, c: '#FF4F8B', z: 0, sx: .45, sy: .3 },
+    { ch: 'ㄴ', w: 2.2, h: .9, x: -.1, y: -.58, c: '#1FCF9C', z: -1.4, sx: 0, sy: -.45 }
+  ].map(d => {
+    const side = new T3.MeshStandardMaterial({ color: new T3.Color(d.c).multiplyScalar(.7), roughness: .5 });
+    const front = new T3.MeshStandardMaterial({ map: tex(d.ch, d.w, d.h, d.c), roughness: .45 });
+    const m = new T3.Mesh(new T3.BoxGeometry(d.w, d.h, .3), [side, side, side, side, front, side]);
+    grp.add(m); d.m = m; return d;
+  });
+  ov('ov-h', '<i>EXPLODED VIEW · 3D</i><b>Inside one syllable</b>');
+  const leg = ov('ov-leg', [['#FFC92E', 'ㅎ', 'first consonant · h'], ['#FF4F8B', 'ㅏ', 'vowel · a'], ['#1FCF9C', 'ㄴ', 'final consonant (받침) · n']].map(r => `<div><span style="background:${r[0]}"></span><em>${r[1]}</em>${r[2]}</div>`).join(''));
+  const legRows = [...leg.children];
+  const fin = ov('ov-fin', '한<small>han · ㅎ + ㅏ + ㄴ</small>');
+  return t => {
+    const dpr = Math.min(2, devicePixelRatio || 1), W = stage.clientWidth, H = stage.clientHeight;
+    if (canvas.width !== Math.round(W * dpr)) { renderer.setPixelRatio(dpr); renderer.setSize(W, H, false); cam.aspect = W / H; cam.updateProjectionMatrix(); }
+    const turn = eio(seg(t, 1, 2.2)) - eio(seg(t, 7.4, 8.6));
+    const e = eio(seg(t, 2.2, 3.4)) - eio(seg(t, 6.4, 7.6));
+    const sc = .55 + .45 * eb(seg(t, 0, .9));
+    grp.scale.setScalar(sc * (1 - .12 * e));
+    grp.rotation.y = -.78 * turn + Math.sin(t * 1.3) * .05;
+    grp.rotation.x = .36 * turn;
+    tiles.forEach(d => d.m.position.set(d.x + d.sx * e, d.y + d.sy * e, d.z * e));
+    legRows.forEach((r, i) => r.style.opacity = fade(t, 3.4 + i * .5, 3.8 + i * .5, 6.4, 6.8));
+    fin.style.opacity = fade(t, 8.4, 8.9, 9.6, 10);
+    renderer.render(scene, cam);
+  };
+} };
+
+/* ---------- 4. ISOMETRIC BUILD ---------- */
+SCENES.iso = { dur: 10, poster: 7.2, build(stage) {
+  const s = svgRoot(stage, '#E4E9F8');
+  const INK = '#12142A';
+  head(s, 'ISOMETRIC BUILD-UP', 'How a verb is built', INK, '#5B6B85');
+  el('ellipse', { cx: 180, cy: 512, rx: 150, ry: 44, fill: 'rgba(18,20,42,.08)' }, s);
+  const W = 100, Dd = 100, H = 44;
+  const iso = (x, y, z) => [180 + (x - y) * .866, 410 + (x + y) * .5 - z];
+  const pts = arr => arr.map(p => iso(...p).map(v => v.toFixed(1)).join(',')).join(' ');
+  const data = [['가', 'STEM', '#A9B4FF', '#7383F2', '#5465DA'], ['시', 'HONORIFIC', '#FFA6C4', '#FF4F8B', '#D63A72'], ['었', 'PAST', '#8DEBCB', '#1FCF9C', '#14A57B'], ['어요', 'POLITE', '#FFE48A', '#FFC92E', '#DDA400']];
+  const floors = data.map((d, i) => {
+    const z0 = i * H, z1 = z0 + H, g = el('g', {}, s);
+    el('polygon', { points: pts([[0, Dd, z0], [W, Dd, z0], [W, Dd, z1], [0, Dd, z1]]), fill: d[3] }, g);
+    el('polygon', { points: pts([[W, 0, z0], [W, Dd, z0], [W, Dd, z1], [W, 0, z1]]), fill: d[4] }, g);
+    el('polygon', { points: pts([[0, 0, z1], [W, 0, z1], [W, Dd, z1], [0, Dd, z1]]), fill: d[2] }, g);
+    const p = iso(W / 2, Dd, (z0 + z1) / 2);
+    el('text', { transform: `matrix(.866 .5 0 1 ${p[0]} ${p[1]})`, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tb', 'font-size': 24, fill: INK }, g, d[0]);
+    const chip = el('g', {}, s), q = iso(W, Dd / 2, (z0 + z1) / 2);
+    el('line', { x1: q[0], y1: q[1], x2: 282, y2: q[1], stroke: INK, 'stroke-width': 1.2 }, chip);
+    el('circle', { cx: q[0], cy: q[1], r: 3, fill: INK }, chip);
+    el('rect', { x: 282, y: q[1] - 10, width: 70, height: 20, rx: 10, fill: INK }, chip);
+    el('text', { x: 317, y: q[1] + 3.5, 'text-anchor': 'middle', class: 'tmb', 'font-size': 9, fill: '#fff' }, chip, d[1]);
+    return { g, chip, land: .6 + i * 1.25 };
+  });
+  const cap = el('g', {}, s);
+  el('text', { x: 180, y: 566, 'text-anchor': 'middle', class: 'tb', 'font-size': 14, fill: '#5B6B85' }, cap, '가 + 시 + 었 + 어요');
+  el('text', { x: 180, y: 603, 'text-anchor': 'middle', class: 'tk', 'font-size': 36, fill: INK }, cap, '가셨어요');
+  el('text', { x: 180, y: 627, 'text-anchor': 'middle', class: 'ts', 'font-size': 12, fill: '#5B6B85' }, cap, '"(they) went" · said respectfully');
+  return t => {
+    const out = 1 - seg(t, 9.2, 9.8);
+    floors.forEach(f => {
+      const p = seg(t, f.land - .7, f.land);
+      const squash = t > f.land ? 1 - .05 * Math.sin(seg(t, f.land, f.land + .3) * Math.PI) : 1;
+      A(f.g, { transform: `translate(0 ${-(1 - eo(p)) * 320}) translate(180 ${410}) scale(1 ${squash}) translate(-180 -410)` });
+      O(f.g, Math.min(seg(t, f.land - .7, f.land - .45), out));
+      O(f.chip, fade(t, f.land + .1, f.land + .4, 9.0, 9.4));
+    });
+    O(cap, fade(t, 6.0, 6.5, 9.1, 9.5));
+  };
+} };
+
+/* ---------- 5. MACHINE ---------- */
+SCENES.machine = { dur: 9, poster: 2.2, build(stage) {
+  const s = svgRoot(stage, '#17203D');
+  head(s, 'PROCESS MACHINE', 'The past-tense machine', '#FFFFFF', '#9DA6CC');
+  const defs = el('defs', {}, s);
+  const pat = el('pattern', { id: 'mc-hz', width: 16, height: 16, patternUnits: 'userSpaceOnUse', patternTransform: 'rotate(45)' }, defs);
+  el('rect', { width: 16, height: 16, fill: '#FFC92E' }, pat); el('rect', { width: 8, height: 16, fill: '#12142A' }, pat);
+  const gearD = (r, n, d) => { let p = ''; const st = Math.PI * 2 / n; for (let i = 0; i < n; i++) { const a = i * st; [[r - d, a], [r, a + st * .2], [r, a + st * .5], [r - d, a + st * .7]].forEach(([rr, aa], j) => { p += (i === 0 && j === 0 ? 'M' : 'L') + (rr * Math.cos(aa)).toFixed(1) + ' ' + (rr * Math.sin(aa)).toFixed(1); }); } return p + 'Z'; };
+  const g1 = el('g', {}, s), g2 = el('g', {}, s);
+  el('path', { d: gearD(32, 10, 7), fill: '#8C9BFF' }, g1); el('circle', { r: 8, fill: '#17203D' }, g1);
+  el('path', { d: gearD(23, 8, 6), fill: '#FF4F8B' }, g2); el('circle', { r: 6, fill: '#17203D' }, g2);
+  const piston = el('g', {}, s);
+  el('rect', { x: 174, y: 196, width: 12, height: 90, fill: '#9DA6CC' }, piston);
+  el('rect', { x: 158, y: 276, width: 44, height: 14, rx: 3, fill: '#C9D0EE' }, piston);
+  el('rect', { x: 0, y: 470, width: 360, height: 16, fill: '#2B3766' }, s);
+  const belt = el('line', { x1: 0, y1: 478, x2: 360, y2: 478, stroke: '#4A5890', 'stroke-width': 4, 'stroke-dasharray': '14 10' }, s);
+  for (let x = 30; x < 360; x += 60) el('circle', { cx: x, cy: 494, r: 7, fill: '#4A5890' }, s);
+  const item = el('g', {}, s);
+  const itemR = el('rect', { x: -46, y: -23, width: 92, height: 46, rx: 10 }, item);
+  const itemT = el('text', { y: 1, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tb', 'font-size': 18, fill: '#12142A' }, item);
+  el('rect', { x: 118, y: 292, width: 124, height: 180, rx: 8, fill: '#FFC92E' }, s);
+  el('rect', { x: 118, y: 292, width: 124, height: 20, fill: 'url(#mc-hz)' }, s);
+  el('rect', { x: 134, y: 326, width: 92, height: 60, rx: 6, fill: '#0E142B' }, s);
+  el('text', { x: 180, y: 348, 'text-anchor': 'middle', class: 'tb', 'font-size': 12, fill: '#1FCF9C' }, s, '-다 →');
+  el('text', { x: 180, y: 370, 'text-anchor': 'middle', class: 'tb', 'font-size': 13, fill: '#1FCF9C' }, s, '았/었어요');
+  el('rect', { x: 118, y: 418, width: 6, height: 52, fill: '#12142A' }, s); el('rect', { x: 236, y: 418, width: 6, height: 52, fill: '#12142A' }, s);
+  const light = el('circle', { cx: 226, cy: 406, r: 6 }, s);
+  const puff = el('g', {}, s);
+  [[256, 280, 8], [268, 266, 11], [282, 250, 9]].forEach(c => el('circle', { cx: c[0], cy: c[1], r: c[2], fill: '#C9D0EE' }, puff));
+  const items = [['가다', '갔어요', 'went'], ['먹다', '먹었어요', 'ate'], ['하다', '했어요', 'did']];
+  const capK = el('text', { x: 180, y: 556, 'text-anchor': 'middle', class: 'tb', 'font-size': 24, fill: '#fff' }, s);
+  const capE = el('text', { x: 180, y: 584, 'text-anchor': 'middle', class: 'ts', 'font-size': 14, fill: '#9DA6CC' }, s);
+  el('text', { x: 180, y: 622, 'text-anchor': 'middle', class: 'tbm', 'font-size': 10.5, fill: '#9DA6CC' }, s, 'ㅏ/ㅗ → 았어요 · others → 었어요 · 하다 → 했어요');
+  return t => {
+    const idx = Math.floor(t / 3) % 3, lt = t % 3, it = items[idx];
+    let x;
+    if (lt < 1) x = lerp(-60, 180, eio(lt)); else if (lt < 1.7) x = 180; else x = lerp(180, 420, eio((lt - 1.7) / 1.3));
+    const outp = lt > 1.35;
+    A(item, { transform: `translate(${x} 447)` });
+    A(itemR, { fill: outp ? '#1FCF9C' : '#FFFFFF' }); itemT.textContent = outp ? it[1] : it[0];
+    const press = fade(lt, 1.0, 1.15, 1.25, 1.45);
+    A(piston, { transform: `translate(0 ${16 * press})` });
+    const a1 = t * 70 + 120 * eio(seg(lt, 1.0, 1.6));
+    A(g1, { transform: `translate(140 262) rotate(${a1})` }); A(g2, { transform: `translate(222 248) rotate(${-a1 * 32 / 23 + 10})` });
+    A(belt, { 'stroke-dashoffset': (-t * 80).toFixed(1) });
+    A(light, { fill: lt > 1.3 && lt < 2.6 ? '#1FCF9C' : '#FF6B3D' });
+    O(puff, fade(lt, 1.2, 1.35, 1.5, 1.9)); A(puff, { transform: `translate(0 ${-14 * seg(lt, 1.2, 1.9)})` });
+    capK.textContent = it[0] + ' → ' + it[1]; capE.textContent = '"' + it[2] + '"';
+    const co = fade(lt, 1.6, 1.9, 2.75, 3.0); O(capK, co); O(capE, co);
+  };
+} };
+
+/* ---------- 6. ICEBERG ---------- */
+SCENES.iceberg = { dur: 11, poster: 6.9, build(stage) {
+  const s = svgRoot(stage, '#BFE0FF');
+  const defs = el('defs', {}, s);
+  const sky = el('linearGradient', { id: 'ib-sky', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: 0, 'stop-color': '#A9D4FF' }, sky); el('stop', { offset: 1, 'stop-color': '#E6F3FF' }, sky);
+  const wat = el('linearGradient', { id: 'ib-w', x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+  el('stop', { offset: 0, 'stop-color': '#2C70B5' }, wat); el('stop', { offset: 1, 'stop-color': '#081833' }, wat);
+  const world = el('g', {}, s);
+  el('rect', { width: 360, height: 250, fill: 'url(#ib-sky)' }, world);
+  el('rect', { y: 250, width: 360, height: 900, fill: 'url(#ib-w)' }, world);
+  [[60, 120], [150, 200], [250, 290]].forEach(r => el('polygon', { points: `${r[0]},250 ${r[0] + 40},250 ${r[1] + 30},900 ${r[1] - 30},900`, fill: '#fff', opacity: .05 }, world));
+  el('polygon', { points: '100,250 60,400 40,560 90,700 180,770 280,690 322,520 292,380 240,250', fill: '#8EC3EE', opacity: .88 }, world);
+  el('polygon', { points: '132,250 160,196 182,210 206,168 236,250', fill: '#F4FBFF' }, world);
+  const surf = el('path', { fill: 'none', stroke: '#fff', 'stroke-width': 2, opacity: .8 }, world);
+  el('text', { x: 20, y: 240, class: 'tmb', 'font-size': 9.5, fill: '#12305C', 'letter-spacing': 1 }, world, "ABOVE: WHAT'S SAID");
+  el('text', { x: 20, y: 274, class: 'tmb', 'font-size': 9.5, fill: '#D7EAFF', 'letter-spacing': 1 }, world, "BELOW: WHAT'S MEANT");
+  const r = rng(7);
+  const bubbles = Array.from({ length: 16 }, () => ({ e: el('circle', { r: 1.5 + r() * 3, fill: 'none', stroke: '#CFE6FF', 'stroke-width': 1, opacity: .6 }, world), x: 20 + r() * 320, o: r() }));
+  const sp = el('g', {}, world);
+  el('rect', { x: 198, y: 114, width: 140, height: 50, rx: 14, fill: '#fff', stroke: '#12142A', 'stroke-width': 2 }, sp);
+  el('path', { d: 'M214 162 L206 180 L228 163', fill: '#fff', stroke: '#12142A', 'stroke-width': 2, 'stroke-linejoin': 'round' }, sp);
+  el('rect', { x: 212, y: 158, width: 20, height: 6, fill: '#fff' }, sp);
+  el('text', { x: 268, y: 138, 'text-anchor': 'middle', class: 'tb', 'font-size': 18, fill: '#12142A' }, sp, '괜찮아요.');
+  el('text', { x: 268, y: 154, 'text-anchor': 'middle', class: 'ts', 'font-size': 11.5, fill: '#5B6B85' }, sp, '"It\'s fine."');
+  const chips = [['tone of voice', 180, 444], ['how long they paused', 156, 506], ['who is older', 214, 568], ["what they didn't say", 170, 630]].map(c => {
+    const g = el('g', {}, world), w = c[0].length * 7.4 + 28;
+    el('rect', { x: c[1] - w / 2, y: c[2] - 16, width: w, height: 32, rx: 16, fill: '#0E2A55' }, g);
+    el('text', { x: c[1], y: c[2] + 5, 'text-anchor': 'middle', class: 'tt', 'font-size': 13.5, fill: '#fff' }, g, c[0]);
+    return g;
+  });
+  const hud = el('g', {}, s);
+  el('rect', { x: 16, y: 24, width: 328, height: 80, rx: 14, fill: 'rgba(8,24,51,.8)' }, hud);
+  el('text', { x: 32, y: 52, class: 'tm', 'font-size': 10.5, fill: '#9EC1F2', 'letter-spacing': 1.6 }, hud, 'ICEBERG METAPHOR');
+  el('text', { x: 32, y: 84, class: 'tt', 'font-size': 23, fill: '#fff' }, hud, 'What 괜찮아요 really means');
+  const fin = el('g', {}, s);
+  el('rect', { x: 16, y: 536, width: 328, height: 84, rx: 14, fill: '#fff' }, fin);
+  el('text', { x: 180, y: 574, 'text-anchor': 'middle', class: 'tk', 'font-size': 30, fill: '#12142A' }, fin, '눈치');
+  el('text', { x: 180, y: 602, 'text-anchor': 'middle', class: 'ts', 'font-size': 13.5, fill: '#3A3F5C' }, fin, "nunchi: reading what's under the surface");
+  return t => {
+    const pan = 330 * (eio(seg(t, 3.0, 4.8)) - eio(seg(t, 9.6, 10.6)));
+    A(world, { transform: `translate(0 ${-pan})` });
+    let d = 'M0 250'; for (let x = 0; x <= 360; x += 12) d += ` L${x} ${(250 + Math.sin(x / 22 + t * 2.4) * 2.2).toFixed(1)}`; A(surf, { d });
+    bubbles.forEach(b => { const y = 900 - ((t * 38 + b.o * 640) % 640); A(b.e, { cx: (b.x + Math.sin(t * 2 + b.o * 9) * 4).toFixed(1), cy: y.toFixed(1) }); });
+    O(sp, fade(t, .4, .8, 9.9, 10.4));
+    chips.forEach((c, i) => { const p = seg(t, 5.0 + i * .55, 5.4 + i * .55); O(c, Math.min(p, 1 - seg(t, 9.4, 9.8))); A(c, { transform: `translate(0 ${(1 - eo(p)) * 14})` }); });
+    O(fin, fade(t, 7.4, 7.9, 9.4, 9.8));
+  };
+} };
+
+/* ---------- 7. TREE (paper cutout) ---------- */
+SCENES.tree = { dur: 10, poster: 6.5, build(stage) {
+  const s = svgRoot(stage, '#CFE3D6');
+  const defs = el('defs', {}, s);
+  const f = el('filter', { id: 'tr-sh', x: '-20%', y: '-20%', width: '140%', height: '150%' }, defs);
+  el('feDropShadow', { dx: 0, dy: 3.5, stdDeviation: .2, 'flood-color': '#14301F', 'flood-opacity': .22 }, f);
+  head(s, 'WORD FAMILY TREE', 'One root, many words', '#14301F', '#3C6B50');
+  el('path', { d: 'M0 562 Q 90 524 180 550 T 360 540 V640 H0Z', fill: '#A8CDB5', filter: 'url(#tr-sh)' }, s);
+  const all = el('g', {}, s);
+  const trunk = el('path', { d: 'M171 610 C 174 540, 168 480, 175 400 L 185 400 C 192 480, 186 540, 189 610 Z', fill: '#8A5A3C', filter: 'url(#tr-sh)' }, all);
+  const L = [[86, 150], [274, 150], [180, 216], [78, 292], [282, 292], [180, 368]];
+  const branches = L.map(([x, y]) => drawable(all, `M180 ${y === 368 ? 400 : 410} Q ${(180 + x) / 2} ${y + 70} ${x} ${y}`, { stroke: '#8A5A3C', 'stroke-width': 7, 'stroke-linecap': 'round' }));
+  const words = [['학', '생', 'student'], ['학', '교', 'school'], ['대', '학', 'university'], ['방', '학', 'school break'], ['과', '학', 'science'], ['학', '원', 'cram school']];
+  const cols = ['#FFFFFF', '#FFE08A', '#FFB8CF', '#B9F0DA', '#C9D2FF', '#FFFFFF'];
+  const leaves = L.map(([x, y], i) => {
+    const g = el('g', {}, all);
+    el('rect', { x: -58, y: -31, width: 116, height: 62, rx: 12, fill: cols[i], filter: 'url(#tr-sh)' }, g);
+    const tx = el('text', { y: -4, 'text-anchor': 'middle', class: 'tb', 'font-size': 23 }, g);
+    words[i].slice(0, 2).forEach(ch => el('tspan', { fill: ch === '학' ? '#D62F5B' : '#14301F' }, tx, ch));
+    el('text', { y: 18, 'text-anchor': 'middle', class: 'ts', 'font-size': 11.5, fill: '#3A4A40' }, g, words[i][2]);
+    return { g, x, y };
+  });
+  const root = el('g', {}, all);
+  el('rect', { x: -84, y: -42, width: 168, height: 84, rx: 14, fill: '#14301F', filter: 'url(#tr-sh)' }, root);
+  const rt = el('text', { y: -4, 'text-anchor': 'middle', class: 'tb', 'font-size': 30, fill: '#fff' }, root);
+  el('tspan', {}, rt, '學 · '); el('tspan', { fill: '#FF8FAE' }, rt, '학');
+  el('text', { y: 24, 'text-anchor': 'middle', class: 'ts', 'font-size': 12.5, fill: '#CFE3D6' }, root, 'to study, learning');
+  return t => {
+    A(root, { transform: `translate(180 524) scale(${Math.max(.001, eb(seg(t, .2, .7)))})` });
+    const k = eo(seg(t, .6, 1.4));
+    A(trunk, { transform: `translate(0 610) scale(1 ${Math.max(.001, k)}) translate(0 -610)` });
+    branches.forEach((b, i) => D(b, eo(seg(t, 1.4 + i * .35, 1.85 + i * .35))));
+    leaves.forEach((l, i) => {
+      const p = seg(t, 1.75 + i * .35, 2.15 + i * .35);
+      const sw = Math.sin(t * 1.6 + i) * 2.2 + (i % 2 ? 3 : -3);
+      A(l.g, { transform: `translate(${l.x} ${l.y}) rotate(${sw.toFixed(2)}) scale(${Math.max(.001, eb(p))})` });
+    });
+    O(all, Math.min(1 - seg(t, 9.3, 9.9), 1));
+  };
+} };
+
+/* ---------- 8. ORBIT ---------- */
+SCENES.orbit = { dur: 10, poster: 4.2, build(stage) {
+  const s = svgRoot(stage, '#0B0E24');
+  const r = rng(3);
+  for (let i = 0; i < 70; i++) el('circle', { cx: r() * 360, cy: r() * 640, r: r() * 1.3 + .3, fill: '#fff', opacity: .25 + r() * .6 }, s);
+  head(s, 'SYSTEM DIAGRAM', 'Particles orbit nouns', '#FFFFFF', '#8C93C9');
+  const defs = el('defs', {}, s);
+  const rg = el('radialGradient', { id: 'ob-g', cx: .38, cy: .35, r: .7 }, defs);
+  el('stop', { offset: 0, 'stop-color': '#8C9BFF' }, rg); el('stop', { offset: .6, 'stop-color': '#3047FF' }, rg); el('stop', { offset: 1, 'stop-color': '#18248F' }, rg);
+  const CX = 180, CY = 300, RX = 148, RY = 54, PHI = -14 * Math.PI / 180;
+  el('ellipse', { cx: CX, cy: CY, rx: RX, ry: RY, transform: `rotate(-14 ${CX} ${CY})`, fill: 'none', stroke: 'rgba(255,255,255,.28)', 'stroke-dasharray': '3 6' }, s);
+  const back = el('g', {}, s);
+  el('circle', { cx: CX, cy: CY, r: 58, fill: 'url(#ob-g)' }, s);
+  el('text', { x: CX, y: CY - 2, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tb', 'font-size': 28, fill: '#fff' }, s, '학교');
+  el('text', { x: CX, y: CY + 26, 'text-anchor': 'middle', class: 'tm', 'font-size': 10, fill: '#C9D0FF' }, s, 'school');
+  const front = el('g', {}, s);
+  const ms = [['에', 'to', '#FFC92E'], ['에서', 'at', '#1FCF9C'], ['가', 'subject', '#FF4F8B'], ['를', 'object', '#FF6B3D'], ['는', 'topic', '#8C9BFF'], ['도', 'also', '#FFFFFF']].map((m, i) => {
+    const g = el('g', {}, back);
+    el('circle', { r: 21, fill: m[2] }, g);
+    el('text', { y: 1, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tb', 'font-size': m[0].length > 1 ? 13 : 16, fill: '#12142A' }, g, m[0]);
+    el('text', { y: 36, 'text-anchor': 'middle', class: 'tm', 'font-size': 9, fill: '#C9D0FF' }, g, m[1]);
+    return { g, i, parent: back };
+  });
+  const capA = el('g', {}, s), capB = el('g', {}, s), cap0 = el('g', {}, s);
+  el('text', { x: 180, y: 520, 'text-anchor': 'middle', class: 'tb', 'font-size': 28, fill: '#fff' }, capA, '학교에 가요');
+  el('text', { x: 180, y: 550, 'text-anchor': 'middle', class: 'ts', 'font-size': 14, fill: '#C9D0FF' }, capA, '"I go to school"');
+  el('text', { x: 180, y: 520, 'text-anchor': 'middle', class: 'tb', 'font-size': 28, fill: '#fff' }, capB, '학교에서 공부해요');
+  el('text', { x: 180, y: 550, 'text-anchor': 'middle', class: 'ts', 'font-size': 14, fill: '#C9D0FF' }, capB, '"I study at school"');
+  el('text', { x: 180, y: 534, 'text-anchor': 'middle', class: 'ts', 'font-size': 15, fill: '#C9D0FF' }, cap0, 'Each particle gives 학교 a different role');
+  const dock = [[2.8, 3.5, 5.0, 5.6], [6.0, 6.7, 8.4, 9.0]];
+  return t => {
+    ms.forEach(m => {
+      const th = m.i * Math.PI / 3 + t * .55;
+      const ex = RX * Math.cos(th), ey = RY * Math.sin(th);
+      let x = CX + ex * Math.cos(PHI) - ey * Math.sin(PHI), y = CY + ex * Math.sin(PHI) + ey * Math.cos(PHI);
+      let sc = .82 + .22 * (Math.sin(th) + 1) / 2, isFront = Math.sin(th) > 0;
+      if (m.i < 2) {
+        const w = dock[m.i], d = eio(seg(t, w[0], w[1])) - eio(seg(t, w[2], w[3]));
+        x = lerp(x, 252, d); y = lerp(y, 300, d); sc = lerp(sc, 1.1, d); if (d > .3) isFront = true;
+      }
+      const want = isFront ? front : back;
+      if (m.parent !== want) { want.appendChild(m.g); m.parent = want; }
+      A(m.g, { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)}) scale(${sc.toFixed(3)})` });
+      O(m.g, seg(t, .2 + m.i * .15, .6 + m.i * .15));
+    });
+    const a = fade(t, 3.4, 3.8, 5.0, 5.4), b = fade(t, 6.6, 7.0, 8.4, 8.8);
+    O(capA, a); O(capB, b); O(cap0, Math.max(0, 1 - fade(t, 3.0, 3.4, 5.4, 5.8) - fade(t, 6.2, 6.6, 8.8, 9.2)) * seg(t, .8, 1.2));
+  };
+} };
+
+/* ---------- 9. BALANCE ---------- */
+SCENES.balance = { dur: 11, poster: 7.6, build(stage) {
+  const s = svgRoot(stage, '#F2F4FF');
+  const INK = '#12142A';
+  head(s, 'BALANCE METAPHOR', 'Two number systems', INK, '#5B6B85');
+  const all = el('g', {}, s);
+  el('rect', { x: 172, y: 250, width: 16, height: 300, rx: 4, fill: INK }, all);
+  el('path', { d: 'M110 562 L250 562 L230 540 L130 540 Z', fill: INK }, all);
+  const beam = el('g', {}, all);
+  el('rect', { x: 60, y: 244, width: 240, height: 12, rx: 6, fill: '#3047FF' }, beam);
+  el('circle', { cx: 180, cy: 250, r: 10, fill: '#FFC92E', stroke: INK, 'stroke-width': 3 }, all);
+  const pans = [-1, 1].map(side => {
+    const g = el('g', {}, all);
+    el('line', { x1: 0, y1: -110, x2: -54, y2: 0, stroke: INK, 'stroke-width': 1.5 }, g);
+    el('line', { x1: 0, y1: -110, x2: 54, y2: 0, stroke: INK, 'stroke-width': 1.5 }, g);
+    el('path', { d: 'M-58 0 Q 0 36 58 0 Z', fill: side < 0 ? '#FF4F8B' : '#1FCF9C', stroke: INK, 'stroke-width': 2.5 }, g);
+    el('text', { y: 44, 'text-anchor': 'middle', class: 'tmb', 'font-size': 10, fill: INK, 'letter-spacing': 1 }, g, side < 0 ? 'NATIVE' : 'SINO-KOREAN');
+    el('text', { y: 62, 'text-anchor': 'middle', class: 'tb', 'font-size': 13, fill: '#5B6B85' }, g, side < 0 ? '하나 · 둘 · 셋' : '일 · 이 · 삼');
+    return g;
+  });
+  const EV = [[-1, 1.0, '세 시', "3 o'clock"], [1, 2.8, '삼십 분', '30 minutes'], [-1, 4.6, '스물다섯 살', 'age 25'], [1, 6.4, '오천 원', '₩5,000']];
+  const chips = EV.map((e, i) => {
+    const g = el('g', {}, all);
+    el('rect', { x: -54, y: -17, width: 108, height: 34, rx: 8, fill: '#fff', stroke: INK, 'stroke-width': 2 }, g);
+    el('text', { y: -1, 'text-anchor': 'middle', class: 'tb', 'font-size': 13, fill: INK }, g, e[2]);
+    el('text', { y: 11.5, 'text-anchor': 'middle', class: 'tm', 'font-size': 8.5, fill: '#5B6B85' }, g, e[3]);
+    const slot = EV.slice(0, i).filter(x => x[0] === e[0]).length;
+    return { g, e, slot };
+  });
+  const fin = el('g', {}, all);
+  el('text', { x: 180, y: 604, 'text-anchor': 'middle', class: 'tb', 'font-size': 22, fill: INK }, fin, '세 시 삼십 분');
+  el('text', { x: 180, y: 626, 'text-anchor': 'middle', class: 'ts', 'font-size': 13, fill: '#5B6B85' }, fin, '"3:30" uses both systems at once');
+  const landed = (side, tt) => EV.filter(e => e[0] === side && tt >= e[1] + .5).length;
+  return t => {
+    let th = 0, v = 0; const dt = 1 / 120;
+    for (let tt = 0; tt < t; tt += dt) { const target = .13 * (landed(1, tt) - landed(-1, tt)); const a = -55 * (th - target) - 4.5 * v; v += a * dt; th += v * dt; }
+    A(beam, { transform: `rotate(${(th * 180 / Math.PI).toFixed(2)} 180 250)` });
+    const ends = [-1, 1].map(sd => ({ x: 180 + sd * 120 * Math.cos(th), y: 250 + sd * 120 * Math.sin(th) }));
+    pans.forEach((p, i) => A(p, { transform: `translate(${ends[i].x.toFixed(1)} ${(ends[i].y + 110).toFixed(1)})` }));
+    chips.forEach(c => {
+      const e = ends[c.e[0] < 0 ? 0 : 1];
+      const ty = e.y + 110 - 21 - c.slot * 37;
+      const p = seg(t, c.e[1], c.e[1] + .5);
+      const y = lerp(120, ty, p * p);
+      A(c.g, { transform: `translate(${e.x.toFixed(1)} ${y.toFixed(1)})` }); O(c.g, t >= c.e[1] ? 1 : 0);
+    });
+    O(fin, fade(t, 8.2, 8.7, 10.4, 10.8));
+    O(all, Math.min(seg(t, 0, .3), 1 - seg(t, 10.5, 11)));
+  };
+} };
+
+/* ---------- 10. BOW ---------- */
+SCENES.bow = { dur: 11, poster: 5.0, build(stage) {
+  const s = svgRoot(stage, '#DCEBFF');
+  const INK = '#12142A', PINK = '#FF4F8B';
+  head(s, 'CHARACTER SCENE', 'How deep to bow', INK, '#5B6B85');
+  el('rect', { y: 470, width: 360, height: 170, fill: '#C4D8F5' }, s);
+  el('line', { x1: 0, x2: 360, y1: 470, y2: 470, stroke: INK, 'stroke-width': 2 }, s);
+  const HX = 152, HY = 380;
+  const vref = el('line', { x1: HX, y1: HY, x2: HX, y2: 262, stroke: INK, 'stroke-width': 1.2, 'stroke-dasharray': '4 4', opacity: .45 }, s);
+  const wedge = el('path', { fill: PINK, opacity: .16 }, s);
+  const arc = el('path', { fill: 'none', stroke: PINK, 'stroke-width': 3, 'stroke-linecap': 'round' }, s);
+  const deg = el('text', { class: 'tb', 'font-size': 16, fill: PINK, 'text-anchor': 'middle' }, s);
+  el('rect', { x: 140, y: 378, width: 14, height: 90, rx: 7, fill: '#1C2350' }, s);
+  el('rect', { x: 152, y: 378, width: 14, height: 90, rx: 7, fill: '#2A3370' }, s);
+  el('rect', { x: 138, y: 460, width: 28, height: 11, rx: 5.5, fill: INK }, s);
+  el('rect', { x: 150, y: 460, width: 28, height: 11, rx: 5.5, fill: INK }, s);
+  const up = el('g', {}, s);
+  el('rect', { x: 132, y: 288, width: 42, height: 100, rx: 18, fill: '#3047FF' }, up);
+  el('circle', { cx: 154, cy: 262, r: 24, fill: '#F2C9A8' }, up);
+  el('path', { d: 'M130 262 A24 24 0 0 1 178 258 Q 156 246 130 262 Z', fill: INK }, up);
+  el('circle', { cx: 168, cy: 263, r: 2.4, fill: INK }, up);
+  el('rect', { x: 147, y: 300, width: 13, height: 76, rx: 6.5, fill: '#2335C9' }, up);
+  const bub = el('g', {}, s);
+  el('rect', { x: 210, y: 186, width: 126, height: 44, rx: 16, fill: '#fff', stroke: INK, 'stroke-width': 2 }, bub);
+  el('text', { x: 273, y: 214, 'text-anchor': 'middle', class: 'tb', 'font-size': 16, fill: INK }, bub, '안녕하세요');
+  el('rect', { x: 24, y: 504, width: 312, height: 110, rx: 16, fill: '#fff' }, s);
+  const intro = el('text', { x: 180, y: 566, 'text-anchor': 'middle', class: 'tt', 'font-size': 17, fill: INK }, s, 'Three bows, three angles');
+  const B = [[15, '목례', 'mongnye', 'A quick nod', 'passing a coworker or neighbor'], [30, '보통례', 'botongnye', 'Standard bow', 'meeting someone, greeting a teacher'], [45, '정중례', 'jeongjungnye', 'Deep bow', 'elders, formal thanks or apologies']];
+  const cards = B.map(b => {
+    const g = el('g', {}, s);
+    el('text', { x: 44, y: 545, class: 'tb', 'font-size': 23, fill: INK }, g, b[1]);
+    el('text', { x: 44 + b[1].length * 23 + 8, y: 544, class: 'tm', 'font-size': 11, fill: '#5B6B85' }, g, b[2]);
+    el('text', { x: 316, y: 548, 'text-anchor': 'end', class: 'td', 'font-size': 28, fill: PINK }, g, b[0] + '°');
+    el('text', { x: 44, y: 574, class: 'tt', 'font-size': 14.5, fill: INK }, g, b[3]);
+    el('text', { x: 44, y: 594, class: 'ts', 'font-size': 13, fill: '#5B6B85' }, g, b[4]);
+    return g;
+  });
+  const W = [[.5, 1.3, 2.6, 3.2], [3.6, 4.6, 6.0, 6.6], [7.0, 8.0, 9.6, 10.2]];
+  return t => {
+    let th = 0; W.forEach((w, i) => { th += B[i][0] * (eio(seg(t, w[0], w[1])) - eio(seg(t, w[2], w[3]))); });
+    th += Math.sin(t * 2) * .4;
+    A(up, { transform: `rotate(${th.toFixed(2)} ${HX} ${HY})` });
+    const R = 100, rad = th * Math.PI / 180, ex = HX + R * Math.sin(rad), ey = HY - R * Math.cos(rad);
+    A(arc, { d: `M${HX} ${HY - R} A${R} ${R} 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)}` });
+    A(wedge, { d: `M${HX} ${HY} L${HX} ${HY - R} A${R} ${R} 0 0 1 ${ex.toFixed(1)} ${ey.toFixed(1)} Z` });
+    const vis = seg(th, 2, 5); O(arc, vis); O(wedge, vis * .9); O(vref, .45 * vis);
+    const h = rad / 2; A(deg, { x: (HX + 122 * Math.sin(h)).toFixed(1), y: (HY - 122 * Math.cos(h) + 5).toFixed(1) }); deg.textContent = Math.round(Math.max(0, th)) + '°'; O(deg, vis);
+    let anyc = 0;
+    W.forEach((w, i) => { const v = fade(t, w[0] + .2, w[0] + .6, w[2] + .2, w[3]); O(cards[i], v); anyc = Math.max(anyc, v); });
+    O(intro, 1 - anyc);
+    O(bub, Math.max(...W.map(w => fade(t, w[1] - .2, w[1] + .1, w[2], w[2] + .3))));
+  };
+} };
+
+/* ---------- 11. INK MORPH ---------- */
+SCENES.ink = { dur: 12, poster: 3.0, build(stage) {
+  const s = svgRoot(stage, '#E9E7E1');
+  const defs = el('defs', {}, s);
+  const fn = el('filter', { id: 'ink-n', x: 0, y: 0, width: '100%', height: '100%' }, defs);
+  el('feTurbulence', { type: 'fractalNoise', baseFrequency: .85, numOctaves: 2, stitchTiles: 'stitch' }, fn);
+  el('feColorMatrix', { values: '0 0 0 0 .3  0 0 0 0 .28  0 0 0 0 .24  0 0 0 .3 0' }, fn);
+  const fr = el('filter', { id: 'ink-r', x: '-10%', y: '-10%', width: '120%', height: '120%' }, defs);
+  el('feTurbulence', { type: 'fractalNoise', baseFrequency: .06, numOctaves: 2, result: 'n' }, fr);
+  el('feDisplacementMap', { in: 'SourceGraphic', in2: 'n', scale: 5 }, fr);
+  el('rect', { width: 360, height: 640, filter: 'url(#ink-n)' }, s);
+  head(s, 'SHAPE MORPH · SINO-KOREAN ROOTS', 'Pictures became hanja', '#1B1B1F', '#7A7468');
+  el('rect', { x: 290, y: 106, width: 46, height: 46, rx: 5, fill: '#C8372D' }, s);
+  el('text', { x: 313, y: 130, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tk', 'font-size': 17, fill: '#F4EDE4' }, s, '한자');
+  el('line', { x1: 24, x2: 336, y1: 488, y2: 488, stroke: '#1B1B1F', opacity: .18 }, s);
+  const N = 32;
+  const sample = sp => {
+    if (sp.arc) { const [cx, cy, r, a0, a1] = sp.arc; return Array.from({ length: N }, (_, i) => { const a = (a0 + (a1 - a0) * i / (N - 1)) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }); }
+    const P = sp.pts, L = [0]; for (let i = 1; i < P.length; i++) L.push(L[i - 1] + Math.hypot(P[i][0] - P[i - 1][0], P[i][1] - P[i - 1][1]));
+    const tot = L[L.length - 1];
+    return Array.from({ length: N }, (_, i) => { const d = tot * i / (N - 1); let j = 1; while (j < P.length - 1 && L[j] < d) j++; const q = (d - L[j - 1]) / ((L[j] - L[j - 1]) || 1); return [lerp(P[j - 1][0], P[j][0], q), lerp(P[j - 1][1], P[j][1], q)]; });
+  };
+  const C = [
+    { h: '山', k: '산', m: 'san · mountain', ex: '남산 Namsan · 설악산 Seoraksan', st: [
+      [{ pts: [[112, 450], [180, 272], [248, 450]] }, { pts: [[180, 250], [180, 450]] }],
+      [{ pts: [[36, 450], [86, 372], [126, 432], [324, 452]] }, { pts: [[104, 330], [104, 450], [256, 450]] }],
+      [{ pts: [[222, 410], [274, 336], [324, 450]] }, { pts: [[256, 330], [256, 450]] }]] },
+    { h: '日', k: '일', m: 'il · sun, day', ex: '일요일 Sunday', st: [
+      [{ arc: [180, 330, 78, -90, -270] }, { pts: [[118, 250], [118, 450]] }],
+      [{ arc: [180, 330, 78, -90, 90] }, { pts: [[118, 250], [242, 250], [242, 450], [118, 450]] }],
+      [{ pts: [[36, 452], [324, 452]] }, { pts: [[118, 350], [242, 350]] }]] },
+    { h: '木', k: '목', m: 'mok · tree, wood', ex: '목요일 Thursday', st: [
+      [{ pts: [[180, 458], [180, 250]] }, { pts: [[180, 240], [180, 462]] }],
+      [{ pts: [[92, 460], [268, 460]] }, { pts: [[96, 318], [264, 318]] }],
+      [{ pts: [[180, 352], [114, 282]] }, { pts: [[180, 322], [100, 428]] }],
+      [{ pts: [[180, 352], [246, 282]] }, { pts: [[180, 322], [260, 428]] }],
+      [{ arc: [180, 262, 58, 0, 360] }, null]] }
+  ].map(c => { c.st = c.st.map(([p, q]) => ({ p: sample(p), q: q ? sample(q) : null })); return c; });
+  const strokes = Array.from({ length: 5 }, () => el('polyline', { fill: 'none', stroke: '#1B1B1F', 'stroke-width': 15, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, filter: 'url(#ink-r)' }, s));
+  const labs = C.map(c => {
+    const g = el('g', {}, s);
+    el('text', { x: 84, y: 560, 'text-anchor': 'middle', 'dominant-baseline': 'central', class: 'tb', 'font-size': 70, fill: '#1B1B1F' }, g, c.h);
+    el('text', { x: 150, y: 540, class: 'tk', 'font-size': 32, fill: '#C8372D' }, g, c.k);
+    el('text', { x: 150, y: 566, class: 'tt', 'font-size': 15, fill: '#1B1B1F' }, g, c.m);
+    el('text', { x: 150, y: 590, class: 'tbm', 'font-size': 12, fill: '#7A7468' }, g, c.ex);
+    return g;
+  });
+  return t => {
+    const ci = Math.floor(t / 4) % 3, lt = t % 4, c = C[ci];
+    const dp = eo(seg(lt, 0, 1.1)), m = eio(seg(lt, 1.5, 2.5)), out = 1 - seg(lt, 3.6, 3.95);
+    strokes.forEach((e, i) => {
+      const st = c.st[i];
+      if (!st) { e.style.display = 'none'; return; }
+      e.style.display = '';
+      const P = st.q ? st.p.map((pt, j) => [lerp(pt[0], st.q[j][0], m), lerp(pt[1], st.q[j][1], m)]) : st.p;
+      A(e, { points: P.map(p => p[0].toFixed(1) + ',' + p[1].toFixed(1)).join(' ') });
+      D(e, seg(dp * c.st.length - i * .6, 0, 1) );
+      O(e, st.q ? out : out * (1 - m));
+    });
+    labs.forEach((g, i) => O(g, i === ci ? fade(lt, 2.5, 2.9, 3.6, 3.95) : 0));
+  };
+} };
+
+/* ---------- 12. BLUEPRINT ---------- */
+SCENES.blueprint = { dur: 10, poster: 7.4, build(stage) {
+  const s = svgRoot(stage, '#0F3268');
+  const defs = el('defs', {}, s);
+  const p1 = el('pattern', { id: 'bp-g', width: 20, height: 20, patternUnits: 'userSpaceOnUse' }, defs);
+  el('path', { d: 'M20 0 H0 V20', fill: 'none', stroke: 'rgba(255,255,255,.08)' }, p1);
+  const p2 = el('pattern', { id: 'bp-G', width: 100, height: 100, patternUnits: 'userSpaceOnUse' }, defs);
+  el('rect', { width: 100, height: 100, fill: 'url(#bp-g)' }, p2);
+  el('path', { d: 'M100 0 H0 V100', fill: 'none', stroke: 'rgba(255,255,255,.16)' }, p2);
+  el('rect', { width: 360, height: 640, fill: 'url(#bp-G)' }, s);
+  const all = el('g', {}, s);
+  head(all, 'BLUEPRINT', 'Anatomy of a sentence', '#FFFFFF', '#9EC1F2');
+  const LB = '#9EC1F2';
+  const sent = el('g', {}, all);
+  const L = textRow(sent, '어제 친구를 만났어요', 180, 252, 30, { class: 'tb', fill: '#fff' });
+  const c = L.chars, wb = [[0, 1], [3, 5], [7, 10]].map(([a, b]) => ({ x0: c[a].x - c[a].w / 2 - 6, x1: c[b].x + c[b].w / 2 + 6 }));
+  const boxes = wb.map(b => drawable(all, `M${b.x0} 228 H${b.x1} V276 H${b.x0} Z`, { stroke: '#fff', 'stroke-width': 1.5 }));
+  const dims = wb.map((b, i) => {
+    const g = el('g', {}, all), cx = (b.x0 + b.x1) / 2;
+    el('path', { d: `M${b.x0} 200 V212 M${b.x0} 206 H${b.x1} M${b.x1} 200 V212`, stroke: LB, 'stroke-width': 1, fill: 'none' }, g);
+    el('text', { x: cx, y: 194, 'text-anchor': 'middle', class: 'tm', 'font-size': 9, fill: LB, 'letter-spacing': .5 }, g, ['TIME', 'OBJECT + PARTICLE', 'VERB · PAST · POLITE'][i]);
+    el('text', { x: cx, y: 298, 'text-anchor': 'middle', class: 'ts', 'font-size': 12.5, fill: '#fff' }, g, ['yesterday', 'a friend', 'met'][i]);
+    return g;
+  });
+  const vx = (wb[2].x0 + wb[2].x1) / 2;
+  const lead = drawable(all, `M${vx} 306 L${vx} 326 L180 352`, { stroke: '#fff', 'stroke-width': 1.3 });
+  el('circle', { cx: 180, cy: 452, r: 96, fill: 'rgba(255,255,255,.04)' }, all);
+  const circ = drawable(all, 'M180 356 A96 96 0 1 1 179.9 356 Z', { stroke: '#fff', 'stroke-width': 1.5 });
+  const dl = el('text', { x: 180, y: 384, 'text-anchor': 'middle', class: 'tm', 'font-size': 9, fill: LB, 'letter-spacing': 1 }, all, 'DETAIL A');
+  const eq = el('text', { x: 180, y: 430, 'text-anchor': 'middle', class: 'tb', 'font-size': 20, fill: '#fff' }, all, '만나 + 았 + 어요');
+  const arw = el('path', { d: 'M180 444 V466 M173 459 L180 466 L187 459', stroke: LB, 'stroke-width': 1.5, fill: 'none' }, all);
+  const res = el('text', { x: 180, y: 498, 'text-anchor': 'middle', class: 'tk', 'font-size': 32, fill: '#FFC92E' }, all, '만났어요');
+  const note = el('text', { x: 180, y: 522, 'text-anchor': 'middle', class: 'tbm', 'font-size': 11, fill: LB }, all, '나 + 았 → 났 (the vowels merge)');
+  const tb = el('g', {}, all);
+  el('rect', { x: 196, y: 578, width: 140, height: 42, fill: 'none', stroke: '#fff', 'stroke-width': .8 }, tb);
+  el('line', { x1: 196, x2: 336, y1: 599, y2: 599, stroke: '#fff', 'stroke-width': .6 }, tb);
+  el('text', { x: 204, y: 592, class: 'tm', 'font-size': 8, fill: LB }, tb, 'DWG. KR-014 · SENTENCE');
+  el('text', { x: 204, y: 613, class: 'tm', 'font-size': 8, fill: LB }, tb, 'SCALE 1:1 · REV. B');
+  return t => {
+    O(sent, seg(t, .2, .6));
+    boxes.forEach((b, i) => D(b, eio(seg(t, .8 + i * .5, 1.4 + i * .5))));
+    dims.forEach((d, i) => O(d, seg(t, 2.4 + i * .3, 2.8 + i * .3)));
+    D(lead, eo(seg(t, 4.3, 4.9))); D(circ, eio(seg(t, 4.8, 5.6))); O(dl, seg(t, 5.2, 5.6));
+    O(eq, seg(t, 5.4, 5.9)); O(arw, seg(t, 6.1, 6.4)); O(res, seg(t, 6.4, 6.9)); O(note, seg(t, 6.8, 7.2)); O(tb, seg(t, 1, 1.6));
+    A(res, { transform: `translate(180 498) scale(${(.8 + .2 * eb(seg(t, 6.4, 6.9))).toFixed(3)}) translate(-180 -498)` });
+    O(all, Math.min(seg(t, 0, .3) + .001, 1 - seg(t, 9.3, 9.9)));
+  };
+} };
+
+/* ---------- 13. WHITEBOARD ---------- */
+SCENES.whiteboard = { dur: 11, poster: 9.4, build(stage) {
+  const s = svgRoot(stage, '#FBFBF8');
+  const INK = '#1D1F2B', BL = '#2F45F5', RD = '#E5484D';
+  const r = rng(11), j = a => (r() - .5) * a;
+  const rough = (pts, amp = 2.2) => { let d = ''; pts.forEach((p, i) => { d += (i ? ' L' : 'M') + (p[0] + j(amp)).toFixed(1) + ' ' + (p[1] + j(amp)).toFixed(1); }); return d; };
+  const rline = (x1, y1, x2, y2, n = 5) => rough(Array.from({ length: n + 1 }, (_, i) => [lerp(x1, x2, i / n), lerp(y1, y2, i / n)]), 2.4);
+  const rcirc = (cx, cy, rx, ry, n = 26) => rough(Array.from({ length: n + 3 }, (_, i) => { const a = -1.9 + i / n * Math.PI * 2; return [cx + rx * Math.cos(a) * (1 + j(.06)), cy + ry * Math.sin(a) * (1 + j(.06))]; }), 1.2);
+  const all = el('g', {}, s);
+  el('text', { x: 24, y: 46, class: 'tm', 'font-size': 10.5, fill: '#8A8F9E', 'letter-spacing': 1.6 }, all, 'WHITEBOARD SKETCH');
+  const defs = el('defs', {}, s);
+  let cid = 0;
+  const reveals = [];
+  const htext = (x, y, size, col, str, t0, t1) => {
+    const id = 'wb-c' + (cid++);
+    const cp = el('clipPath', { id }, defs);
+    const rr = el('rect', { x: x - 4, y: y - size * 1.05, height: size * 1.45, width: 0 }, cp);
+    const e = el('text', { x, y, class: 'th', 'font-size': size, fill: col, 'clip-path': `url(#${id})` }, all, str);
+    reveals.push({ rr, t0, t1, w: 300 });
+    return e;
+  };
+  const marks = [];
+  const mark = (d, col, w, t0, t1) => marks.push({ e: drawable(all, d, { stroke: col, 'stroke-width': w, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }), t0, t1 });
+  htext(24, 92, 38, INK, '은/는 vs 이/가', .1, .9);
+  mark(rough(Array.from({ length: 14 }, (_, i) => [24 + i * 15, 106 + Math.sin(i * 1.3) * 3]), 1), BL, 4, .9, 1.3);
+  const fig = (x, hy, t0) => {
+    mark(rcirc(x, hy, 17, 18), INK, 3, t0, t0 + .3);
+    mark(rline(x, hy + 18, x, hy + 70, 3), INK, 3, t0 + .3, t0 + .45);
+    mark(rline(x, hy + 34, x - 22, hy + 56, 2), INK, 3, t0 + .45, t0 + .55);
+    mark(rline(x, hy + 34, x + 22, hy + 50, 2), INK, 3, t0 + .5, t0 + .6);
+    mark(rline(x, hy + 70, x - 16, hy + 112, 2), INK, 3, t0 + .6, t0 + .7);
+    mark(rline(x, hy + 70, x + 16, hy + 112, 2), INK, 3, t0 + .65, t0 + .75);
+  };
+  fig(70, 176, 1.3);
+  htext(116, 200, 25, INK, '저는 학생이에요.', 2.2, 3.0);
+  htext(116, 238, 20, BL, '은/는 = the topic', 3.0, 3.5);
+  htext(116, 264, 20, BL, '"as for me…"', 3.3, 3.8);
+  mark(rline(24, 322, 336, 322, 8), '#9AA0B0', 2, 3.9, 4.3);
+  const spot = el('polygon', { points: '70,346 26,552 114,552', fill: '#FFE27A', opacity: 0 }, all);
+  all.insertBefore(spot, all.firstChild.nextSibling);
+  mark(rline(70, 346, 26, 552, 4), '#E0B400', 2.5, 5.0, 5.3);
+  mark(rline(70, 346, 114, 552, 4), '#E0B400', 2.5, 5.1, 5.4);
+  fig(70, 436, 4.4);
+  htext(116, 398, 20, '#6B7080', '누가 학생이에요?', 5.8, 6.4);
+  htext(116, 420, 15, '#8A8F9E', "(Who's the student?)", 6.2, 6.6);
+  const ans = htext(116, 468, 28, INK, '제가 학생이에요!', 6.8, 7.6);
+  htext(116, 508, 20, RD, '이/가 = picks out WHO', 7.6, 8.4);
+  htext(116, 586, 17, RD, '저 + 가 → 제가', 9.0, 9.5);
+  try {
+    const bb = ans.getExtentOfChar(1);
+    mark(rcirc(bb.x + bb.width / 2, bb.y + bb.height / 2 + 1, bb.width / 2 + 9, bb.height / 2 + 4), RD, 3, 8.4, 9.0);
+    mark(rline(bb.x + bb.width / 2, bb.y + bb.height + 8, 150, 566, 3), RD, 2.5, 8.8, 9.1);
+  } catch (e) {}
+  return t => {
+    marks.forEach(m => D(m.e, eo(seg(t, m.t0, m.t1))));
+    reveals.forEach(v => A(v.rr, { width: (v.w * seg(t, v.t0, v.t1)).toFixed(1) }));
+    O(spot, .55 * seg(t, 5.2, 5.7));
+    O(all, Math.min(1, 1 - seg(t, 10.3, 10.9)));
+  };
+} };
+
+/* ---------- engine ---------- */
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cards = [...document.querySelectorAll('.scene')].map(card => {
+  const def = SCENES[card.dataset.scene], btn = card.querySelector('button'), rg = card.querySelector('input'), out = card.querySelector('output');
+  rg.max = def.dur;
+  const st = { card, def, stage: card.querySelector('.stage'), btn, rg, out, t: def.poster, playing: !reduced, visible: false, frame: null };
+  const show = () => { if (st.frame) st.frame(st.t); rg.value = st.t; out.textContent = st.t.toFixed(1) + 's'; };
+  st.show = show;
+  btn.textContent = st.playing ? 'Pause' : 'Play';
+  btn.addEventListener('click', () => { st.playing = !st.playing; btn.textContent = st.playing ? 'Pause' : 'Play'; });
+  rg.addEventListener('input', () => { st.t = +rg.value; show(); });
+  st.stage.addEventListener('click', () => { st.playing = !st.playing; btn.textContent = st.playing ? 'Pause' : 'Play'; });
+  return st;
+});
+if ('IntersectionObserver' in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => { const c = cards.find(c => c.card === e.target); if (c) c.visible = e.isIntersecting; }), { rootMargin: '100px' });
+  cards.forEach(c => io.observe(c.card));
+} else cards.forEach(c => c.visible = true);
+let started = false;
+const start = () => {
+  if (started) return; started = true;
+  cards.forEach(c => { try { c.frame = c.def.build(c.stage); } catch (e) { console.error(c.card.dataset.scene, e); c.frame = () => {}; } c.show(); });
+  let last = performance.now();
+  const loop = now => {
+    const dt = Math.min(.1, (now - last) / 1000); last = now;
+    cards.forEach(c => { if (c.visible && c.playing) { c.t = (c.t + dt) % c.def.dur; c.show(); } });
+    requestAnimationFrame(loop);
+  };
+  requestAnimationFrame(loop);
+};
+(document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+setTimeout(start, 2500);
+})();
+</script>
+
+</body>
+</html>
